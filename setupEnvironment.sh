@@ -19,6 +19,7 @@ export LBC_GROUP_NAME=lbcprojectfoodapp
 export LBC_REPO_NAME=ata-lbc-project-foodapp
 
 # Do not modify the rest of these unless you have been instructed to do so.
+
 export LBC_PROJECT_NAME=lbcproject
 export LBC_PIPELINE_STACK=$LBC_PROJECT_NAME-$LBC_GROUP_NAME
 export LBC_ARTIFACT_BUCKET=$LBC_PROJECT_NAME-$LBC_GROUP_NAME-artifacts
