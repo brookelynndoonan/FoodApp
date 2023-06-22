@@ -16,9 +16,9 @@ public class RecipeRecord {
 
     private String title;
     private final String id;
-    private SharedEnums.Cuisine cuisine;
+    private String cuisine;
     private String description;
-    private SharedEnums.DietaryRestrictions dietaryRestrictions;
+    private String dietaryRestrictions;
     private boolean hasDietaryRestrictions;
     private List<String> ingredients;
     private String instructions;
@@ -38,7 +38,7 @@ public class RecipeRecord {
     }
 
     @DynamoDBAttribute(attributeName = "cuisine")
-    public SharedEnums.Cuisine getCuisine() {
+    public String getCuisine() {
         return cuisine;
     }
 
@@ -48,7 +48,7 @@ public class RecipeRecord {
     }
 
     @DynamoDBAttribute(attributeName = "dietaryRestrictions")
-    public SharedEnums.DietaryRestrictions getDietaryRestrictions() {
+    public String getDietaryRestrictions() {
         return dietaryRestrictions;
     }
 
@@ -68,6 +68,9 @@ public class RecipeRecord {
     }
 
     public void setTitle(String title) {
+        if (title == null) {
+            throw new IllegalArgumentException("Title must not be blank.");
+        }
         // Validate title format
         String titlePattern = "[A-Z][a-zA-Z0-9 ]*";
         if (!title.matches(titlePattern)) {
@@ -76,18 +79,22 @@ public class RecipeRecord {
         this.title = title;
     }
 
-    public void setCuisine(SharedEnums.Cuisine cuisine) {
+    public void setCuisine(String cuisine) {
         if (cuisine == null) {
-            throw new IllegalArgumentException("Cuisine must be selected.");
+            throw new IllegalArgumentException("Cuisine must not be blank.");
+        }
+        String cuisinePattern = "[A-Z][a-zA-Z0-9 ]*";
+        if (!cuisine.matches(cuisinePattern)) {
+            throw new IllegalArgumentException("Invalid cuisine format. Cuisine should start with a capital letter and contain only alphanumeric characters.");
         }
         this.cuisine = cuisine;
     }
 
+    //Description must be less than 250 characters
     public void setDescription(String description) {
         if (description == null || description.isEmpty()) {
             throw new IllegalArgumentException("Description must not be null or empty.");
         }
-
         if (description.length() > 250) {
             throw new IllegalArgumentException("Description must be less than or equal to 250 characters.");
         }
@@ -95,12 +102,12 @@ public class RecipeRecord {
         this.description = description;
     }
 
-    public void setDietaryRestrictions(SharedEnums.DietaryRestrictions dietaryRestrictions) {
+    public void setDietaryRestrictions(String dietaryRestrictions) {
         if (dietaryRestrictions == null) {
             throw new IllegalArgumentException("Dietary restrictions must be selected.");
         }
         this.dietaryRestrictions = dietaryRestrictions;
-        this.hasDietaryRestrictions = dietaryRestrictions != SharedEnums.DietaryRestrictions.NONE;
+        this.hasDietaryRestrictions = dietaryRestrictions.equals("");
     }
 
     public void setHasDietaryRestrictions(boolean hasDietaryRestrictions) {
@@ -114,11 +121,11 @@ public class RecipeRecord {
             }
         }
     }
-    public void addIngredient(String ingredientString) {
-        if (ingredients == null) {
-            ingredients = new ArrayList<>();
+    public void addIngredient(String ingredient) {
+        if (this.ingredients == null) {
+            this.ingredients = new ArrayList<>();
         }
-        ingredients.add(ingredientString);
+        this.ingredients.add(ingredient);
     }
 
 
@@ -126,20 +133,7 @@ public class RecipeRecord {
         if (instructions == null || instructions.isEmpty()) {
             throw new IllegalArgumentException("Instructions must not be null or empty.");
         }
-
-        // Split the instructions into individual steps
-        String[] steps = instructions.split("\\n");
-
-        // Format the steps as a numbered list
-        StringBuilder formattedInstructions = new StringBuilder();
-        for (int i = 0; i < steps.length; i++) {
-            formattedInstructions.append((i + 1)).append(". ").append(steps[i]);
-            if (i < steps.length - 1) {
-                formattedInstructions.append("\n");
-            }
-        }
-
-        this.instructions = formattedInstructions.toString();
+        this.instructions = instructions;
     }
 
     @Override
@@ -153,43 +147,6 @@ public class RecipeRecord {
     @Override
     public int hashCode() {
         return Objects.hash(title, id, cuisine, description, dietaryRestrictions, hasDietaryRestrictions, ingredients, instructions);
-    }
-
-    public static class Ingredient {
-        private String name;
-        private int quantity;
-        private SharedEnums.QuantityType quantityType;
-        private final String ingredientString;
-
-        public Ingredient(String name, int quantity, SharedEnums.QuantityType quantityType) {
-            String nameFormat = "[a-zA-Z0-9 ]*";
-            if (!name.matches(nameFormat)) {
-                throw new IllegalArgumentException("Invalid Ingredient format. Title contain only alphanumeric characters.");
-            }
-            if (quantity <= 0) {
-                throw new IllegalArgumentException("Ingredient quantity must be a positive value.");
-            }
-            if (quantityType == null) {
-                throw new IllegalArgumentException("Quantity type must be selected.");
-            }
-
-            this.ingredientString = name + " " + quantity + " " + quantityType;
-        }
-        public String getIngredientString() {
-            return ingredientString;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getQuantity() {
-            return quantity;
-        }
-
-        public SharedEnums.QuantityType getQuantityType() {
-            return quantityType;
-        }
     }
 }
 
