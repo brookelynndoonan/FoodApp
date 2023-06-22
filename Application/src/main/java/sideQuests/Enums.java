@@ -1,6 +1,6 @@
-package com.kenzie.appserver.repositories.model;
+package sideQuests;
 
-public class SharedEnums {
+public class Enums {
 
     public enum Cuisine {
         ITALIAN,
