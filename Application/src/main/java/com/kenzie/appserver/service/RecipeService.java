@@ -39,7 +39,6 @@ public class RecipeService {
         recipeRecord.setInstructions(recipe.getInstructions());
         recipeRecord.setTitle(recipe.getTitle());
         recipeRecord.setHasDietaryRestrictions(recipe.isDietaryRestrictionsBool());
-        recipeRecord.setId(recipe.getId());
 
         recipeRepository.save(recipeRecord);
         return recipe;

@@ -16,7 +16,7 @@ import java.util.UUID;
 public class RecipeRecord {
 
     private String title;
-    private String id;
+    private final String id;
     private String cuisine;
     private String description;
     private String dietaryRestrictions;
@@ -136,8 +136,6 @@ public class RecipeRecord {
         }
         this.instructions = instructions;
     }
-
-    public void setId(String id){ this.id = id; }
 
     @Override
     public boolean equals(Object o) {
