@@ -41,6 +41,7 @@ public class RecipeServiceTest {
         RecipeRecord record = new RecipeRecord();
 
         record.setTitle("Title");
+        record.setId("1");
         record.setInstructions("instructions");
         record.setIngredients(stringList);
         record.setDescription("description");
@@ -48,13 +49,14 @@ public class RecipeServiceTest {
         record.setHasDietaryRestrictions(true);
         record.setDietaryRestrictions("dietaryRestrictions");
 
+
         // WHEN
         when(recipeRepository.findById(record.getId())).thenReturn(Optional.of(record));
         Recipe recipe = recipeService.findRecipeByID(record.getId());
 
         // THEN
         Assertions.assertNotNull(recipe, "The object is returned");
-        Assertions.assertNotNull(record.getId(), "The id isn't null");
+        Assertions.assertEquals(record.getId(), recipe.getId(), "The id matches" );
         Assertions.assertEquals(record.getTitle(), recipe.getTitle(), "The title matches");
         Assertions.assertEquals(record.getIngredients(), recipe.getIngredients(), "The ingredients matches");
         Assertions.assertEquals(record.getInstructions(), recipe.getInstructions(), "The instructions matches");
@@ -86,11 +88,10 @@ public class RecipeServiceTest {
     @Test
     void addNewRecipe(){
         // GIVEN
-        String recipeId = randomUUID().toString();
         ArrayList<String> stringList = new ArrayList<>();
         stringList.add("ingredients");
 
-        Recipe recipe = new Recipe("Title",
+        Recipe recipe = new Recipe("Title", "",
                                  "Cuisine","description",
                          "dietaryRestriction",true,
                                         stringList,"instructions");
@@ -108,7 +109,7 @@ public class RecipeServiceTest {
         RecipeRecord record = recipeRecordCaptor.getValue();
 
         Assertions.assertNotNull(recipe, "The object is returned");
-        Assertions.assertNotNull(record.getId(), "The id is not null");
+        Assertions.assertEquals(record.getId(), returnedRecipe.getId(), "The id matches");
         Assertions.assertEquals(record.getTitle(), recipe.getTitle(), "The title matches");
         Assertions.assertEquals(record.getIngredients(), recipe.getIngredients(), "The ingredients matches");
         Assertions.assertEquals(record.getInstructions(), recipe.getInstructions(), "The instructions matches");

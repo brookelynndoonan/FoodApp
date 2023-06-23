@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Recipe {
     private final String title;
-
+    private final String id;
     private final String cuisine;
     private final String description;
     private final String dietaryRestrictions;
@@ -13,8 +13,9 @@ public class Recipe {
     private final List<String> ingredients;
     private final String instructions;
 
-    public Recipe(String title,  String cuisine, String description, String dietaryRestrictions, boolean dietaryRestrictionsBool, List<String> ingredients, String instructions) {
+    public Recipe(String title, String id,String cuisine, String description, String dietaryRestrictions, boolean dietaryRestrictionsBool, List<String> ingredients, String instructions) {
         this.title = title;
+        this.id = id;
         this.cuisine = cuisine;
         this.description = description;
         this.dietaryRestrictions = dietaryRestrictions;
@@ -49,5 +50,9 @@ public class Recipe {
 
     public String getInstructions() {
         return instructions;
+    }
+
+    public String getId() {
+        return id;
     }
 }
