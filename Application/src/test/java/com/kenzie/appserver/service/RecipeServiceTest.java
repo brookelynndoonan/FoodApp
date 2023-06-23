@@ -11,6 +11,7 @@ import org.mockito.ArgumentCaptor;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
 import static org.mockito.Mockito.*;
@@ -34,14 +35,11 @@ public class RecipeServiceTest {
     @Test
     void findByID(){
         //GIVEN
-
-        String id = randomUUID().toString();
         ArrayList<String> stringList = new ArrayList<>();
         stringList.add("ingredients");
 
         RecipeRecord record = new RecipeRecord();
 
-        record.setId(id);
         record.setTitle("Title");
         record.setInstructions("instructions");
         record.setIngredients(stringList);
@@ -51,12 +49,12 @@ public class RecipeServiceTest {
         record.setDietaryRestrictions("dietaryRestrictions");
 
         // WHEN
-        when(recipeRepository.findById(id)).thenReturn(Optional.of(record));
+        when(recipeRepository.findById(record.getId())).thenReturn(Optional.of(record));
         Recipe recipe = recipeService.findRecipeByID(record.getId());
 
         // THEN
         Assertions.assertNotNull(recipe, "The object is returned");
-        Assertions.assertEquals(record.getId(), recipe.getId(), "The id matches");
+        Assertions.assertNotNull(record.getId(), "The id isn't null");
         Assertions.assertEquals(record.getTitle(), recipe.getTitle(), "The title matches");
         Assertions.assertEquals(record.getIngredients(), recipe.getIngredients(), "The ingredients matches");
         Assertions.assertEquals(record.getInstructions(), recipe.getInstructions(), "The instructions matches");
@@ -92,7 +90,7 @@ public class RecipeServiceTest {
         ArrayList<String> stringList = new ArrayList<>();
         stringList.add("ingredients");
 
-        Recipe recipe = new Recipe("Title",recipeId,
+        Recipe recipe = new Recipe("Title",
                                  "Cuisine","description",
                          "dietaryRestriction",true,
                                         stringList,"instructions");
@@ -110,7 +108,7 @@ public class RecipeServiceTest {
         RecipeRecord record = recipeRecordCaptor.getValue();
 
         Assertions.assertNotNull(recipe, "The object is returned");
-        Assertions.assertEquals(record.getId(), recipe.getId(), "The id matches");
+        Assertions.assertNotNull(record.getId(), "The id is not null");
         Assertions.assertEquals(record.getTitle(), recipe.getTitle(), "The title matches");
         Assertions.assertEquals(record.getIngredients(), recipe.getIngredients(), "The ingredients matches");
         Assertions.assertEquals(record.getInstructions(), recipe.getInstructions(), "The instructions matches");

@@ -20,7 +20,7 @@ public class RecipeService {
 
         Recipe recipeFromBackEndService = recipeRepository
                 .findById(recipeID)
-                .map(recipe -> new Recipe(recipe.getTitle(),recipe.getId(),
+                .map(recipe -> new Recipe(recipe.getTitle(),
                                           recipe.getCuisine(),recipe.getDescription(),
                                           recipe.getDietaryRestrictions(),recipe.isHasDietaryRestrictions(),
                                           recipe.getIngredients(),recipe.getInstructions()))

@@ -1,9 +1,6 @@
 package com.kenzie.appserver.repositories.model;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 //import org.apache.commons.text.WordUtils;
 
 import java.util.ArrayList;
@@ -35,8 +32,9 @@ public class RecipeRecord {
 
     @DynamoDBRangeKey(attributeName = "id")
     public String getId() {
-        return id;
+        return id.toString();
     }
+
 
     @DynamoDBAttribute(attributeName = "cuisine")
     public String getCuisine() {
@@ -136,6 +134,7 @@ public class RecipeRecord {
         }
         this.instructions = instructions;
     }
+
 
     @Override
     public boolean equals(Object o) {
