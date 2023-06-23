@@ -20,7 +20,9 @@ public class RecipeService {
 
         Recipe recipeFromBackEndService = recipeRepository
                 .findById(recipeID)
-                .map(recipe -> new Recipe(recipe.getTitle(),
+
+                .map(recipe -> new Recipe(recipe.getTitle(),recipeID,
+
                                           recipe.getCuisine(),recipe.getDescription(),
                                           recipe.getDietaryRestrictions(),recipe.isHasDietaryRestrictions(),
                                           recipe.getIngredients(),recipe.getInstructions()))
@@ -30,18 +32,30 @@ public class RecipeService {
     }
 
     public Recipe addNewRecipe (Recipe recipe){
+
+
         RecipeRecord recipeRecord = new RecipeRecord();
 
-        recipeRecord.setCuisine(recipe.getCuisine());
-        recipeRecord.setDescription(recipe.getDescription());
-        recipeRecord.setDietaryRestrictions(recipe.getDietaryRestrictions());
-        recipeRecord.setIngredients(recipe.getIngredients());
-        recipeRecord.setInstructions(recipe.getInstructions());
-        recipeRecord.setTitle(recipe.getTitle());
-        recipeRecord.setHasDietaryRestrictions(recipe.isDietaryRestrictionsBool());
+        Recipe recipeReturn = new Recipe(recipe.getTitle(), UUID.randomUUID().toString(),
+                                         recipe.getCuisine(),
+                                         recipe.getDescription(), recipe.getDietaryRestrictions(),
+                                         recipe.isDietaryRestrictionsBool(), recipe.getIngredients(),
+                                         recipe.getInstructions());
+
+        recipeRecord.setId(recipeReturn.getId());
+        recipeRecord.setCuisine(recipeReturn.getCuisine());
+        recipeRecord.setDescription(recipeReturn.getDescription());
+        recipeRecord.setDietaryRestrictions(recipeReturn.getDietaryRestrictions());
+        recipeRecord.setIngredients(recipeReturn.getIngredients());
+        recipeRecord.setInstructions(recipeReturn.getInstructions());
+        recipeRecord.setTitle(recipeReturn.getTitle());
+        recipeRecord.setHasDietaryRestrictions(recipeReturn.isDietaryRestrictionsBool());
+
 
         recipeRepository.save(recipeRecord);
-        return recipe;
+
+        return recipeReturn;
+
     }
 
 

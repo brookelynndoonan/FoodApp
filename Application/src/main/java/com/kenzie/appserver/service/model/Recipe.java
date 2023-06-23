@@ -13,7 +13,9 @@ public class Recipe {
     private final List<String> ingredients;
     private final String instructions;
 
-    public Recipe(String title,  String cuisine, String description, String dietaryRestrictions, boolean dietaryRestrictionsBool, List<String> ingredients, String instructions) {
+
+    public Recipe(String title, String id,String cuisine, String description, String dietaryRestrictions, boolean dietaryRestrictionsBool, List<String> ingredients, String instructions) {
+
         this.title = title;
         this.cuisine = cuisine;
         this.description = description;
@@ -49,5 +51,9 @@ public class Recipe {
 
     public String getInstructions() {
         return instructions;
+    }
+
+    public String getId() {
+        return id;
     }
 }
