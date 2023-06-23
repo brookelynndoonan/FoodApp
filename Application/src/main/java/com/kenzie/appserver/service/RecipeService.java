@@ -7,6 +7,8 @@ import com.kenzie.appserver.service.model.Recipe;
 
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class RecipeService {
 
