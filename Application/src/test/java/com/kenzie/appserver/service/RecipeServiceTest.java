@@ -49,14 +49,15 @@ public class RecipeServiceTest {
         record.setHasDietaryRestrictions(true);
         record.setDietaryRestrictions("dietaryRestrictions");
 
-
         // WHEN
         when(recipeRepository.findById(record.getId())).thenReturn(Optional.of(record));
         Recipe recipe = recipeService.findRecipeByID(record.getId());
 
         // THEN
         Assertions.assertNotNull(recipe, "The object is returned");
+
         Assertions.assertEquals(record.getId(), recipe.getId(), "The id matches" );
+
         Assertions.assertEquals(record.getTitle(), recipe.getTitle(), "The title matches");
         Assertions.assertEquals(record.getIngredients(), recipe.getIngredients(), "The ingredients matches");
         Assertions.assertEquals(record.getInstructions(), recipe.getInstructions(), "The instructions matches");
@@ -88,10 +89,12 @@ public class RecipeServiceTest {
     @Test
     void addNewRecipe(){
         // GIVEN
+
         ArrayList<String> stringList = new ArrayList<>();
         stringList.add("ingredients");
 
         Recipe recipe = new Recipe("Title", "",
+
                                  "Cuisine","description",
                          "dietaryRestriction",true,
                                         stringList,"instructions");
@@ -109,7 +112,9 @@ public class RecipeServiceTest {
         RecipeRecord record = recipeRecordCaptor.getValue();
 
         Assertions.assertNotNull(recipe, "The object is returned");
+
         Assertions.assertEquals(record.getId(), returnedRecipe.getId(), "The id matches");
+
         Assertions.assertEquals(record.getTitle(), recipe.getTitle(), "The title matches");
         Assertions.assertEquals(record.getIngredients(), recipe.getIngredients(), "The ingredients matches");
         Assertions.assertEquals(record.getInstructions(), recipe.getInstructions(), "The instructions matches");

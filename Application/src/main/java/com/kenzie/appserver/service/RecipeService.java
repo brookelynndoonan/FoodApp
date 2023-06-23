@@ -7,8 +7,6 @@ import com.kenzie.appserver.service.model.Recipe;
 
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 public class RecipeService {
 
@@ -22,7 +20,9 @@ public class RecipeService {
 
         Recipe recipeFromBackEndService = recipeRepository
                 .findById(recipeID)
+
                 .map(recipe -> new Recipe(recipe.getTitle(),recipeID,
+
                                           recipe.getCuisine(),recipe.getDescription(),
                                           recipe.getDietaryRestrictions(),recipe.isHasDietaryRestrictions(),
                                           recipe.getIngredients(),recipe.getInstructions()))
@@ -32,6 +32,7 @@ public class RecipeService {
     }
 
     public Recipe addNewRecipe (Recipe recipe){
+
 
         RecipeRecord recipeRecord = new RecipeRecord();
 
@@ -54,6 +55,7 @@ public class RecipeService {
         recipeRepository.save(recipeRecord);
 
         return recipeReturn;
+
     }
 
 

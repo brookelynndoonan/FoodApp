@@ -1,7 +1,6 @@
 package com.kenzie.appserver.repositories.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-//import org.apache.commons.text.WordUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +8,14 @@ import java.util.Objects;
 import java.util.UUID;
 
 
+
 @DynamoDBTable(tableName = "Recipes")
 public class RecipeRecord {
 
     private String title;
+
     private String id;
+
     private String cuisine;
     private String description;
     private String dietaryRestrictions;
@@ -146,7 +148,11 @@ public class RecipeRecord {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, id, cuisine, description, dietaryRestrictions, hasDietaryRestrictions, ingredients, instructions);
+
+
+        return Objects.hash(getTitle(), getId(), getCuisine(), getDescription(), getDietaryRestrictions(), isHasDietaryRestrictions(), getIngredients(), getInstructions());
+
+
     }
 }
 
