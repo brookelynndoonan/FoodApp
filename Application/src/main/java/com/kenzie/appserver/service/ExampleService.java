@@ -30,4 +30,5 @@ public class ExampleService {
         exampleRepository.save(exampleRecord);
         return example;
     }
+
 }

@@ -11,11 +11,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+
 @DynamoDBTable(tableName = "Recipes")
 public class RecipeRecord {
 
     private String title;
-    private final String id;
+    private String id;
     private String cuisine;
     private String description;
     private String dietaryRestrictions;
@@ -135,6 +136,8 @@ public class RecipeRecord {
         }
         this.instructions = instructions;
     }
+
+    public void setId(String id){ this.id = id; }
 
     @Override
     public boolean equals(Object o) {
