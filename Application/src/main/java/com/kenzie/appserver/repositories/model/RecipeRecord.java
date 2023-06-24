@@ -23,7 +23,6 @@ public class RecipeRecord {
     private List<String> ingredients;
     private String instructions;
 
-
     @DynamoDBHashKey(attributeName = "title")
     public String getTitle() {
         return title;
@@ -31,7 +30,7 @@ public class RecipeRecord {
 
     @DynamoDBRangeKey(attributeName = "id")
     public String getId() {
-        return id.toString();
+        return id;
     }
 
 
@@ -69,12 +68,16 @@ public class RecipeRecord {
         if (title == null) {
             throw new IllegalArgumentException("Title must not be blank.");
         }
-        // Validate title format
+
         String titlePattern = "[A-Z][a-zA-Z0-9 ]*";
         if (!title.matches(titlePattern)) {
             throw new IllegalArgumentException("Invalid title format. Title should start with a capital letter and contain only alphanumeric characters.");
         }
         this.title = title;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setCuisine(String cuisine) {
@@ -87,8 +90,8 @@ public class RecipeRecord {
         }
         this.cuisine = cuisine;
     }
-
     //Description must be less than 250 characters
+
     public void setDescription(String description) {
         if (description == null || description.isEmpty()) {
             throw new IllegalArgumentException("Description must not be null or empty.");
@@ -111,7 +114,6 @@ public class RecipeRecord {
     public void setHasDietaryRestrictions(boolean hasDietaryRestrictions) {
         this.hasDietaryRestrictions = hasDietaryRestrictions;
     }
-
     public void setIngredients(List<String> ingredients) {
         if (ingredients != null) {
             for (String ingredient : ingredients) {
@@ -119,15 +121,12 @@ public class RecipeRecord {
             }
         }
     }
+
     public void addIngredient(String ingredient) {
         if (this.ingredients == null) {
             this.ingredients = new ArrayList<>();
         }
         this.ingredients.add(ingredient);
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setInstructions(String instructions) {
