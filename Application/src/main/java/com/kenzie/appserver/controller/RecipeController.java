@@ -20,6 +20,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
+    //Retrieve Recipe by Id.
     @GetMapping("/{id}")
     public ResponseEntity<RecipeResponse> get(@PathVariable("id") String id) {
         Recipe recipe = recipeService.findRecipeByID(id);
@@ -30,6 +31,8 @@ public class RecipeController {
         return ResponseEntity.ok(recipeResponse);
     }
 
+
+    //A Post for creating and posting a recipe.
     @PostMapping
     public ResponseEntity<RecipeResponse> addNewRecipe(@RequestBody RecipeCreateRequest recipeCreateRequest){
         Recipe recipe = new Recipe(
@@ -51,6 +54,7 @@ public class RecipeController {
 
 
 
+    //Helper Method for our Recipe Response.
     private RecipeResponse createRecipeResponse(Recipe recipe) {
 
         RecipeResponse recipeResponse = new RecipeResponse();
