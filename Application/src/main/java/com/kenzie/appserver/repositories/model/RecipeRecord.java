@@ -5,17 +5,12 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
-
-
 
 @DynamoDBTable(tableName = "Recipes")
 public class RecipeRecord {
 
     private String title;
-
     private String id;
-
     private String cuisine;
     private String description;
     private String dietaryRestrictions;
@@ -68,7 +63,6 @@ public class RecipeRecord {
         if (title == null) {
             throw new IllegalArgumentException("Title must not be blank.");
         }
-
         String titlePattern = "[A-Z][a-zA-Z0-9 ]*";
         if (!title.matches(titlePattern)) {
             throw new IllegalArgumentException("Invalid title format. Title should start with a capital letter and contain only alphanumeric characters.");
@@ -90,16 +84,15 @@ public class RecipeRecord {
         }
         this.cuisine = cuisine;
     }
-    //Description must be less than 250 characters
+
 
     public void setDescription(String description) {
         if (description == null || description.isEmpty()) {
             throw new IllegalArgumentException("Description must not be null or empty.");
-        }
+        } //Description must be less than 250 characters
         if (description.length() > 250) {
             throw new IllegalArgumentException("Description must be less than or equal to 250 characters.");
         }
-
         this.description = description;
     }
 
@@ -114,6 +107,7 @@ public class RecipeRecord {
     public void setHasDietaryRestrictions(boolean hasDietaryRestrictions) {
         this.hasDietaryRestrictions = hasDietaryRestrictions;
     }
+
     public void setIngredients(List<String> ingredients) {
         if (ingredients != null) {
             for (String ingredient : ingredients) {
@@ -136,7 +130,6 @@ public class RecipeRecord {
         this.instructions = instructions;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -147,11 +140,7 @@ public class RecipeRecord {
 
     @Override
     public int hashCode() {
-
-
         return Objects.hash(getTitle(), getId(), getCuisine(), getDescription(), getDietaryRestrictions(), isHasDietaryRestrictions(), getIngredients(), getInstructions());
-
-
     }
 }
 
