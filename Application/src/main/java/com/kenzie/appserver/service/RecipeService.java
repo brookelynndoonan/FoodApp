@@ -41,7 +41,7 @@ public class RecipeService {
         Recipe recipeReturn = new Recipe(recipe.getTitle(), UUID.randomUUID().toString(),
                                          recipe.getCuisine(),
                                          recipe.getDescription(), recipe.getDietaryRestrictions(),
-                                         recipe.isDietaryRestrictionsBool(), recipe.getIngredients(),
+                                         recipe.isHasDietaryRestrictions(), recipe.getIngredients(),
                                          recipe.getInstructions());
 
         recipeRecord.setId(recipeReturn.getId());
@@ -51,7 +51,7 @@ public class RecipeService {
         recipeRecord.setIngredients(recipeReturn.getIngredients());
         recipeRecord.setInstructions(recipeReturn.getInstructions());
         recipeRecord.setTitle(recipeReturn.getTitle());
-        recipeRecord.setHasDietaryRestrictions(recipeReturn.isDietaryRestrictionsBool());
+        recipeRecord.setHasDietaryRestrictions(recipeReturn.isHasDietaryRestrictions());
 
 
         recipeRepository.save(recipeRecord);
