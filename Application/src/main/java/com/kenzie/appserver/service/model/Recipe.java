@@ -27,10 +27,6 @@ public class Recipe {
         return title;
     }
 
-    public String getId() {
-        return id;
-    }
-
     public String getCuisine() {
         return cuisine;
     }
@@ -53,5 +49,9 @@ public class Recipe {
 
     public String getInstructions() {
         return instructions;
+    }
+
+    public String getId() {
+        return id;
     }
 }
