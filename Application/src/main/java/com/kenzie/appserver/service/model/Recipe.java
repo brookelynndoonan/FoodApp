@@ -1,7 +1,6 @@
 package com.kenzie.appserver.service.model;
 
 import java.util.List;
-import java.util.UUID;
 
 public class Recipe {
     private final String title;
@@ -9,21 +8,17 @@ public class Recipe {
     private final String cuisine;
     private final String description;
     private final String dietaryRestrictions;
-    private final boolean dietaryRestrictionsBool;
+    private final boolean hasDietaryRestrictions;
     private final List<String> ingredients;
     private final String instructions;
 
-
-
-    public Recipe(String title, String id, String cuisine, String description, String dietaryRestrictions, boolean dietaryRestrictionsBool, List<String> ingredients, String instructions) {
-
-
+    public Recipe(String title, String id, String cuisine, String description, String dietaryRestrictions, boolean hasDietaryRestrictions, List<String> ingredients, String instructions) {
         this.title = title;
         this.id = id;
         this.cuisine = cuisine;
         this.description = description;
         this.dietaryRestrictions = dietaryRestrictions;
-        this.dietaryRestrictionsBool = dietaryRestrictionsBool;
+        this.hasDietaryRestrictions = hasDietaryRestrictions;
         this.ingredients = ingredients;
         this.instructions = instructions;
     }
@@ -44,8 +39,8 @@ public class Recipe {
         return dietaryRestrictions;
     }
 
-    public boolean isDietaryRestrictionsBool() {
-        return dietaryRestrictionsBool;
+    public boolean isHasDietaryRestrictions() {
+        return hasDietaryRestrictions;
     }
 
     public List<String> getIngredients() {
