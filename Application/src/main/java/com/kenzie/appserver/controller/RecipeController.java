@@ -20,9 +20,9 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    //Retrieve Recipe by Id.
+    //Retrieve Recipe by ID.
     @GetMapping("/{id}")
-    public ResponseEntity<RecipeResponse> get(@PathVariable("id") String id) {
+    public ResponseEntity<RecipeResponse> getRecipeById(@PathVariable("id") String id) {
         Recipe recipe = recipeService.findRecipeByID(id);
         if (recipe == null) {
             return ResponseEntity.notFound().build();
