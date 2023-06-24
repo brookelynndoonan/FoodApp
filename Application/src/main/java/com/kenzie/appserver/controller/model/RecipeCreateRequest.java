@@ -1,0 +1,106 @@
+package com.kenzie.appserver.controller.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
+
+public class RecipeCreateRequest {
+
+    @NotEmpty
+    @JsonProperty("title")
+    private String title;
+
+    @NotEmpty
+    @JsonProperty("id")
+    private String id;
+
+    @NotEmpty
+    @JsonProperty("cuisine")
+    private String cuisine;
+
+    @NotEmpty
+    @JsonProperty("description")
+    private String description;
+
+    @NotEmpty
+    @JsonProperty("dietaryRestrictions")
+    private String dietaryRestrictions;
+
+
+    @NotEmpty
+    @JsonProperty("dietaryRestrictionsBool")
+    private Boolean dietaryRestrictionsBool;
+
+    @NotEmpty
+    @JsonProperty("ingredients")
+    private List<String> ingredients;
+
+    @NotEmpty
+    @JsonProperty("instructions")
+    private String instructions;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCuisine() {
+        return cuisine;
+    }
+
+    public void setCuisine(String cuisine) {
+        this.cuisine = cuisine;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDietaryRestrictions() {
+        return dietaryRestrictions;
+    }
+
+    public void setDietaryRestrictions(String dietaryRestrictions) {
+        this.dietaryRestrictions = dietaryRestrictions;
+    }
+
+    public Boolean getDietaryRestrictionsBool() {
+        return dietaryRestrictionsBool;
+    }
+
+    public void setDietaryRestrictionsBool(Boolean dietaryRestrictionsBool) {
+        this.dietaryRestrictionsBool = dietaryRestrictionsBool;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+}
