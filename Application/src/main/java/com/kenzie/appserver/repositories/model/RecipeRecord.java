@@ -5,24 +5,18 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
-
-
 
 @DynamoDBTable(tableName = "Recipes")
 public class RecipeRecord {
 
     private String title;
-
     private String id;
-
     private String cuisine;
     private String description;
     private String dietaryRestrictions;
     private boolean hasDietaryRestrictions;
     private List<String> ingredients;
     private String instructions;
-
 
     @DynamoDBHashKey(attributeName = "title")
     public String getTitle() {
@@ -31,7 +25,7 @@ public class RecipeRecord {
 
     @DynamoDBRangeKey(attributeName = "id")
     public String getId() {
-        return id.toString();
+        return id;
     }
 
 
@@ -69,12 +63,15 @@ public class RecipeRecord {
         if (title == null) {
             throw new IllegalArgumentException("Title must not be blank.");
         }
-        // Validate title format
         String titlePattern = "[A-Z][a-zA-Z0-9 ]*";
         if (!title.matches(titlePattern)) {
             throw new IllegalArgumentException("Invalid title format. Title should start with a capital letter and contain only alphanumeric characters.");
         }
         this.title = title;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setCuisine(String cuisine) {
@@ -88,15 +85,14 @@ public class RecipeRecord {
         this.cuisine = cuisine;
     }
 
-    //Description must be less than 250 characters
+
     public void setDescription(String description) {
         if (description == null || description.isEmpty()) {
             throw new IllegalArgumentException("Description must not be null or empty.");
-        }
+        } //Description must be less than 250 characters
         if (description.length() > 250) {
             throw new IllegalArgumentException("Description must be less than or equal to 250 characters.");
         }
-
         this.description = description;
     }
 
@@ -119,15 +115,12 @@ public class RecipeRecord {
             }
         }
     }
+
     public void addIngredient(String ingredient) {
         if (this.ingredients == null) {
             this.ingredients = new ArrayList<>();
         }
         this.ingredients.add(ingredient);
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setInstructions(String instructions) {
@@ -136,7 +129,6 @@ public class RecipeRecord {
         }
         this.instructions = instructions;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -148,11 +140,7 @@ public class RecipeRecord {
 
     @Override
     public int hashCode() {
-
-
         return Objects.hash(getTitle(), getId(), getCuisine(), getDescription(), getDietaryRestrictions(), isHasDietaryRestrictions(), getIngredients(), getInstructions());
-
-
     }
 }
 
