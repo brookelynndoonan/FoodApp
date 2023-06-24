@@ -20,16 +20,18 @@
 
 <!-- search bar -->
     <div class="card">
-        <h2>Find meal here</h2>
-        <form >
-            <!--class="card-content" id="search-bar" unsure what this line does -->
-            <p class="form-field">
-                <label>Search</label>
-                <input type="search">
-            </p>
+        <h2>Find your meal here</h2>
+        <form id="form" role="search">
+            <input type="search" id="query" required class="validated-field" name="q"
+                   placeholder="Search...">
+            <select class="category-dropdown" id="category-dropdown">
+                <option value="">Dietary Restrictions</option>
+                <option value="Dairy Free"> Dairy Free </option>
+                <option value="Gluten Free"> Gluten Free </option>
+                <option value="Vegan"> Vegan </option>
+            </select>
+            <button>Search</button>
         </form>
-
-    </div>
 
 
 <!-- recipe button -->
