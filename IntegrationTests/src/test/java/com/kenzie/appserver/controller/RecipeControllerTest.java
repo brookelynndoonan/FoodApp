@@ -104,10 +104,10 @@ public class RecipeControllerTest {
                         .value(recipeCreateRequest.getTitle()))
                 .andExpect(status().isCreated());
 
-        Assertions.assertFalse(recipeCreateRequest.getTitle().contains("[A-Z][a-zA-Z0-9 ]*"));
+        Assertions.assertTrue(recipeCreateRequest.getTitle().matches("[A-Z][a-zA-Z0-9 ]*"));
         Assertions.assertNotNull(recipeCreateRequest.getTitle());
         Assertions.assertNotNull(recipeCreateRequest.getCuisine());
-        Assertions.assertFalse(recipeCreateRequest.getCuisine().contains("[A-Z][a-zA-Z0-9 ]*"));
+        Assertions.assertTrue(recipeCreateRequest.getCuisine().matches("[A-Z][a-zA-Z0-9 ]*"));
         Assertions.assertNotNull(recipeCreateRequest.getDescription());
         Assertions.assertFalse(recipeCreateRequest.getDescription().isEmpty());
         Assertions.assertTrue(recipeCreateRequest.getDescription().length() < 250);
