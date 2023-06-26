@@ -21,6 +21,7 @@ public class ExampleServiceTest {
     void setup() {
         exampleRepository = mock(ExampleRepository.class);
         exampleService = new ExampleService(exampleRepository);
+
     }
     /** ------------------------------------------------------------------------
      *  exampleService.findById
