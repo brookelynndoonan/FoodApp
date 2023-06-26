@@ -2,24 +2,23 @@ package com.kenzie.appserver.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kenzie.appserver.IntegrationTest;
-import com.kenzie.appserver.controller.model.ExampleCreateRequest;
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.appserver.service.model.Recipe;
 import net.andreinc.mockneat.MockNeat;
-import net.bytebuddy.dynamic.scaffold.TypeWriter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -58,10 +57,10 @@ public class RecipeControllerTest {
                         .exists())
                 .andExpect(status().isOk());
 
-        Assertions.assertFalse(title.contains("[A-Z][a-zA-Z0-9 ]*"));
+        Assertions.assertTrue(title.matches("[A-Z][a-zA-Z0-9 ]*"));
         Assertions.assertNotNull(title);
         Assertions.assertNotNull(cuisine);
-        Assertions.assertFalse(cuisine.contains("[A-Z][a-zA-Z0-9 ]*"));
+        Assertions.assertTrue(cuisine.matches("[A-Z][a-zA-Z0-9 ]*"));
         Assertions.assertNotNull(description);
         Assertions.assertFalse(description.isEmpty());
         Assertions.assertTrue(description.length() < 250);
@@ -105,10 +104,10 @@ public class RecipeControllerTest {
                         .value(recipeCreateRequest.getTitle()))
                 .andExpect(status().isCreated());
 
-        Assertions.assertFalse(recipeCreateRequest.getTitle().contains("[A-Z][a-zA-Z0-9 ]*"));
+        Assertions.assertTrue(recipeCreateRequest.getTitle().matches("[A-Z][a-zA-Z0-9 ]*"));
         Assertions.assertNotNull(recipeCreateRequest.getTitle());
         Assertions.assertNotNull(recipeCreateRequest.getCuisine());
-        Assertions.assertFalse(recipeCreateRequest.getCuisine().contains("[A-Z][a-zA-Z0-9 ]*"));
+        Assertions.assertTrue(recipeCreateRequest.getCuisine().matches("[A-Z][a-zA-Z0-9 ]*"));
         Assertions.assertNotNull(recipeCreateRequest.getDescription());
         Assertions.assertFalse(recipeCreateRequest.getDescription().isEmpty());
         Assertions.assertTrue(recipeCreateRequest.getDescription().length() < 250);
