@@ -16,7 +16,7 @@ import static java.util.UUID.randomUUID;
 @RequestMapping("/example")
 public class ExampleController {
 
-    private ExampleService exampleService;
+    private final ExampleService exampleService;
 
     ExampleController(ExampleService exampleService) {
         this.exampleService = exampleService;
