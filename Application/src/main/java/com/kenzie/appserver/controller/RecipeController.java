@@ -8,13 +8,14 @@ import com.kenzie.appserver.service.model.Recipe;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.net.URI;
 
 @RestController
 @RequestMapping("/recipes")
 public class RecipeController {
 
-    private RecipeService recipeService;
+    private final RecipeService recipeService;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -62,8 +63,8 @@ public class RecipeController {
         recipeResponse.setTitle(recipe.getTitle());
         recipeResponse.setId(recipe.getId());
         recipeResponse.setCuisine(recipe.getCuisine());
-        recipeResponse.setDescription(recipeResponse.getDescription());
-        recipeResponse.setDietaryRestrictions(recipeResponse.getDietaryRestrictions());
+        recipeResponse.setDescription(recipe.getDescription());
+        recipeResponse.setDietaryRestrictions(recipe.getDietaryRestrictions());
         recipeResponse.setDietaryRestrictionsBool(recipe.isHasDietaryRestrictions());
         recipeResponse.setIngredients(recipe.getIngredients());
         recipeResponse.setInstructions(recipe.getInstructions());

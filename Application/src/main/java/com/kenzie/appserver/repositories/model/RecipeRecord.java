@@ -1,6 +1,7 @@
 package com.kenzie.appserver.repositories.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Objects;
 public class RecipeRecord {
 
     private String title;
+    @Id
     private String id;
     private String cuisine;
     private String description;
@@ -23,7 +25,7 @@ public class RecipeRecord {
         return title;
     }
 
-    @DynamoDBRangeKey(attributeName = "id")
+    @DynamoDBAttribute(attributeName = "id")
     public String getId() {
         return id;
     }
@@ -59,7 +61,7 @@ public class RecipeRecord {
         return instructions;
     }
 
-    public void setTitle(String title) {
+      public void setTitle(String title) {
         if (title == null) {
             throw new IllegalArgumentException("Title must not be blank.");
         }
@@ -69,6 +71,7 @@ public class RecipeRecord {
         }
         this.title = title;
     }
+
 
     public void setId(String id) {
         this.id = id;

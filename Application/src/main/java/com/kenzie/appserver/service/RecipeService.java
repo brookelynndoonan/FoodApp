@@ -5,6 +5,8 @@ import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -16,7 +18,7 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public Recipe findRecipeByID(String recipeID) {
+   public Recipe findRecipeByID(String recipeID) {
 
         return recipeRepository
                 .findById(recipeID)
@@ -30,6 +32,7 @@ public class RecipeService {
                         recipe.getInstructions()))
                 .orElse(null);
     }
+
 
     public Recipe addNewRecipe(Recipe recipe) {
         RecipeRecord recipeRecord = new RecipeRecord();
