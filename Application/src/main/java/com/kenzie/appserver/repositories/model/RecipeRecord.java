@@ -30,7 +30,6 @@ public class RecipeRecord {
         return id;
     }
 
-
     @DynamoDBAttribute(attributeName = "cuisine")
     public String getCuisine() {
         return cuisine;

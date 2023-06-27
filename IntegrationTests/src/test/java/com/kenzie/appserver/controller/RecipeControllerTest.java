@@ -38,21 +38,24 @@ public class RecipeControllerTest {
 
     @Test
     public void getRecipeById_validId_isValid() throws Exception {
-        String title = mockNeat.strings().valStr();
+        // GIVEN
+        String title = mockNeat.regex("[A-Z][a-zA-Z0-9 ]*").supplier().get(); //Jess figured this out.
         String id = UUID.randomUUID().toString();
-        String cuisine = mockNeat.strings().valStr();
+        String cuisine = mockNeat.regex("[A-Z][a-zA-Z0-9 ]*").supplier().get(); //Jess figured this out.
         String description = mockNeat.strings().valStr();
         String dietaryRestrictions = mockNeat.strings().valStr();
         boolean hasDietaryRestrictions = false;
         List<String> ingredients = Collections.singletonList(mockNeat.strings().valStr());
         String instructions = mockNeat.strings().valStr();
 
+        // WHEN
         Recipe recipe = new Recipe(title, id, cuisine, description, dietaryRestrictions,
                 hasDietaryRestrictions, ingredients,instructions);
 
         Recipe persistedRecipe = recipeService.addNewRecipe(recipe);
         mvc.perform(get("/recipes/{id}", persistedRecipe.getTitle())
                 .accept(MediaType.APPLICATION_JSON))
+                // THEN
                 .andExpect(jsonPath("id")
                         .exists())
                 .andExpect(status().isOk());
@@ -71,9 +74,9 @@ public class RecipeControllerTest {
 
     @Test
     public void addNewRecipe_createRecipe_Successful() throws Exception {
-        String title = mockNeat.strings().valStr();
+        String title = mockNeat.regex("[A-Z][a-zA-Z0-9 ]*").supplier().get(); //Jess figured this out.
         String id = UUID.randomUUID().toString();
-        String cuisine = mockNeat.strings().valStr();
+        String cuisine = mockNeat.regex("[A-Z][a-zA-Z0-9 ]*").supplier().get(); //Jess figured this out.
         String description = mockNeat.strings().valStr();
         String dietaryRestrictions = mockNeat.strings().valStr();
         List<String> ingredients = Collections.singletonList(mockNeat.strings().valStr());
