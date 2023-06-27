@@ -12,5 +12,4 @@ import java.util.List;
 @Repository
 @EnableScan
 public interface RecipeRepository extends CrudRepository<RecipeRecord, String> {
-    /*RecipeRecord findRecipeByID(String recipeID);*/
 }

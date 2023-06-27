@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @Service
 public class RecipeService {
@@ -59,6 +60,45 @@ public class RecipeService {
 
         return recipeReturn;
 
+    }
+
+    public List<Recipe> findAllCuisine(String cuisine){
+        List<Recipe> recipeList = new ArrayList<>();
+
+        Iterable <RecipeRecord> recipeRecordIterable = recipeRepository.findAll();
+
+        for (RecipeRecord recipeRecord :recipeRecordIterable
+             ) {
+            if(recipeRecord.getCuisine().equals(cuisine)){
+                recipeList.add(recipeCreateHelper(recipeRecord));
+            }
+        }
+        return recipeList;
+
+    }
+
+    public List<Recipe> findAllDietaryRestriction(String dietaryRestriction){
+        List<Recipe> recipeList = new ArrayList<>();
+
+        Iterable <RecipeRecord> recipeRecordIterable = recipeRepository.findAll();
+
+        for (RecipeRecord recipeRecord :recipeRecordIterable
+        ) {
+            if(recipeRecord.getDietaryRestrictions().equals(dietaryRestriction)){
+                recipeList.add(recipeCreateHelper(recipeRecord));
+            }
+        }
+        return recipeList;
+
+    }
+
+    private Recipe recipeCreateHelper(RecipeRecord recipeRecord){
+        Recipe recipe = new Recipe(recipeRecord.getTitle(), recipeRecord.getId(),
+                                   recipeRecord.getCuisine(), recipeRecord.getDescription(),
+                                   recipeRecord.getDietaryRestrictions(),
+                                   recipeRecord.isHasDietaryRestrictions(),
+                                   recipeRecord.getIngredients(), recipeRecord.getCuisine());
+        return recipe;
     }
 
 
