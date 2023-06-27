@@ -2,7 +2,6 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
-import com.kenzie.appserver.service.model.Example;
 import com.kenzie.appserver.service.model.Recipe;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,6 @@ import org.mockito.ArgumentCaptor;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
 import static org.mockito.Mockito.*;
@@ -22,18 +20,20 @@ public class RecipeServiceTest {
     private RecipeService recipeService;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         recipeRepository = mock(RecipeRepository.class);
         recipeService = new RecipeService(recipeRepository);
 
     }
 
-    /** ------------------------------------------------------------------------
-     *  RecipeService.findById
-     *  ------------------------------------------------------------------------ **/
+    /**
+     * ------------------------------------------------------------------------
+     * RecipeService.findById
+     * ------------------------------------------------------------------------
+     **/
 
     @Test
-    void findByID(){
+    void findByID() {
         //GIVEN
         ArrayList<String> stringList = new ArrayList<>();
         stringList.add("ingredients");
@@ -41,7 +41,7 @@ public class RecipeServiceTest {
         RecipeRecord record = new RecipeRecord();
 
         record.setTitle("Title");
-        record.setId("1");
+
         record.setInstructions("instructions");
         record.setIngredients(stringList);
         record.setDescription("description");
@@ -56,7 +56,7 @@ public class RecipeServiceTest {
         // THEN
         Assertions.assertNotNull(recipe, "The object is returned");
 
-        Assertions.assertEquals(record.getId(), recipe.getId(), "The id matches" );
+        Assertions.assertEquals(record.getId(), recipe.getId(), "The id matches");
 
         Assertions.assertEquals(record.getTitle(), recipe.getTitle(), "The title matches");
         Assertions.assertEquals(record.getIngredients(), recipe.getIngredients(), "The ingredients matches");
@@ -64,7 +64,7 @@ public class RecipeServiceTest {
         Assertions.assertEquals(record.getCuisine(), recipe.getCuisine(), "The cuisine matches");
         Assertions.assertEquals(record.getDescription(), recipe.getDescription(), "The description matches");
         Assertions.assertEquals(record.getDietaryRestrictions(), recipe.getDietaryRestrictions(), "The dietary restriction string matches");
-        Assertions.assertEquals(record.isHasDietaryRestrictions(), recipe.isDietaryRestrictionsBool(), "The dietary restriction boolean matches");
+        Assertions.assertEquals(record.isHasDietaryRestrictions(), recipe.isHasDietaryRestrictions(), "The dietary restriction boolean matches");
 
     }
 
@@ -82,24 +82,30 @@ public class RecipeServiceTest {
         Assertions.assertNull(recipe, "The recipe is null when not found");
     }
 
-    /** ------------------------------------------------------------------------
-     *  RecipeService.addNewRecipe
-     *  ------------------------------------------------------------------------ **/
+    /**
+     * ------------------------------------------------------------------------
+     * RecipeService.addNewRecipe
+     * ------------------------------------------------------------------------
+     **/
 
     @Test
-    void addNewRecipe(){
+    void addNewRecipe() {
         // GIVEN
 
         ArrayList<String> stringList = new ArrayList<>();
         stringList.add("ingredients");
 
-        Recipe recipe = new Recipe("Title", "",
+        Recipe recipe = new Recipe(
+                "Title",
+                "",
+                "Cuisine",
+                "description",
+                "dietaryRestriction",
+                true,
+                stringList,
+                "instructions");
 
-                                 "Cuisine","description",
-                         "dietaryRestriction",true,
-                                        stringList,"instructions");
-
-       ArgumentCaptor<RecipeRecord> recipeRecordCaptor = ArgumentCaptor.forClass(RecipeRecord.class);
+        ArgumentCaptor<RecipeRecord> recipeRecordCaptor = ArgumentCaptor.forClass(RecipeRecord.class);
 
         // WHEN
         Recipe returnedRecipe = recipeService.addNewRecipe(recipe);
@@ -121,12 +127,6 @@ public class RecipeServiceTest {
         Assertions.assertEquals(record.getCuisine(), recipe.getCuisine(), "The cuisine matches");
         Assertions.assertEquals(record.getDescription(), recipe.getDescription(), "The description matches");
         Assertions.assertEquals(record.getDietaryRestrictions(), recipe.getDietaryRestrictions(), "The dietary restriction string matches");
-        Assertions.assertEquals(record.isHasDietaryRestrictions(), recipe.isDietaryRestrictionsBool(), "The dietary restriction boolean matches");
-
-
-
+        Assertions.assertEquals(record.isHasDietaryRestrictions(), recipe.isHasDietaryRestrictions(), "The dietary restriction boolean matches");
     }
-
-
-
 }

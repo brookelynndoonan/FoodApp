@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ExampleService {
-    private ExampleRepository exampleRepository;
+    private final ExampleRepository exampleRepository;
 
     public ExampleService(ExampleRepository exampleRepository) {
         this.exampleRepository = exampleRepository;
