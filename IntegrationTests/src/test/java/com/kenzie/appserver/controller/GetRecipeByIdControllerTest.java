@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @IntegrationTest
-public class RecipeControllerTest {
+public class GetRecipeByIdControllerTest {
     @Autowired
     private MockMvc mvc;
 
@@ -73,53 +73,12 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void addNewRecipe_createRecipe_Successful() throws Exception {
-        String title = mockNeat.regex("[A-Z][a-zA-Z0-9 ]*").supplier().get(); //Jess figured this out.
-        String id = UUID.randomUUID().toString();
-        String cuisine = mockNeat.regex("[A-Z][a-zA-Z0-9 ]*").supplier().get(); //Jess figured this out.
-        String description = mockNeat.strings().valStr();
-        String dietaryRestrictions = mockNeat.strings().valStr();
-        List<String> ingredients = Collections.singletonList(mockNeat.strings().valStr());
-        String instructions = mockNeat.strings().valStr();
+    public void findRecipeById_noId_IsNull(){
+        String recipeId = null;
 
-
-        RecipeCreateRequest recipeCreateRequest = new RecipeCreateRequest();
-        recipeCreateRequest.setTitle(title);
-        recipeCreateRequest.setId(id);
-        recipeCreateRequest.setDietaryRestrictionsBool(false);
-        recipeCreateRequest.setCuisine(cuisine);
-        recipeCreateRequest.setDescription(description);
-        recipeCreateRequest.setDietaryRestrictions(dietaryRestrictions);
-        recipeCreateRequest.setInstructions(instructions);
-        recipeCreateRequest.setIngredients(ingredients);
-
-
-
-        mapper.registerModule(new JavaTimeModule());
-
-        mvc.perform(post("/recipes")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(recipeCreateRequest)))
-                .andExpect(jsonPath("id")
-                        .exists())
-                .andExpect(jsonPath("title")
-                        .value(recipeCreateRequest.getTitle()))
-                .andExpect(status().isCreated());
-
-        Assertions.assertTrue(recipeCreateRequest.getTitle().matches("[A-Z][a-zA-Z0-9 ]*"));
-        Assertions.assertNotNull(recipeCreateRequest.getTitle());
-        Assertions.assertNotNull(recipeCreateRequest.getCuisine());
-        Assertions.assertTrue(recipeCreateRequest.getCuisine().matches("[A-Z][a-zA-Z0-9 ]*"));
-        Assertions.assertNotNull(recipeCreateRequest.getDescription());
-        Assertions.assertFalse(recipeCreateRequest.getDescription().isEmpty());
-        Assertions.assertTrue(recipeCreateRequest.getDescription().length() < 250);
-        Assertions.assertNotNull(recipeCreateRequest.getDietaryRestrictions());
-        Assertions.assertNotNull(recipeCreateRequest.getInstructions());
-        Assertions.assertFalse(recipeCreateRequest.getInstructions()
-                .isEmpty());
+        assertThrows(IllegalArgumentException.class,
+                () -> recipeService.findRecipeByID(recipeId));
 
     }
-
 
 }
