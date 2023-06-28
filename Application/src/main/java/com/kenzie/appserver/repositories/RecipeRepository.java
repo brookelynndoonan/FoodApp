@@ -11,3 +11,4 @@ import org.springframework.stereotype.Repository;
 public interface RecipeRepository extends CrudRepository<RecipeRecord, String> {
 
 }
+
