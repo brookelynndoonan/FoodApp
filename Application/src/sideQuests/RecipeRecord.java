@@ -52,7 +52,7 @@
 //    }
 //
 //    @DynamoDBAttribute(attributeName = "dietaryRestrictionsBool")
-//    public boolean isHasDietaryRestrictions() {
+//    public boolean HasDietaryRestrictions() {
 //        return hasDietaryRestrictions;
 //    }
 //

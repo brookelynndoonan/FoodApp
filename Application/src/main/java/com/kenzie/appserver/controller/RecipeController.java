@@ -65,7 +65,7 @@ public class RecipeController {
         recipeResponse.setCuisine(recipe.getCuisine());
         recipeResponse.setDescription(recipe.getDescription());
         recipeResponse.setDietaryRestrictions(recipe.getDietaryRestrictions());
-        recipeResponse.setDietaryRestrictionsBool(recipe.isHasDietaryRestrictions());
+        recipeResponse.setDietaryRestrictionsBool(recipe.HasDietaryRestrictions());
         recipeResponse.setIngredients(recipe.getIngredients());
         recipeResponse.setInstructions(recipe.getInstructions());
 

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 @Service
 public class RecipeService {
@@ -28,11 +27,12 @@ public class RecipeService {
                         recipe.getCuisine(),
                         recipe.getDescription(),
                         recipe.getDietaryRestrictions(),
-                        recipe.isHasDietaryRestrictions(),
+                        recipe.HasDietaryRestrictions(),
                         recipe.getIngredients(),
                         recipe.getInstructions()))
                 .orElse(null);
-    }
+    }       //  .orElseThrow(() -> new NotFoundException("Recipe not found with ID: " + recipeID));
+            // so we don't get any null pointer exceptions --- Jess
 
 
     public Recipe addNewRecipe(Recipe recipe) {
@@ -43,7 +43,7 @@ public class RecipeService {
                 recipe.getCuisine(),
                 recipe.getDescription(),
                 recipe.getDietaryRestrictions(),
-                recipe.isHasDietaryRestrictions(),
+                recipe.HasDietaryRestrictions(),
                 recipe.getIngredients(),
                 recipe.getInstructions());
 
@@ -54,14 +54,14 @@ public class RecipeService {
         recipeRecord.setIngredients(recipeReturn.getIngredients());
         recipeRecord.setInstructions(recipeReturn.getInstructions());
         recipeRecord.setTitle(recipeReturn.getTitle());
-        recipeRecord.setHasDietaryRestrictions(recipeReturn.isHasDietaryRestrictions());
+        recipeRecord.setHasDietaryRestrictions(recipeReturn.HasDietaryRestrictions());
 
         recipeRepository.save(recipeRecord);
 
         return recipeReturn;
 
     }
-
+       // Will be utilizing gsi for this at some point, have already created them at the time of this comment
     public List<Recipe> findAllCuisine(String cuisine){
         List<Recipe> recipeList = new ArrayList<>();
 
@@ -96,7 +96,7 @@ public class RecipeService {
         Recipe recipe = new Recipe(recipeRecord.getTitle(), recipeRecord.getId(),
                                    recipeRecord.getCuisine(), recipeRecord.getDescription(),
                                    recipeRecord.getDietaryRestrictions(),
-                                   recipeRecord.isHasDietaryRestrictions(),
+                                   recipeRecord.HasDietaryRestrictions(),
                                    recipeRecord.getIngredients(), recipeRecord.getCuisine());
         return recipe;
     }

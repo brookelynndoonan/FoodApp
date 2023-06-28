@@ -66,7 +66,7 @@ public class RecipeServiceTest {
         Assertions.assertEquals(record.getCuisine(), recipe.getCuisine(), "The cuisine matches");
         Assertions.assertEquals(record.getDescription(), recipe.getDescription(), "The description matches");
         Assertions.assertEquals(record.getDietaryRestrictions(), recipe.getDietaryRestrictions(), "The dietary restriction string matches");
-        Assertions.assertEquals(record.isHasDietaryRestrictions(), recipe.isHasDietaryRestrictions(), "The dietary restriction boolean matches");
+        Assertions.assertEquals(record.HasDietaryRestrictions(), recipe.HasDietaryRestrictions(), "The dietary restriction boolean matches");
 
     }
 
@@ -129,7 +129,7 @@ public class RecipeServiceTest {
         Assertions.assertEquals(record.getCuisine(), recipe.getCuisine(), "The cuisine matches");
         Assertions.assertEquals(record.getDescription(), recipe.getDescription(), "The description matches");
         Assertions.assertEquals(record.getDietaryRestrictions(), recipe.getDietaryRestrictions(), "The dietary restriction string matches");
-        Assertions.assertEquals(record.isHasDietaryRestrictions(), recipe.isHasDietaryRestrictions(), "The dietary restriction boolean matches");
+        Assertions.assertEquals(record.HasDietaryRestrictions(), recipe.HasDietaryRestrictions(), "The dietary restriction boolean matches");
     }
 
     /**
