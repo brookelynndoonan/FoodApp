@@ -31,8 +31,7 @@ public class RecipeService {
                         recipe.getIngredients(),
                         recipe.getInstructions()))
                 .orElse(null);
-    }       //  .orElseThrow(() -> new NotFoundException("Recipe not found with ID: " + recipeID));
-            // so we don't get any null pointer exceptions --- Jess
+    }
 
 
     public Recipe addNewRecipe(Recipe recipe) {
