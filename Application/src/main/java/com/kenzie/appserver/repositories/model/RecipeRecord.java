@@ -20,20 +20,17 @@ public class RecipeRecord {
     private List<String> ingredients;
     private String instructions;
 
-    @DynamoDBHashKey(attributeName = "title")
-    public String getTitle() {
-        return title;
-    }
-
-    @DynamoDBRangeKey(attributeName = "id")
-    //@DynamoDBAttribute(attributeName = "id")
+    @DynamoDBHashKey(attributeName = "id")
     public String getId() {
         return id;
     }
 
+    @DynamoDBAttribute(attributeName = "title")
+    public String getTitle() {
+        return title;
+    }
+
     @DynamoDBAttribute(attributeName = "cuisine")
-    @DynamoDBIndexRangeKey(attributeName = "cuisine", localSecondaryIndexName = "CuisineIndex")
-    @DynamoDBIndexHashKey(attributeName = "id", globalSecondaryIndexName = "CuisineIndex")
     public String getCuisine() {
         return cuisine;
     }
@@ -44,8 +41,6 @@ public class RecipeRecord {
     }
 
     @DynamoDBAttribute(attributeName = "dietaryRestrictions")
-    @DynamoDBIndexRangeKey(attributeName = "dietaryRestrictions", localSecondaryIndexName = "DietaryRestrictionsIndex")
-    @DynamoDBIndexHashKey(attributeName = "id", globalSecondaryIndexName = "DietaryRestrictionsIndex")
     public String getDietaryRestrictions() {
         return dietaryRestrictions;
     }
