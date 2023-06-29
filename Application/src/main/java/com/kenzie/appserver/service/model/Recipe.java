@@ -39,7 +39,7 @@ public class Recipe {
         return dietaryRestrictions;
     }
 
-    public boolean HasDietaryRestrictions() {
+    public boolean hasDietaryRestrictions() {
         return hasDietaryRestrictions;
     }
 

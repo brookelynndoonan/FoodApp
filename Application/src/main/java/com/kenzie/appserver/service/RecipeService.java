@@ -1,104 +1,83 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.RecipeRepository;
+import com.kenzie.appserver.repositories.model.Enums;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class RecipeService {
 
     private final RecipeRepository recipeRepository;
 
+    @Autowired
     public RecipeService(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
     }
 
-   public Recipe findRecipeByID(String recipeID) {
+    public List<Recipe> getAllRecipes() {
+        Iterable<RecipeRecord> recipeRecords = recipeRepository.findAll();
+        return StreamSupport.stream(recipeRecords.spliterator(), false)
+                .map(this::convertToRecipe)
+                .collect(Collectors.toList());
+    }
 
-        return recipeRepository
-                .findById(recipeID)
+    public Recipe createRecipe(Recipe recipe) {
+        RecipeRecord recipeRecord = convertToRecipeRecord(recipe);
+        RecipeRecord savedRecord = recipeRepository.save(recipeRecord);
+        return convertToRecipe(savedRecord);
+    }
 
-                .map(recipe -> new Recipe(recipe.getTitle(), recipeID,
-                        recipe.getCuisine(),
-                        recipe.getDescription(),
-                        recipe.getDietaryRestrictions(),
-                        recipe.HasDietaryRestrictions(),
-                        recipe.getIngredients(),
-                        recipe.getInstructions()))
+    public List<Recipe> getRecipesByCuisine(Enums.Cuisine cuisine) {
+        List<RecipeRecord> recipeRecords = recipeRepository.findByCuisine(cuisine);
+        return recipeRecords.stream()
+                .map(this::convertToRecipe)
+                .collect(Collectors.toList());
+    }
+
+    public List<Recipe> getRecipesByDietaryRestrictions(Enums.DietaryRestrictions dietaryRestrictions) {
+        List<RecipeRecord> recipeRecords = recipeRepository.findByDietaryRestrictions(dietaryRestrictions);
+        return recipeRecords.stream()
+                .map(this::convertToRecipe)
+                .collect(Collectors.toList());
+    }
+
+    public Recipe getRecipeById(String id) {
+        return recipeRepository.findById(id)
+                .map(this::convertToRecipe)
                 .orElse(null);
     }
 
+    private Recipe convertToRecipe(RecipeRecord recipeRecord) {
+        return new Recipe(
+                recipeRecord.getTitle(),
+                recipeRecord.getId(),
+                recipeRecord.getCuisine().toString(),
+                recipeRecord.getDescription(),
+                recipeRecord.getDietaryRestrictions().toString(),
+                recipeRecord.hasDietaryRestrictions(),
+                recipeRecord.getIngredients(),
+                recipeRecord.getInstructions()
+        );
+    }
 
-    public Recipe addNewRecipe(Recipe recipe) {
+    private RecipeRecord convertToRecipeRecord(Recipe recipe) {
         RecipeRecord recipeRecord = new RecipeRecord();
-        Recipe recipeReturn = new Recipe(
-                recipe.getTitle(),
-                UUID.randomUUID().toString(),
-                recipe.getCuisine(),
-                recipe.getDescription(),
-                recipe.getDietaryRestrictions(),
-                recipe.HasDietaryRestrictions(),
-                recipe.getIngredients(),
-                recipe.getInstructions());
-
-        recipeRecord.setId(recipeReturn.getId());
-        recipeRecord.setCuisine(recipeReturn.getCuisine());
-        recipeRecord.setDescription(recipeReturn.getDescription());
-        recipeRecord.setDietaryRestrictions(recipeReturn.getDietaryRestrictions());
-        recipeRecord.setIngredients(recipeReturn.getIngredients());
-        recipeRecord.setInstructions(recipeReturn.getInstructions());
-        recipeRecord.setTitle(recipeReturn.getTitle());
-        recipeRecord.setHasDietaryRestrictions(recipeReturn.HasDietaryRestrictions());
-
-        recipeRepository.save(recipeRecord);
-
-        return recipeReturn;
-
+        recipeRecord.setTitle(recipe.getTitle());
+        recipeRecord.setId(UUID.randomUUID().toString());
+        recipeRecord.setCuisine(Enums.Cuisine.valueOf(recipe.getCuisine()));
+        recipeRecord.setDescription(recipe.getDescription());
+        recipeRecord.setDietaryRestrictions(Enums.DietaryRestrictions.valueOf(recipe.getDietaryRestrictions()));
+        recipeRecord.setHasDietaryRestrictions(recipe.hasDietaryRestrictions());
+        recipeRecord.setIngredients(recipe.getIngredients());
+        recipeRecord.setInstructions(recipe.getInstructions());
+        return recipeRecord;
     }
-       // Will be utilizing gsi for this at some point, have already created them at the time of this comment
-    public List<Recipe> findAllCuisine(String cuisine){
-        List<Recipe> recipeList = new ArrayList<>();
-
-        Iterable <RecipeRecord> recipeRecordIterable = recipeRepository.findAll();
-
-        for (RecipeRecord recipeRecord :recipeRecordIterable
-             ) {
-            if(recipeRecord.getCuisine().equals(cuisine)){
-                recipeList.add(recipeCreateHelper(recipeRecord));
-            }
-        }
-        return recipeList;
-
-    }
-
-    public List<Recipe> findAllDietaryRestriction(String dietaryRestriction){
-        List<Recipe> recipeList = new ArrayList<>();
-
-        Iterable <RecipeRecord> recipeRecordIterable = recipeRepository.findAll();
-
-        for (RecipeRecord recipeRecord :recipeRecordIterable
-        ) {
-            if(recipeRecord.getDietaryRestrictions().equals(dietaryRestriction)){
-                recipeList.add(recipeCreateHelper(recipeRecord));
-            }
-        }
-        return recipeList;
-
-    }
-
-    private Recipe recipeCreateHelper(RecipeRecord recipeRecord){
-        Recipe recipe = new Recipe(recipeRecord.getTitle(), recipeRecord.getId(),
-                                   recipeRecord.getCuisine(), recipeRecord.getDescription(),
-                                   recipeRecord.getDietaryRestrictions(),
-                                   recipeRecord.HasDietaryRestrictions(),
-                                   recipeRecord.getIngredients(), recipeRecord.getCuisine());
-        return recipe;
-    }
-
-
 }
