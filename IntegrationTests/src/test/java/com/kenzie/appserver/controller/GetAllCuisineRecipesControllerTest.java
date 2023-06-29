@@ -34,7 +34,7 @@ public class GetAllCuisineRecipesControllerTest {
     //TODO -confirm this test is built correctly.
     //TODO -Will have to adjust to enums in future. Possibly?
     @Test
-    public void getallCuisineRecipes_isSuccessful() throws Exception {
+    public void getAllCuisineRecipes_isSuccessful() throws Exception {
         String title = mockNeat.regex("[A-Z][a-zA-Z0-9 ]*").supplier().get();
         String id = UUID.randomUUID().toString();
         String cuisine = mockNeat.regex("[A-Z][a-zA-Z0-9 ]*").supplier().get();
@@ -69,8 +69,8 @@ public class GetAllCuisineRecipesControllerTest {
         recipeResponseList.add(recipeOne);
         recipeResponseList.add(recipeTwo);
 
-        List<Recipe> dietaryRecipeList = recipeService.findAllCuisine(getAllCuisineRecipes);
-        mvc.perform(get("/recipes/cuisine/{cuisine}", dietaryRecipeList)
+        List<Recipe> cuisineRecipeList = recipeService.findAllCuisine(getAllCuisineRecipes);
+        mvc.perform(get("/recipes/cuisine/{cuisine}", cuisineRecipeList)
                         .accept(MediaType.APPLICATION_JSON))
                 // THEN
                 .andExpect(status().is2xxSuccessful());
