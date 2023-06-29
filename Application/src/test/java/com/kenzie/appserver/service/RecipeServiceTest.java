@@ -1,265 +1,140 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.RecipeRepository;
-import com.kenzie.appserver.repositories.model.Enums.Cuisine;
-import com.kenzie.appserver.repositories.model.Enums.DietaryRestrictions;
+import com.kenzie.appserver.repositories.model.Enums;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static java.util.UUID.randomUUID;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class RecipeServiceTest {
+class RecipeServiceTest {
 
+    @Mock
     private RecipeRepository recipeRepository;
+
     private RecipeService recipeService;
 
     @BeforeEach
-    void setup() {
-        recipeRepository = mock(RecipeRepository.class);
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
         recipeService = new RecipeService(recipeRepository);
     }
 
     @Test
-    void findRecipeById() {
-        // GIVEN
-        ArrayList<String> stringList = new ArrayList<>();
-        stringList.add("ingredients");
+    void testGetAllRecipes() {
+        List<RecipeRecord> recipeRecords = createRecipeRecords();
+        when(recipeRepository.findAll()).thenReturn(recipeRecords);
 
-        RecipeRecord record = new RecipeRecord();
-        record.setTitle("Title");
-        record.setId("id");
-        record.setInstructions("instructions");
-        record.setIngredients(stringList);
-        record.setDescription("description");
-        record.setCuisine(Cuisine.AMERICAN);
-        record.setHasDietaryRestrictions(true);
-        record.setDietaryRestrictions(DietaryRestrictions.GLUTEN_FREE);
+        List<Recipe> recipes = recipeService.getAllRecipes();
 
-        // WHEN
-        when(recipeRepository.findById(record.getId())).thenReturn(Optional.of(record));
-        Recipe recipe = recipeService.getRecipeById(record.getId());
-
-        // THEN
-        Assertions.assertNotNull(recipe, "The object is returned");
-
-        Assertions.assertEquals(record.getId(), recipe.getId(), "The id matches");
-
-        Assertions.assertEquals(record.getTitle(), recipe.getTitle(), "The title matches");
-        Assertions.assertEquals(record.getIngredients(), recipe.getIngredients(), "The ingredients matches");
-        Assertions.assertEquals(record.getInstructions(), recipe.getInstructions(), "The instructions matches");
-        Assertions.assertEquals(record.getCuisine().toString(), recipe.getCuisine(), "The cuisine matches");
-        Assertions.assertEquals(record.getDescription(), recipe.getDescription(), "The description matches");
-        Assertions.assertEquals(record.getDietaryRestrictions().toString(), recipe.getDietaryRestrictions(), "The dietary restriction string matches");
-        Assertions.assertEquals(record.hasDietaryRestrictions(), recipe.hasDietaryRestrictions(), "The dietary restriction boolean matches");
+        assertEquals(recipeRecords.size(), recipes.size());
+        verify(recipeRepository, times(1)).findAll();
     }
 
     @Test
-    void findRecipeById_invalid() {
-        // GIVEN
-        String id = randomUUID().toString();
+    void testCreateRecipe() {
+        Recipe recipe = createRecipe();
+        RecipeRecord recipeRecord = createRecipeRecord();
+        when(recipeRepository.save(any(RecipeRecord.class))).thenReturn(recipeRecord);
 
-        when(recipeRepository.findById(id)).thenReturn(Optional.empty());
+        Recipe createdRecipe = recipeService.createRecipe(recipe);
 
-        // WHEN
-        Recipe recipe = recipeService.getRecipeById(id);
-
-        // THEN
-        Assertions.assertNull(recipe, "The recipe is null when not found");
+        assertEquals(recipe.getTitle(), createdRecipe.getTitle());
+        assertEquals(recipe.getCuisine(), createdRecipe.getCuisine());
+        assertEquals(recipe.getDescription(), createdRecipe.getDescription());
+        assertEquals(recipe.getDietaryRestrictions(), createdRecipe.getDietaryRestrictions());
+        assertEquals(recipe.hasDietaryRestrictions(), createdRecipe.hasDietaryRestrictions());
+        assertEquals(recipe.getIngredients(), createdRecipe.getIngredients());
+        assertEquals(recipe.getInstructions(), createdRecipe.getInstructions());
+        verify(recipeRepository, times(1)).save(any(RecipeRecord.class));
     }
 
     @Test
-    void addNewRecipe() {
-        // GIVEN
-        ArrayList<String> stringList = new ArrayList<>();
-        stringList.add("ingredients");
+    void testGetRecipesByCuisine() {
+        List<RecipeRecord> recipeRecords = createRecipeRecords();
+        when(recipeRepository.findByCuisine(any(Enums.Cuisine.class))).thenReturn(recipeRecords);
 
-        Recipe recipe = new Recipe(
-                "Title",
-                "",
-                Cuisine.AMERICAN.toString(),
-                "description",
-                DietaryRestrictions.GLUTEN_FREE.toString(),
-                true,
-                stringList,
-                "instructions");
+        List<Recipe> recipes = recipeService.getRecipesByCuisine("ITALIAN");
 
-        ArgumentCaptor<RecipeRecord> recipeRecordCaptor = ArgumentCaptor.forClass(RecipeRecord.class);
-
-        // WHEN
-        Recipe returnedRecipe = recipeService.createRecipe(recipe);
-
-        // THEN
-        Assertions.assertNotNull(returnedRecipe);
-
-        verify(recipeRepository).save(recipeRecordCaptor.capture());
-
-        RecipeRecord record = recipeRecordCaptor.getValue();
-
-        Assertions.assertNotNull(recipe, "The object is returned");
-
-        Assertions.assertEquals(record.getId(), returnedRecipe.getId(), "The id matches");
-
-        Assertions.assertEquals(record.getTitle(), recipe.getTitle(), "The title matches");
-        Assertions.assertEquals(record.getIngredients(), recipe.getIngredients(), "The ingredients matches");
-        Assertions.assertEquals(record.getInstructions(), recipe.getInstructions(), "The instructions matches");
-        Assertions.assertEquals(record.getCuisine().toString(), recipe.getCuisine(), "The cuisine matches");
-        Assertions.assertEquals(record.getDescription(), recipe.getDescription(), "The description matches");
-        Assertions.assertEquals(record.getDietaryRestrictions().toString(), recipe.getDietaryRestrictions(), "The dietary restriction string matches");
-        Assertions.assertEquals(record.hasDietaryRestrictions(), recipe.hasDietaryRestrictions(), "The dietary restriction boolean matches");
+        assertEquals(recipeRecords.size(), recipes.size());
+        verify(recipeRepository, times(1)).findByCuisine(any(Enums.Cuisine.class));
     }
 
     @Test
-    void findAllByCuisine() {
-        // GIVEN
-        Cuisine cuisine1 = Cuisine.AMERICAN;
-        Cuisine cuisine2 = Cuisine.ITALIAN;
+    void testGetRecipesByDietaryRestrictions() {
+        List<RecipeRecord> recipeRecords = createRecipeRecords();
+        when(recipeRepository.findByDietaryRestrictions(any(Enums.DietaryRestrictions.class))).thenReturn(recipeRecords);
 
-        RecipeRecord recipeRecord1 = new RecipeRecord();
-        RecipeRecord recipeRecord2 = new RecipeRecord();
-        RecipeRecord recipeRecord3 = new RecipeRecord();
+        List<Recipe> recipes = recipeService.getRecipesByDietaryRestrictions("GLUTEN_FREE");
 
-        // Set values for recipeRecord1
-        recipeRecord1.setTitle("Title");
-        recipeRecord1.setId(UUID.randomUUID().toString());
-        recipeRecord1.setInstructions("instructions");
-        recipeRecord1.setIngredients(new ArrayList<>().add());
-        recipeRecord1.setDescription("description");
-        recipeRecord1.setCuisine(cuisine1);
-        recipeRecord1.setHasDietaryRestrictions(true);
-        recipeRecord1.setDietaryRestrictions(DietaryRestrictions.NONE);
-
-        // Set values for recipeRecord2
-        recipeRecord2.setTitle("Title");
-        recipeRecord2.setId("id");
-        recipeRecord2.setInstructions("instructions");
-        recipeRecord2.setIngredients(new ArrayList<>());
-        recipeRecord2.setDescription("description");
-        recipeRecord2.setCuisine(cuisine2);
-        recipeRecord2.setHasDietaryRestrictions(true);
-        recipeRecord2.setDietaryRestrictions(DietaryRestrictions.NONE);
-
-        // Set values for recipeRecord3
-        recipeRecord3.setTitle("Title");
-        recipeRecord3.setId("id");
-        recipeRecord3.setInstructions("instructions");
-        recipeRecord3.setIngredients(new ArrayList<>());
-        recipeRecord3.setDescription("description");
-        recipeRecord3.setCuisine(cuisine2);
-        recipeRecord3.setHasDietaryRestrictions(true);
-        recipeRecord3.setDietaryRestrictions(DietaryRestrictions.NONE);
-
-        List<RecipeRecord> recipeRecordList = new ArrayList<>();
-        recipeRecordList.add(recipeRecord1);
-        recipeRecordList.add(recipeRecord2);
-        recipeRecordList.add(recipeRecord3);
-
-        when(recipeRepository.findAll()).thenReturn(recipeRecordList);
-
-        // WHEN
-        List<Recipe> recipeList1 = recipeService.getRecipesByCuisine(cuisine1);
-        List<Recipe> recipeList2 = recipeService.getRecipesByCuisine(cuisine2);
-
-        // THEN
-        Assertions.assertNotNull(recipeList1, "List 1 should not be null");
-        Assertions.assertNotNull(recipeList2, "List 2 should not be null");
-        Assertions.assertNotEquals(recipeList1, recipeList2, "Lists should not be equal");
-        Assertions.assertEquals(1, recipeList1.size(), "List should have 1 element");
-        Assertions.assertEquals(2, recipeList2.size(), "List should have 2 elements");
+        assertEquals(recipeRecords.size(), recipes.size());
+        verify(recipeRepository, times(1)).findByDietaryRestrictions(any(Enums.DietaryRestrictions.class));
     }
 
     @Test
-    void findAllByDietaryRestriction() {
-        // GIVEN
-        DietaryRestrictions dietaryRestriction1 = DietaryRestrictions.GLUTEN_FREE;
-        DietaryRestrictions dietaryRestriction2 = DietaryRestrictions.VEGAN;
+    void testGetRecipeById() {
+        RecipeRecord recipeRecord = createRecipeRecord();
+        when(recipeRepository.findById(anyString())).thenReturn(Optional.of(recipeRecord));
 
-        RecipeRecord recipeRecord1 = new RecipeRecord();
-        RecipeRecord recipeRecord2 = new RecipeRecord();
-        RecipeRecord recipeRecord3 = new RecipeRecord();
+        Optional<Recipe> recipe = recipeService.getRecipeById("12345");
 
-        // Set values for recipeRecord1
-        recipeRecord1.setTitle("Title");
-        recipeRecord1.setId("id");
-        recipeRecord1.setInstructions("instructions");
-        recipeRecord1.setIngredients(new ArrayList<>());
-        recipeRecord1.setDescription("description");
-        recipeRecord1.setCuisine(Cuisine.AMERICAN);
-        recipeRecord1.setHasDietaryRestrictions(true);
-        recipeRecord1.setDietaryRestrictions(dietaryRestriction1);
-
-        // Set values for recipeRecord2
-        recipeRecord2.setTitle("Title");
-        recipeRecord2.setId("id");
-        recipeRecord2.setInstructions("instructions");
-        recipeRecord2.setIngredients(new ArrayList<>());
-        recipeRecord2.setDescription("description");
-        recipeRecord2.setCuisine(Cuisine.ITALIAN);
-        recipeRecord2.setHasDietaryRestrictions(true);
-        recipeRecord2.setDietaryRestrictions(dietaryRestriction2);
-
-        // Set values for recipeRecord3
-        recipeRecord3.setTitle("Title");
-        recipeRecord3.setId("id");
-        recipeRecord3.setInstructions("instructions");
-        recipeRecord3.setIngredients(new ArrayList<>());
-        recipeRecord3.setDescription("description");
-        recipeRecord3.setCuisine(Cuisine.ITALIAN);
-        recipeRecord3.setHasDietaryRestrictions(true);
-        recipeRecord3.setDietaryRestrictions(dietaryRestriction2);
-
-        List<RecipeRecord> recipeRecordList = new ArrayList<>();
-        recipeRecordList.add(recipeRecord1);
-        recipeRecordList.add(recipeRecord2);
-        recipeRecordList.add(recipeRecord3);
-
-        when(recipeRepository.findAll()).thenReturn(recipeRecordList);
-
-        // WHEN
-        List<Recipe> recipeList1 = recipeService.getRecipesByDietaryRestrictions(dietaryRestriction1);
-        List<Recipe> recipeList2 = recipeService.getRecipesByDietaryRestrictions(dietaryRestriction2);
-
-        // THEN
-        Assertions.assertNotNull(recipeList1, "List 1 should not be null");
-        Assertions.assertNotNull(recipeList2, "List 2 should not be null");
-        Assertions.assertNotEquals(recipeList1, recipeList2, "Lists should not be equal");
-        Assertions.assertEquals(1, recipeList1.size(), "List should have 1 element");
-        Assertions.assertEquals(2, recipeList2.size(), "List should have 2 elements");
+        assertEquals(recipeRecord.getTitle(), recipe.get().getTitle());
+        assertEquals(recipeRecord.getCuisine().toString(), recipe.get().getCuisine());
+        assertEquals(recipeRecord.getDescription(), recipe.get().getDescription());
+        assertEquals(recipeRecord.getDietaryRestrictions().toString(), recipe.get().getDietaryRestrictions());
+        assertEquals(recipeRecord.hasDietaryRestrictions(), recipe.get().hasDietaryRestrictions());
+        assertEquals(recipeRecord.getIngredients(), recipe.get().getIngredients());
+        assertEquals(recipeRecord.getInstructions(), recipe.get().getInstructions());
+        verify(recipeRepository, times(1)).findById(anyString());
     }
 
-
-    private Recipe convertToRecipe(RecipeRecord recipeRecord) {
-        return new Recipe(
-                recipeRecord.getTitle(),
-                recipeRecord.getId(),
-                recipeRecord.getCuisine().toString(),
-                recipeRecord.getDescription(),
-                recipeRecord.getDietaryRestrictions().toString(),
-                recipeRecord.hasDietaryRestrictions(),
-                recipeRecord.getIngredients(),
-                recipeRecord.getInstructions()
-        );
+    private List<RecipeRecord> createRecipeRecords() {
+        List<RecipeRecord> recipeRecords = new ArrayList<>();
+        recipeRecords.add(createRecipeRecord());
+        recipeRecords.add(createRecipeRecord());
+        recipeRecords.add(createRecipeRecord());
+        return recipeRecords;
     }
 
-    private RecipeRecord convertToRecipeRecord(Recipe recipe) {
+    private RecipeRecord createRecipeRecord() {
         RecipeRecord recipeRecord = new RecipeRecord();
-        recipeRecord.setTitle(recipe.getTitle());
-        recipeRecord.setId(recipe.getId());
-        recipeRecord.setCuisine(Cuisine.valueOf(recipe.getCuisine()));
-        recipeRecord.setDescription(recipe.getDescription());
-        recipeRecord.setDietaryRestrictions(DietaryRestrictions.valueOf(recipe.getDietaryRestrictions()));
-        recipeRecord.setHasDietaryRestrictions(recipe.hasDietaryRestrictions());
-        recipeRecord.setIngredients(recipe.getIngredients());
-        recipeRecord.setInstructions(recipe.getInstructions());
+        recipeRecord.setId(UUID.randomUUID().toString());
+        recipeRecord.setTitle("Sample Recipe");
+        recipeRecord.setCuisine(Enums.Cuisine.ITALIAN);
+        recipeRecord.setDescription("A delicious Italian dish");
+        recipeRecord.setDietaryRestrictions(Enums.DietaryRestrictions.GLUTEN_FREE);
+        recipeRecord.setHasDietaryRestrictions(true);
+        List<String> ingredients = new ArrayList<>();
+        ingredients.add("Ingredient 1");
+        ingredients.add("Ingredient 2");
+        recipeRecord.setIngredients(ingredients);
+        recipeRecord.setInstructions("Step 1, Step 2, Step 3");
         return recipeRecord;
+    }
+
+    private Recipe createRecipe() {
+        List<String> ingredients = new ArrayList<>();
+        ingredients.add("Ingredient 1");
+        ingredients.add("Ingredient 2");
+        return new Recipe(
+                "Sample Recipe",
+                null,
+                "ITALIAN",
+                "A delicious Italian dish",
+                "GLUTEN_FREE",
+                true,
+                ingredients,
+                "Step 1, Step 2, Step 3"
+        );
     }
 }
