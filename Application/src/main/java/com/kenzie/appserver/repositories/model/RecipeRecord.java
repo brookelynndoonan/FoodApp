@@ -20,14 +20,14 @@ public class RecipeRecord {
     private List<String> ingredients;
     private String instructions;
 
-    @DynamoDBHashKey(attributeName = "title")
-    public String getTitle() {
-        return title;
-    }
-
-    @DynamoDBAttribute(attributeName = "id")
+    @DynamoDBHashKey(attributeName = "id")
     public String getId() {
         return id;
+    }
+
+    @DynamoDBAttribute(attributeName = "title")
+    public String getTitle() {
+        return title;
     }
 
     @DynamoDBAttribute(attributeName = "cuisine")
@@ -45,8 +45,8 @@ public class RecipeRecord {
         return dietaryRestrictions;
     }
 
-    @DynamoDBAttribute(attributeName = "dietaryRestrictionsBool")
-    public boolean isHasDietaryRestrictions() {
+    @DynamoDBAttribute(attributeName = "hasDietaryRestrictions")
+    public boolean HasDietaryRestrictions() {
         return hasDietaryRestrictions;
     }
 
@@ -71,7 +71,6 @@ public class RecipeRecord {
         this.title = title;
     }
 
-
     public void setId(String id) {
         this.id = id;
     }
@@ -86,7 +85,6 @@ public class RecipeRecord {
         }
         this.cuisine = cuisine;
     }
-
 
     public void setDescription(String description) {
         if (description == null || description.isEmpty()) {
@@ -142,7 +140,7 @@ public class RecipeRecord {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTitle(), getId(), getCuisine(), getDescription(), getDietaryRestrictions(), isHasDietaryRestrictions(), getIngredients(), getInstructions());
+        return Objects.hash(getTitle(), getId(), getCuisine(), getDescription(), getDietaryRestrictions(), HasDietaryRestrictions(), getIngredients(), getInstructions());
     }
 }
 
