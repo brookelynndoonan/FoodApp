@@ -1,9 +1,7 @@
 package com.kenzie.appserver.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kenzie.appserver.IntegrationTest;
-import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.appserver.service.model.Recipe;
 import net.andreinc.mockneat.MockNeat;
@@ -17,8 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.Assert.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
