@@ -26,7 +26,7 @@ public class RecipeController {
     //Retrieve Recipe by ID.
     @GetMapping("/{id}")
     public ResponseEntity<RecipeResponse> getRecipeById(@PathVariable("id") String id) {
-        Recipe recipe = recipeService.findRecipeByID(id);
+        Recipe recipe = recipeService.getRecipeById(id);
         if (recipe == null) {
             return ResponseEntity.notFound().build();
         }
@@ -103,7 +103,7 @@ public class RecipeController {
         recipeResponse.setCuisine(recipe.getCuisine());
         recipeResponse.setDescription(recipe.getDescription());
         recipeResponse.setDietaryRestrictions(recipe.getDietaryRestrictions());
-        recipeResponse.setDietaryRestrictionsBool(recipe.HasDietaryRestrictions());
+        recipeResponse.setDietaryRestrictionsBool(recipe.hasDietaryRestrictions());
         recipeResponse.setIngredients(recipe.getIngredients());
         recipeResponse.setInstructions(recipe.getInstructions());
 
