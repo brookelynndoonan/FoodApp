@@ -1,0 +1,41 @@
+Resources:
+  RecipesTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      TableName: "Recipes"
+      AttributeDefinitions:
+        - AttributeName: "title"
+          AttributeType: "S"
+        - AttributeName: "id"
+          AttributeType: "S"
+        - AttributeName: "cuisine"
+          AttributeType: "S"
+        - AttributeName: "dietaryRestrictions"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "title"
+          KeyType: "HASH"
+        - AttributeName: "id"
+          KeyType: "RANGE"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 10
+        WriteCapacityUnits: 1
+      GlobalSecondaryIndexes:
+        - IndexName: "CuisineIndex"
+          KeySchema:
+            - AttributeName: "cuisine"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+          ProvisionedThroughput:
+            ReadCapacityUnits: 10
+            WriteCapacityUnits: 1
+        - IndexName: "DietaryRestrictionsIndex"
+          KeySchema:
+            - AttributeName: "dietaryRestrictions"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+          ProvisionedThroughput:
+            ReadCapacityUnits: 10
+            WriteCapacityUnits: 1

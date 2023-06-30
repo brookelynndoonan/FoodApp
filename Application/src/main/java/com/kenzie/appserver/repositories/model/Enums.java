@@ -10,6 +10,7 @@ public class Enums {
         FRENCH,
         JAPANESE,
         AMERICAN,
+        ASIAN
 
         // Add more cuisine types as needed
     }

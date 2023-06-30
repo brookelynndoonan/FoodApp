@@ -19,7 +19,7 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-   public Recipe findRecipeByID(String recipeID) {
+    public Recipe findRecipeByID(String recipeID) {
 
         return recipeRepository
                 .findById(recipeID)
@@ -68,7 +68,7 @@ public class RecipeService {
         Iterable <RecipeRecord> recipeRecordIterable = recipeRepository.findAll();
 
         for (RecipeRecord recipeRecord :recipeRecordIterable
-             ) {
+        ) {
             if(recipeRecord.getCuisine().equals(cuisine)){
                 recipeList.add(recipeCreateHelper(recipeRecord));
             }
@@ -94,10 +94,10 @@ public class RecipeService {
 
     private Recipe recipeCreateHelper(RecipeRecord recipeRecord){
         Recipe recipe = new Recipe(recipeRecord.getTitle(), recipeRecord.getId(),
-                                   recipeRecord.getCuisine(), recipeRecord.getDescription(),
-                                   recipeRecord.getDietaryRestrictions(),
-                                   recipeRecord.isHasDietaryRestrictions(),
-                                   recipeRecord.getIngredients(), recipeRecord.getCuisine());
+                recipeRecord.getCuisine(), recipeRecord.getDescription(),
+                recipeRecord.getDietaryRestrictions(),
+                recipeRecord.isHasDietaryRestrictions(),
+                recipeRecord.getIngredients(), recipeRecord.getCuisine());
         return recipe;
     }
 

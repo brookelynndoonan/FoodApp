@@ -1,7 +1,8 @@
 package com.kenzie.appserver.repositories.model;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import org.springframework.data.annotation.Id;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,27 +12,26 @@ import java.util.Objects;
 public class RecipeRecord {
 
     private String title;
-    @Id
     private String id;
-    private String cuisine;
+    private Enums.Cuisine cuisine;
     private String description;
-    private String dietaryRestrictions;
+    private Enums.DietaryRestrictions dietaryRestrictions;
     private boolean hasDietaryRestrictions;
     private List<String> ingredients;
     private String instructions;
 
-    @DynamoDBHashKey(attributeName = "title")
-    public String getTitle() {
-        return title;
-    }
-
-    @DynamoDBAttribute(attributeName = "id")
+    @DynamoDBHashKey(attributeName = "id")
     public String getId() {
         return id;
     }
 
+    @DynamoDBAttribute(attributeName = "title")
+    public String getTitle() {
+        return title;
+    }
+
     @DynamoDBAttribute(attributeName = "cuisine")
-    public String getCuisine() {
+    public Enums.Cuisine getCuisine() {
         return cuisine;
     }
 
@@ -41,12 +41,12 @@ public class RecipeRecord {
     }
 
     @DynamoDBAttribute(attributeName = "dietaryRestrictions")
-    public String getDietaryRestrictions() {
+    public Enums.DietaryRestrictions getDietaryRestrictions() {
         return dietaryRestrictions;
     }
 
-    @DynamoDBAttribute(attributeName = "dietaryRestrictionsBool")
-    public boolean isHasDietaryRestrictions() {
+    @DynamoDBAttribute(attributeName = "hasDietaryRestrictions")
+    public boolean hasDietaryRestrictions() {
         return hasDietaryRestrictions;
     }
 
@@ -71,22 +71,16 @@ public class RecipeRecord {
         this.title = title;
     }
 
-
     public void setId(String id) {
         this.id = id;
     }
 
-    public void setCuisine(String cuisine) {
+    public void setCuisine(Enums.Cuisine cuisine) {
         if (cuisine == null) {
-            throw new IllegalArgumentException("Cuisine must not be blank.");
-        }
-        String cuisinePattern = "[A-Z][a-zA-Z0-9 ]*";
-        if (!cuisine.matches(cuisinePattern)) {
-            throw new IllegalArgumentException("Invalid cuisine format. Cuisine should start with a capital letter and contain only alphanumeric characters.");
+            throw new IllegalArgumentException("Cuisine must be selected.");
         }
         this.cuisine = cuisine;
     }
-
 
     public void setDescription(String description) {
         if (description == null || description.isEmpty()) {
@@ -98,12 +92,12 @@ public class RecipeRecord {
         this.description = description;
     }
 
-    public void setDietaryRestrictions(String dietaryRestrictions) {
+    public void setDietaryRestrictions(Enums.DietaryRestrictions dietaryRestrictions) {
         if (dietaryRestrictions == null) {
             throw new IllegalArgumentException("Dietary restrictions must be selected.");
         }
         this.dietaryRestrictions = dietaryRestrictions;
-        this.hasDietaryRestrictions = dietaryRestrictions.equals("");
+        this.hasDietaryRestrictions = dietaryRestrictions != Enums.DietaryRestrictions.NONE;
     }
 
     public void setHasDietaryRestrictions(boolean hasDietaryRestrictions) {
@@ -137,12 +131,12 @@ public class RecipeRecord {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecipeRecord that = (RecipeRecord) o;
-        return hasDietaryRestrictions == that.hasDietaryRestrictions && Objects.equals(title, that.title) && Objects.equals(id, that.id) && Objects.equals(cuisine, that.cuisine) && Objects.equals(description, that.description) && Objects.equals(dietaryRestrictions, that.dietaryRestrictions) && Objects.equals(ingredients, that.ingredients) && Objects.equals(instructions, that.instructions);
+        return hasDietaryRestrictions == that.hasDietaryRestrictions && Objects.equals(getTitle(), that.getTitle()) && Objects.equals(getId(), that.getId()) && getCuisine() == that.getCuisine() && Objects.equals(getDescription(), that.getDescription()) && getDietaryRestrictions() == that.getDietaryRestrictions() && Objects.equals(getIngredients(), that.getIngredients()) && Objects.equals(getInstructions(), that.getInstructions());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTitle(), getId(), getCuisine(), getDescription(), getDietaryRestrictions(), isHasDietaryRestrictions(), getIngredients(), getInstructions());
+        return Objects.hash(getTitle(), getId(), getCuisine(), getDescription(), getDietaryRestrictions(), hasDietaryRestrictions, getIngredients(), getInstructions());
     }
 }
 
