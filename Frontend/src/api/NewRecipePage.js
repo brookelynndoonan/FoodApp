@@ -72,7 +72,7 @@ class NewRecipePage extends BaseClass {
         }
     }
 
-     addTextBox() {
+      addTextBox() {
 
         let container = document.getElementById("category-dropdown");
         let newTextBox = document.createElement("form");
