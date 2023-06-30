@@ -13,66 +13,63 @@
         <h1> Create Recipe </h1> <!-- some css style, tbd -->
     </div>
 </header><!-- name dietary restriction drop down-->
-<div>
-    <form>
-        <header>
-            <h3>Name</h3>
-        </header>
-        <input type="text" name="" id="" placeholder="Type here...">
-        <select class="category-dropdown" id="dropdown">
+<div class="card">
+    <header><h3>Name</h3></header>
+    <form class="card-content" id="get-name-form">
+
+            <input type="text" name="" id="create-name-field" required class="validated-field" placeholder="Type here...">
+              <select class="category-dropdown" id="dietary-dropdown" required class="validated-field">
             <option value="">Dietary Restrictions</option>
             <option value="None">None</option>
             <option value="Vegan"> Vegan </option>
             <option value="Dairy Free"> Dairy Free </option>
             <option value="Gluten Free"> Gluten Free </option>
-        </select>
+             </select>
+
     </form>
 </div>
 <!-- description of the cuisine text input box-->
-<div>
-    <form>
-        <header>
-            <h3>Description</h3>
-        </header>
-        <textarea placeholder="Description here...">
+<div class="card">
+    <header><h3>Description</h3></header>
+    <form class="card-content" id="get-description-form"  required class="validated-field">
+
+        <textarea placeholder="Description here..." required class="validated-field" id="create-description-field">
       </textarea>
+
     </form>
 </div>
 <!-- ingredients with drop down of measurements, additional text option-->
-<div>
-    <form>
-        <body>
-        <form id="form" role="ingredient">
-            <header>
-                <h3>Ingredients</h3>
-            </header>
-            <input type="text" class="textbox-container" id="container" required class="validated-field" name="q" placeholder="Ingredients...">
-            <input type="text" id="measurments" name="measurments" maxlength="4" size="4">
+<div class="card">
+    <header><h3>Ingredients</h3></header>
+    <form class="card-content" id="add-ingredients-form" role="ingredient">
+
+    <input type="text" class="textbox-container" id="create-ingredients-container" required class="validated-field" name="q" placeholder="Ingredients...">
+            <input type="text" id="measurments" name="measurments" required class="validated-field" maxlength="4" size="4">
 
             <!-- filter button -->
-            <select class="category-dropdown" id="category-dropdown">
+            <select class="measurements" id="measurement-dropdown" required class="validated-field">
                 <option value="">Measurements</option>
                 <option value="Cup">Cup</option>
                 <option value="Teaspoon">Teaspoon</option>
                 <option value="Tablespoon">Tablespoon</option>
             </select>
-
             <button class="add-button" onclick="addTextBox()">+</button>
+
         </form>
 </div>
-<div>
-    <form>
-        <header>
-            <h3>Directions</h3>
-        </header>
-        <textarea type="text" class="textbox-container" id="query" required class="validated-field" name="q" placeholder="Directions"></textarea>
+<div class="card">
+    <header><h3>Directions</h3></header>
+    <form class="card-content" id="add-directions-form">
+
+        <textarea type="text" class="textbox-container" id="create-directions-field" required class="validated-field" name="q" placeholder="Directions"></textarea>
         <button class="add-button" onclick="addTextBox()">+</button>
+
     </form>
 </div>
-
-<div>
+<div class="card" id="submit">
+    <form class="card-content" id="create-form">
     <button onclick="window.location.href = 'RecipeListPage.html';" type="submit">Submit</button> <!-- how to add link to submit button to add to recipe list -->
+    </form>
 </div>
-
 </body>
 </html>
