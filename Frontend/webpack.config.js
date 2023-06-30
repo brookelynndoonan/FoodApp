@@ -9,6 +9,12 @@ module.exports = {
   },
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
+    NewRecipePage: path.resolve(__dirname, 'src', 'pages', 'NewRecipePage.js'),
+    HomePage: path.resolve(__dirname, 'src', 'pages', 'HomePage.js'),
+    RecipeDetailsPage: path.resolve(__dirname, 'src', 'pages', 'RecipeDetailsPage.js'),
+    RecipeListPage: path.resolve(__dirname, 'src', 'pages', 'RecipeListPage.js'),
+
+
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -25,14 +31,14 @@ module.exports = {
     //for example if you sent the request /example/bob to the backend, it will be converted into
     //http://localhost:5001/example/bob and sent to the backend that way.
     //uncomment the following proxy section to make the example work
-//    proxy: [
-//          {
-//            context: [
-//              '/example',
-//            ],
-//            target: 'http://localhost:5001'
-//          }
-//        ]
+    proxy: [
+          {
+            context: [
+              '/example', '/recipe'
+            ],
+            target: 'http://localhost:5001'
+          }
+        ]
   },
   plugins: [
     new HtmlWebpackPlugin({
