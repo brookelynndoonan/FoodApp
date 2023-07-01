@@ -5,7 +5,7 @@ import ExampleClient from "./exampleClient";
  * some sort of api goes here
  */
 
-class NewRecipeClient extends BaseClass {
+class NewRecipePage extends BaseClass {
     constructor() {
         super();
         this.bindClassMethods(['onGet', 'onCreate', 'renderExample'], this);

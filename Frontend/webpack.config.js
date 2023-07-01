@@ -9,10 +9,10 @@ module.exports = {
   },
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
-    NewRecipePage: path.resolve(__dirname, 'src', 'pages', 'NewRecipeClient.js'),
-    HomePage: path.resolve(__dirname, 'src', 'pages', 'HomeClient.js'),
+    NewRecipePage: path.resolve(__dirname, 'src', 'pages', 'NewRecipePage.js'),
+    HomePage: path.resolve(__dirname, 'src', 'pages', 'HomePage.js'),
     RecipeDetailsPage: path.resolve(__dirname, 'src', 'pages', 'RecipeDetailsPage.js'),
-    RecipeListPage: path.resolve(__dirname, 'src', 'pages', 'RecipeListClient.js'),
+    RecipeListPage: path.resolve(__dirname, 'src', 'pages', 'RecipeListPage.js'),
 
 
   },
@@ -44,6 +44,26 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/HomePage.html',
+      filename: 'HomePage.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/RecipeListPage.html',
+      filename: 'RecipeListPage.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/RecipeDetailsPage.html',
+      filename: 'RecipeDetailsPage.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/NewRecipePage.html',
+      filename: 'NewRecipePage.html',
       inject: false
     }),
     new CopyPlugin({
