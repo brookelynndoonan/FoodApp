@@ -9,10 +9,10 @@ module.exports = {
   },
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
-    NewRecipePage: path.resolve(__dirname, 'src', 'pages', 'NewRecipePage.js'),
-    HomePage: path.resolve(__dirname, 'src', 'pages', 'HomePage.js'),
+    NewRecipePage: path.resolve(__dirname, 'src', 'pages', 'NewRecipeClient.js'),
+    HomePage: path.resolve(__dirname, 'src', 'pages', 'HomeClient.js'),
     RecipeDetailsPage: path.resolve(__dirname, 'src', 'pages', 'RecipeDetailsPage.js'),
-    RecipeListPage: path.resolve(__dirname, 'src', 'pages', 'RecipeListPage.js'),
+    RecipeListPage: path.resolve(__dirname, 'src', 'pages', 'RecipeListClient.js'),
 
 
   },
