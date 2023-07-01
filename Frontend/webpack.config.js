@@ -47,22 +47,22 @@ module.exports = {
       inject: false
     }),
     new HtmlWebpackPlugin({
-      template: './src/HomePage.html',
+      template: './src/util/HomePage.html',
       filename: 'HomePage.html',
       inject: false
     }),
     new HtmlWebpackPlugin({
-      template: './src/RecipeListPage.html',
+      template: './src/util/RecipeListPage.html',
       filename: 'RecipeListPage.html',
       inject: false
     }),
     new HtmlWebpackPlugin({
-      template: './src/RecipeDetailsPage.html',
+      template: './src/util/RecipeDetailsPage.html',
       filename: 'RecipeDetailsPage.html',
       inject: false
     }),
     new HtmlWebpackPlugin({
-      template: './src/NewRecipePage.html',
+      template: './src/util/NewRecipePage.html',
       filename: 'NewRecipePage.html',
       inject: false
     }),
