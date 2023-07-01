@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -45,7 +46,7 @@ public class RecipeRecord {
         return dietaryRestrictions;
     }
 
-    @DynamoDBAttribute(attributeName = "hasDietaryRestrictions")
+    @DynamoDBAttribute(attributeName = "dietaryRestrictionsBool")
     public boolean hasDietaryRestrictions() {
         return hasDietaryRestrictions;
     }
@@ -60,7 +61,7 @@ public class RecipeRecord {
         return instructions;
     }
 
-      public void setTitle(String title) {
+    public void setTitle(String title) {
         if (title == null) {
             throw new IllegalArgumentException("Title must not be blank.");
         }
@@ -85,7 +86,7 @@ public class RecipeRecord {
     public void setDescription(String description) {
         if (description == null || description.isEmpty()) {
             throw new IllegalArgumentException("Description must not be null or empty.");
-        } //Description must be less than 250 characters
+        }
         if (description.length() > 250) {
             throw new IllegalArgumentException("Description must be less than or equal to 250 characters.");
         }
@@ -123,7 +124,20 @@ public class RecipeRecord {
         if (instructions == null || instructions.isEmpty()) {
             throw new IllegalArgumentException("Instructions must not be null or empty.");
         }
-        this.instructions = instructions;
+
+        // Split the instructions into individual steps
+        String[] steps = instructions.split("\\n");
+
+        // Format the steps as a numbered list
+        StringBuilder formattedInstructions = new StringBuilder();
+        for (int i = 0; i < steps.length; i++) {
+            formattedInstructions.append((i + 1)).append(". ").append(steps[i]);
+            if (i < steps.length - 1) {
+                formattedInstructions.append("\n");
+            }
+        }
+
+        this.instructions = formattedInstructions.toString();
     }
 
     @Override
@@ -138,5 +152,41 @@ public class RecipeRecord {
     public int hashCode() {
         return Objects.hash(getTitle(), getId(), getCuisine(), getDescription(), getDietaryRestrictions(), hasDietaryRestrictions, getIngredients(), getInstructions());
     }
-}
 
+    public static class Ingredient {
+        private String name;
+        private int quantity;
+        private Enums.QuantityType quantityType;
+        private final String ingredientString;
+
+        public Ingredient(String name, int quantity, Enums.QuantityType quantityType) {
+            String nameFormat = "[a-zA-Z0-9 ]*";
+            if (!name.matches(nameFormat)) {
+                throw new IllegalArgumentException("Invalid Ingredient format. Title contain only alphanumeric characters.");
+            }
+            if (quantity <= 0) {
+                throw new IllegalArgumentException("Ingredient quantity must be a positive value.");
+            }
+            if (quantityType == null) {
+                throw new IllegalArgumentException("Quantity type must be selected.");
+            }
+
+            this.ingredientString = name + " " + quantity + " " + quantityType;
+        }
+        public String getIngredientString() {
+            return ingredientString;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public Enums.QuantityType getQuantityType() {
+            return quantityType;
+        }
+    }
+}
