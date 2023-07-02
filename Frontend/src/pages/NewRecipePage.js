@@ -1,6 +1,6 @@
 import BaseClass from "../util/baseClass";
-import DataStore from "../util/DataStore";
-import ExampleClient from "./exampleClient";
+import ExampleClient from "../api/exampleClient";
+
 /**
  * some sort of api goes here
  */

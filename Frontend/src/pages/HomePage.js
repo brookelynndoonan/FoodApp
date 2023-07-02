@@ -1,6 +1,5 @@
 import BaseClass from "../util/baseClass";
-import DataStore from "../util/DataStore";
-import HomeClient from "./HomeClient";
+
 
 class HomePage extends BaseClass {
     constructor() {
