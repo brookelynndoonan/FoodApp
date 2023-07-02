@@ -171,6 +171,7 @@ h1 {
     font-size: 18px;
     opacity: 100%;
     align-items: center;
+    margin-right: 10px;
 }
 
 /* Plus and minus button styles on hover */
@@ -178,8 +179,8 @@ h1 {
     opacity: 0.8;
 }
 
-/* Button text styles within the plus and minus buttons */
-.form-group button span.button-text {
+/* Hide minus button in the first ingredient row */
+.ingredient-row:first-child button.remove-button {
     display: none;
 }
 
@@ -190,9 +191,21 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* Text input styles within the ingredient rows */
-.ingredient-row input[type="text"] {
-    flex-grow: 1;
+/* Ingredient name input field styles */
+.ingredient-row .ingredient-name {
+    max-width: 200px;
+    margin-right: 10px;
+}
+
+/* Ingredient quantity input field styles */
+.ingredient-row .ingredient-quantity {
+    max-width: 60px;
+    margin-right: 10px;
+}
+
+/* Ingredient name input field styles */
+.ingredient-row .ingredient-quantity-type {
+    max-width: 200px;
     margin-right: 10px;
 }
 

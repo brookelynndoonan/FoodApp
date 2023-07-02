@@ -48,16 +48,27 @@
         <label for="ingredients">Ingredients</label>
         <div id="ingredient-container">
             <div class="ingredient-row">
-                <input class="ingredient-input" id="ingredients" placeholder="Enter ingredient" type="text">
-                <button aria-label="Add" class="add-button" onclick="addIngredientField()"><span
-                        class="button-text">+</span></button>
-                <button aria-label="Remove" class="remove-button" onclick="removeIngredientField(this)"><span
-                        class="button-text">-</span></button> <!-- Add the error message element here -->
-                <span class="error-message" id="ingredient-error-${i}"></span>
+                <label for="ingredient-name">Ingredient Name</label>
+                <input id="ingredient-name" class="ingredient-name" placeholder="Ingredient Name" type="text">
+                <label for="ingredient-quantity">Quantity</label>
+                <input id="ingredient-quantity" class="ingredient-quantity" placeholder="Quantity" type="text">
+                <label for="ingredient-quantity-type">Quantity Type</label>
+                <select id="ingredient-quantity-type" class="ingredient-quantity-type">
+                    <!-- Options for quantity types will be dynamically populated here -->
+                </select>
+                <button aria-label="Add" class="add-button" onclick="addIngredientField()"><span class="button-text">+</span></button>
+                <button aria-label="Remove" class="remove-button" onclick="removeIngredientField(this)"><span class="button-text">-</span></button>
+                <span class="error-message" id="ingredient-error-0"></span>
             </div>
         </div>
-        <small class="error" id="ingredients-error"></small>
+        <div class="form-group">
+            <label for="ingredients">Ingredients</label>
+            <input id="ingredients" type="text" placeholder="Enter ingredients">
+            <small class="error" id="ingredients-error"></small>
+        </div>
     </div>
+
+
     <div class="form-group">
         <label for="instructions">Instructions</label>
         <textarea id="instructions" placeholder="Enter instructions"></textarea> <small class="error"
@@ -66,6 +77,8 @@
     <div class="form-group">
         <button class="submit-button" onclick="createRecipe()">Submit</button>
     </div>
+    <!-- Add the following hidden input field for "hasDietaryRestrictions" -->
+    <input type="hidden" id="has-dietary-restrictions-input" name="hasDietaryRestrictionsInput">
 </div>
 <script src="CreateRecipePage.js"></script>
 <script>
