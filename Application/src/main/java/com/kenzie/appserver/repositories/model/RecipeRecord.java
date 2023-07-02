@@ -4,7 +4,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -108,16 +107,16 @@ public class RecipeRecord {
     public void setIngredients(List<String> ingredients) {
         if (ingredients != null) {
             for (String ingredient : ingredients) {
-                addIngredient(ingredient);
+                addIngredient(Ingredient.createIngredientFromIngredientString(ingredient));
             }
         }
     }
 
-    public void addIngredient(String ingredient) {
-        if (this.ingredients == null) {
-            this.ingredients = new ArrayList<>();
+    public void addIngredient(Ingredient ingredient) {
+        if (ingredients == null) {
+            ingredients = new ArrayList<>();
         }
-        this.ingredients.add(ingredient);
+        ingredients.add(ingredient.getIngredientString());
     }
 
     public void setInstructions(String instructions) {
@@ -154,25 +153,32 @@ public class RecipeRecord {
     }
 
     public static class Ingredient {
-        private String name;
-        private int quantity;
-        private Enums.QuantityType quantityType;
+        private final String name;
+        private final int quantity;
+        private final Enums.QuantityType quantityType;
         private final String ingredientString;
 
         public Ingredient(String name, int quantity, Enums.QuantityType quantityType) {
-            String nameFormat = "[a-zA-Z0-9 ]*";
-            if (!name.matches(nameFormat)) {
-                throw new IllegalArgumentException("Invalid Ingredient format. Title contain only alphanumeric characters.");
-            }
             if (quantity <= 0) {
                 throw new IllegalArgumentException("Ingredient quantity must be a positive value.");
             }
-            if (quantityType == null) {
-                throw new IllegalArgumentException("Quantity type must be selected.");
-            }
-
+            this.name = name;
+            this.quantity = quantity;
+            this.quantityType = quantityType;
             this.ingredientString = name + " " + quantity + " " + quantityType;
         }
+
+        public static Ingredient createIngredientFromIngredientString(String ingredientString) {
+            String[] parts = ingredientString.split(" ", 3);
+            if (parts.length != 3) {
+                throw new IllegalArgumentException("Invalid ingredientString format: " + ingredientString);
+            }
+            String name = parts[0];
+            int quantity = Integer.parseInt(parts[1]);
+            Enums.QuantityType quantityType = Enums.QuantityType.valueOf(parts[2]);
+            return new Ingredient(name, quantity, quantityType);
+        }
+
         public String getIngredientString() {
             return ingredientString;
         }
