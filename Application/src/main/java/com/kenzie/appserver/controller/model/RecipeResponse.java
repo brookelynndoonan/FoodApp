@@ -14,13 +14,13 @@ public class RecipeResponse {
     @JsonProperty("cuisine")
     private String cuisine;
 
-    @JsonProperty("desctription")
+    @JsonProperty("description")
     private String description;
 
     @JsonProperty("dietaryRestrictions")
     private String dietaryRestrictions;
 
-    @JsonProperty("dietaryRestrictionsBool")
+    @JsonProperty("hasDietaryRestrictions")
     private Boolean hasDietaryRestrictions;
 
     @JsonProperty("ingredients")
@@ -73,8 +73,8 @@ public class RecipeResponse {
         return hasDietaryRestrictions;
     }
 
-    public void setHasDietaryRestrictions(Boolean dietaryRestrictionsBool) {
-        this.hasDietaryRestrictions = dietaryRestrictionsBool;
+    public void setHasDietaryRestrictions(Boolean hasDietaryRestrictions) {
+        this.hasDietaryRestrictions = hasDietaryRestrictions;
     }
 
     public List<String> getIngredients() {

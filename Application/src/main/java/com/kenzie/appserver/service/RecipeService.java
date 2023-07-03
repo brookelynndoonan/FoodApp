@@ -30,10 +30,12 @@ public class RecipeService {
     }
 
     public Recipe createRecipe(Recipe recipe) {
-        String id = UUID.randomUUID().toString();
         RecipeRecord recipeRecord = RecipeMapper.toRecipeRecord(recipe);
-        recipeRecord.setId(id);
+        recipeRecord.setId(UUID.randomUUID().toString());
+        recipe.setId(recipeRecord.getId());
+        System.out.println("Before save in the service");
         RecipeRecord savedRecipeRecord = recipeRepository.save(recipeRecord);
+        System.out.println("After save in the service" + recipeRecord.getId());
 
         return RecipeMapper.toRecipe(savedRecipeRecord);
     }

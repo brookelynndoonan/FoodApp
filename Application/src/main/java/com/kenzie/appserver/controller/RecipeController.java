@@ -1,6 +1,5 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.controller.model.RecipeResponse;
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
@@ -10,7 +9,6 @@ import com.kenzie.appserver.service.model.RecipeMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +17,7 @@ import java.util.stream.Collectors;
 public class RecipeController {
 
     private final RecipeService recipeService;
+    private RecipeMapper recipeMapper;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -36,21 +35,17 @@ public class RecipeController {
     }
 
     @PostMapping
-    public ResponseEntity<RecipeResponse> addNewRecipe(@RequestBody RecipeCreateRequest recipeCreateRequest) {
-        Recipe recipe = new Recipe(
-                recipeCreateRequest.getId(),
-                recipeCreateRequest.getTitle(),
-                recipeCreateRequest.getCuisine(),
-                recipeCreateRequest.getDescription(),
-                recipeCreateRequest.getDietaryRestrictions(),
-                recipeCreateRequest.getDietaryRestrictionsBool(),
-                recipeCreateRequest.getIngredients(),
-                recipeCreateRequest.getInstructions());
+    public ResponseEntity<RecipeRecord> addNewRecipe(@RequestBody RecipeRecord recipeRecord) {
+        Recipe recipe = RecipeMapper.toRecipe(recipeRecord);
+        // Call the service to save the recipe
 
-        Recipe createdRecipe = recipeService.createRecipe(recipe);
-        RecipeResponse recipeResponse = createRecipeResponse(createdRecipe);
-        return ResponseEntity.created(URI.create("/recipes/" + recipeResponse.getId())).body(recipeResponse);
+        Recipe savedRecipe = recipeService.createRecipe(recipe);
+
+        // Convert the saved recipe back to` DTO and return the response
+        RecipeRecord savedRecipeDTO = RecipeMapper.toRecipeRecord(savedRecipe);
+        return ResponseEntity.ok(savedRecipeDTO);
     }
+
 
     @GetMapping("/cuisine/{cuisine}")
     public ResponseEntity<List<RecipeResponse>> getRecipesByCuisine(@PathVariable("cuisine") String cuisine) {
