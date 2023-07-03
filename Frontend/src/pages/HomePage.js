@@ -125,13 +125,29 @@ class HomePage extends BaseClass {
         //category dropdown
         let categoryDropdown = document.getElementById("category-dropdown").value;
 
+        const queryString = `q=${searchBar}&category=${categoryDropdown}`;
+        const url = `searchEndpoint?${queryString}`;
 
+        fetch('http://localhost:5001/api/recipes')
+            .then(response => response.json())
+            .then(data => {
+                // Process the received data (list of recipes) from the server
+                console.log(data);
+                // Perform further operations with the recipe data
+                // Redirect to the Recipe List Page or update the current page content
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
-    async onCreate(){
 
 
-    }
+    //
+    // async onCreate(){
+    //
+    //
+    // }
 }
     const main = async () => {
             const homePage = new HomePage();
