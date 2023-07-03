@@ -69,7 +69,7 @@ public class GetAllCuisineRecipesControllerTest {
         recipeResponseList.add(recipeOne);
         recipeResponseList.add(recipeTwo);
 
-        List<Recipe> cuisineRecipeList = recipeService.findAllCuisine(getAllCuisineRecipes);
+        List<Recipe> cuisineRecipeList = recipeService.getRecipesByCuisine(getAllCuisineRecipes);
         mvc.perform(get("/recipes/cuisine/{cuisine}", cuisineRecipeList)
                         .accept(MediaType.APPLICATION_JSON))
                 // THEN
