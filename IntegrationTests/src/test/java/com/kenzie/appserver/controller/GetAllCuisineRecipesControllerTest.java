@@ -51,7 +51,7 @@ public class GetAllCuisineRecipesControllerTest {
         recipeOne.setCuisine(cuisine);
         recipeOne.setDescription(description);
         recipeOne.setDietaryRestrictions(dietaryRestrictions);
-        recipeOne.setDietaryRestrictionsBool(false);
+        recipeOne.setHasDietaryRestrictions(false);
         recipeOne.setIngredients(ingredients);
         recipeOne.setInstructions(instructions);
 
@@ -61,7 +61,7 @@ public class GetAllCuisineRecipesControllerTest {
         recipeTwo.setCuisine(cuisine);
         recipeTwo.setDescription(description);
         recipeTwo.setDietaryRestrictions(dietaryRestrictions);
-        recipeTwo.setDietaryRestrictionsBool(false);
+        recipeTwo.setHasDietaryRestrictions(false);
         recipeTwo.setIngredients(ingredients);
         recipeTwo.setInstructions(instructions);
 
