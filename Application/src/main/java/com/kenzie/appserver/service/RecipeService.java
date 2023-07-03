@@ -1,5 +1,6 @@
 package com.kenzie.appserver.service;
 
+import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.Enums;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class RecipeService {
@@ -23,8 +23,8 @@ public class RecipeService {
     }
 
     public List<Recipe> getAllRecipes() {
-        Iterable<RecipeRecord> recipeRecords = recipeRepository.findAll();
-        return StreamSupport.stream(recipeRecords.spliterator(), false)
+        List<RecipeRecord> recipeRecords = recipeRepository.findAll();
+        return recipeRecords.stream()
                 .map(RecipeMapper::toRecipe)
                 .collect(Collectors.toList());
     }
@@ -34,6 +34,7 @@ public class RecipeService {
         RecipeRecord recipeRecord = RecipeMapper.toRecipeRecord(recipe);
         recipeRecord.setId(id);
         RecipeRecord savedRecipeRecord = recipeRepository.save(recipeRecord);
+
         return RecipeMapper.toRecipe(savedRecipeRecord);
     }
 
@@ -53,8 +54,16 @@ public class RecipeService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<Recipe> getRecipeById(String id) {
-        Optional<RecipeRecord> recipeRecordOptional = recipeRepository.findById(id);
-        return recipeRecordOptional.map(RecipeMapper::toRecipe);
+    public RecipeRecord getRecipeById(String id) throws RecipeNotFoundException {
+        Optional<RecipeRecord> optionalRecipeRecord = recipeRepository.findById(id);
+
+        if (optionalRecipeRecord.isPresent()) {
+            return optionalRecipeRecord.get();
+        } else {
+            throw new RecipeNotFoundException("Recipe not found with ID: " + id);
+        }
     }
+
+
+
 }
