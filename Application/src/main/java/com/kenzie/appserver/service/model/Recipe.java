@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe {
-    private final String id;
+    private String id;
     private final String title;
     private final String cuisine;
     private final String description;
@@ -29,7 +29,7 @@ public class Recipe {
     }
 
     public String getCuisine() {
-        return cuisine;
+        return cuisine.toUpperCase().replace(" ", "_");
     }
 
     public String getDescription() {
@@ -37,7 +37,7 @@ public class Recipe {
     }
 
     public String getDietaryRestrictions() {
-        return dietaryRestrictions;
+        return dietaryRestrictions.toUpperCase().replace(" ", "_");
     }
 
     public boolean hasDietaryRestrictions() {
@@ -61,5 +61,9 @@ public class Recipe {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
