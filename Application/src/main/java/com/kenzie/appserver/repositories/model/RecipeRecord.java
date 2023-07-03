@@ -4,16 +4,16 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "Recipes")
 public class RecipeRecord {
 
-    private String title;
     private String id;
+    private String title;
     private Enums.Cuisine cuisine;
     private String description;
     private Enums.DietaryRestrictions dietaryRestrictions;
@@ -62,7 +62,7 @@ public class RecipeRecord {
     }
 
     public void setTitle(String title) {
-        if (title == null) {
+        if (title == null || title.trim().isEmpty()) {
             throw new IllegalArgumentException("Title must not be blank.");
         }
         String titlePattern = "[A-Z][a-zA-Z0-9 ]*";
@@ -108,16 +108,16 @@ public class RecipeRecord {
     public void setIngredients(List<String> ingredients) {
         if (ingredients != null) {
             for (String ingredient : ingredients) {
-                addIngredient(ingredient);
+                addIngredient(Ingredient.createIngredientFromIngredientString(ingredient));
             }
         }
     }
 
-    public void addIngredient(String ingredient) {
-        if (this.ingredients == null) {
-            this.ingredients = new ArrayList<>();
+    public void addIngredient(Ingredient ingredient) {
+        if (ingredients == null) {
+            ingredients = new ArrayList<>();
         }
-        this.ingredients.add(ingredient);
+        ingredients.add(ingredient.getIngredientString());
     }
 
     public void setInstructions(String instructions) {
@@ -154,25 +154,45 @@ public class RecipeRecord {
     }
 
     public static class Ingredient {
-        private String name;
-        private int quantity;
-        private Enums.QuantityType quantityType;
+        private final String name;
+        private final int quantity;
+        private final Enums.QuantityType quantityType;
         private final String ingredientString;
 
         public Ingredient(String name, int quantity, Enums.QuantityType quantityType) {
-            String nameFormat = "[a-zA-Z0-9 ]*";
-            if (!name.matches(nameFormat)) {
-                throw new IllegalArgumentException("Invalid Ingredient format. Title contain only alphanumeric characters.");
-            }
             if (quantity <= 0) {
                 throw new IllegalArgumentException("Ingredient quantity must be a positive value.");
             }
-            if (quantityType == null) {
-                throw new IllegalArgumentException("Quantity type must be selected.");
-            }
-
-            this.ingredientString = name + " " + quantity + " " + quantityType;
+            this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+            this.quantity = quantity;
+            this.quantityType = quantityType;
+            this.ingredientString = name + " " + quantity + " " + quantityType.toString().toLowerCase();
         }
+
+        public static Ingredient createIngredientFromIngredientString(String ingredientString) {
+            // Split the ingredient string into parts (quantity, unit, name)
+            String[] parts = ingredientString.split(" ");
+
+            // Extract the quantity, unit, and name
+            String name = parts[0];
+            int quantity = Integer.parseInt(parts[1]);
+            String unit = parts[2];
+
+            // Convert the unit to uppercase for case-insensitive comparison
+            unit = unit.toUpperCase();
+
+            // Use a case-insensitive search to find the matching QuantityType enum constant
+            String finalUnit = unit;
+            Enums.QuantityType quantityType = Arrays.stream(Enums.QuantityType.values())
+                    .filter(q -> q.name().equalsIgnoreCase(finalUnit))
+                    .findFirst()
+                    .orElse(null);
+
+            // Create the Ingredient object
+            return new Ingredient(name, quantity, Enums.QuantityType.valueOf(unit));
+        }
+
+
         public String getIngredientString() {
             return ingredientString;
         }
