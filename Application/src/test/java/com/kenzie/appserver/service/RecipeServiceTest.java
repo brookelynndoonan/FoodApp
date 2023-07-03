@@ -106,7 +106,7 @@ class RecipeServiceTest {
             assertEquals(recipeRecord.getCuisine().toString(), recipe.getCuisine().toString());
             assertEquals(recipeRecord.getDescription(), recipe.getDescription());
             assertEquals(recipeRecord.getDietaryRestrictions().toString(), recipe.getDietaryRestrictions().toString());
-            assertEquals(recipeRecord.hasDietaryRestrictions(), recipe.hasDietaryRestrictions());
+            assertEquals(recipeRecord.getHasDietaryRestrictions(), recipe.getHasDietaryRestrictions());
             assertEquals(recipeRecord.getIngredients(), recipe.getIngredients());
             assertEquals(recipeRecord.getInstructions(), recipe.getInstructions());
         } catch (NullPointerException e) {

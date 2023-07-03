@@ -9,12 +9,12 @@ import java.util.List;
 public class RecipeCreateRequest {
 
     @NotEmpty
-    @JsonProperty("title")
-    private String title;
-
-    @NotEmpty
     @JsonProperty("id")
     private String id;
+
+    @NotEmpty
+    @JsonProperty("title")
+    private String title;
 
     @NotEmpty
     @JsonProperty("cuisine")
@@ -41,20 +41,20 @@ public class RecipeCreateRequest {
     @JsonProperty("instructions")
     private String instructions;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getCuisine() {

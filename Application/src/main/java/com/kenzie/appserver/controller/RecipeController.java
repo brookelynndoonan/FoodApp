@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public class RecipeController {
 
     private final RecipeService recipeService;
-    private RecipeMapper recipeMapper;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -42,8 +41,8 @@ public class RecipeController {
         Recipe savedRecipe = recipeService.createRecipe(recipe);
 
         // Convert the saved recipe back to` DTO and return the response
-        RecipeRecord savedRecipeDTO = RecipeMapper.toRecipeRecord(savedRecipe);
-        return ResponseEntity.ok(savedRecipeDTO);
+        RecipeRecord savedRecipeRecord = RecipeMapper.toRecipeRecord(savedRecipe);
+        return ResponseEntity.ok(savedRecipeRecord);
     }
 
 
