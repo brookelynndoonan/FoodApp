@@ -46,8 +46,8 @@ public class RecipeRecord {
         return dietaryRestrictions;
     }
 
-    @DynamoDBAttribute(attributeName = "dietaryRestrictions")
-    public boolean hasDietaryRestrictions() {
+    @DynamoDBAttribute(attributeName = "hasDietaryRestrictions")
+    public boolean getHasDietaryRestrictions() {
         return hasDietaryRestrictions;
     }
 
