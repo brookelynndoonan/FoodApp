@@ -2,7 +2,6 @@ package com.kenzie.appserver.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class RecipeResponse {
     private String dietaryRestrictions;
 
     @JsonProperty("dietaryRestrictionsBool")
-    private Boolean dietaryRestrictionsBool;
+    private Boolean hasDietaryRestrictions;
 
     @JsonProperty("ingredients")
     private List<String> ingredients;
@@ -70,12 +69,12 @@ public class RecipeResponse {
         this.dietaryRestrictions = dietaryRestrictions;
     }
 
-    public Boolean getDietaryRestrictionsBool() {
-        return dietaryRestrictionsBool;
+    public Boolean getHasDietaryRestrictions() {
+        return hasDietaryRestrictions;
     }
 
-    public void setDietaryRestrictionsBool(Boolean dietaryRestrictionsBool) {
-        this.dietaryRestrictionsBool = dietaryRestrictionsBool;
+    public void setHasDietaryRestrictions(Boolean dietaryRestrictionsBool) {
+        this.hasDietaryRestrictions = dietaryRestrictionsBool;
     }
 
     public List<String> getIngredients() {

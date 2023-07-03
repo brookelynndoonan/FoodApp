@@ -38,7 +38,7 @@ public class AddNewRecipeControllerTest {
 
     @Test
     public void addNewRecipe_createRecipe_Successful() throws Exception {
-        String title = mockNeat.regex("[A-Z][a-zA-Z0-9 ]*").supplier().get(); //Jess figured this out.
+        String title = "Sample Recipe"; //Jess figured this out.
         String id = UUID.randomUUID().toString();
         String cuisine = mockNeat.regex("[A-Z][a-zA-Z0-9 ]*").supplier().get(); //Jess figured this out.
         String description = mockNeat.strings().valStr();
@@ -120,7 +120,7 @@ public class AddNewRecipeControllerTest {
         String instructions = mockNeat.strings().valStr();
 
         // WHEN
-        Recipe recipe = new Recipe(title, id, cuisine, description, dietaryRestrictions,
+        Recipe recipe = new Recipe(id, title, cuisine, description, dietaryRestrictions,
                 hasDietaryRestrictions, ingredients,instructions);
 
         Assertions.assertNull(recipe.getTitle());

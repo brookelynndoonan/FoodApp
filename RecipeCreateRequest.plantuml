@@ -1,0 +1,190 @@
+@startuml
+
+!theme plain
+left to right direction
+skinparam linetype ortho
+
+class Application {
+  + Application(): 
+  + main(String[]): void
+}
+class ApplicationStartUpListener {
+  + ApplicationStartUpListener(): 
+  + onApplicationEvent(ContextRefreshedEvent): void
+}
+enum Cuisine << enumeration >> {
+  + Cuisine(): 
+  + valueOf(String): Cuisine
+  + values(): Cuisine[]
+}
+enum DietaryRestrictions << enumeration >> {
+  + DietaryRestrictions(): 
+  + valueOf(String): DietaryRestrictions
+  + values(): DietaryRestrictions[]
+}
+class Enums {
+  + Enums(): 
+}
+class Ingredient {
+  + Ingredient(String, int, QuantityType): 
+  - name: String
+  - quantity: int
+  - ingredientString: String
+  - quantityType: QuantityType
+  + createIngredientFromIngredientString(String): Ingredient
+   quantityType: QuantityType
+   name: String
+   ingredientString: String
+   quantity: int
+}
+enum QuantityType << enumeration >> {
+  + QuantityType(): 
+  + values(): QuantityType[]
+  + valueOf(String): QuantityType
+}
+class Recipe {
+  + Recipe(String, String, String, String, String, boolean, List<String>, String): 
+  - id: String
+  - dietaryRestrictions: String
+  - description: String
+  - instructions: String
+  - title: String
+  - ingredients: List<String>
+  - cuisine: String
+  + hasDietaryRestrictions(): boolean
+   description: String
+   dietaryRestrictions: String
+   title: String
+   instructions: String
+   cuisine: String
+   ingredients: List<String>
+   id: String
+}
+class RecipeController {
+  + RecipeController(RecipeService): 
+  + getAllCuisine(String): ResponseEntity<List<RecipeResponse>>
+  + getAllDietaryRestrictions(String): ResponseEntity<List<RecipeResponse>>
+  + addNewRecipe(RecipeCreateRequest): ResponseEntity<RecipeResponse>
+  + getRecipeById(String): ResponseEntity<RecipeResponse>
+  - createRecipeResponse(Recipe): RecipeResponse
+}
+class RecipeCreateRequest {
+  + RecipeCreateRequest(): 
+  - ingredients: List<String>
+  - title: String
+  - instructions: String
+  - dietaryRestrictions: String
+  - id: String
+  - description: String
+  - cuisine: String
+  - dietaryRestrictionsBool: Boolean
+   description: String
+   dietaryRestrictions: String
+   title: String
+   dietaryRestrictionsBool: Boolean
+   instructions: String
+   cuisine: String
+   ingredients: List<String>
+   id: String
+}
+class RecipeMapper {
+  + RecipeMapper(): 
+  + toRecipe(RecipeRecord): Recipe
+  + toRecipeRecord(Recipe): RecipeRecord
+}
+class RecipeNotFoundException {
+  + RecipeNotFoundException(String): 
+}
+class RecipeRecord {
+  + RecipeRecord(): 
+  - id: String
+  - instructions: String
+  - title: String
+  - hasDietaryRestrictions: boolean
+  - ingredients: List<String>
+  - dietaryRestrictions: DietaryRestrictions
+  - description: String
+  - cuisine: Cuisine
+  + addIngredient(Ingredient): void
+  + hashCode(): int
+  + equals(Object): boolean
+  + hasDietaryRestrictions(): boolean
+   dietaryRestrictions: DietaryRestrictions
+   description: String
+   hasDietaryRestrictions: boolean
+   title: String
+   instructions: String
+   cuisine: Cuisine
+   ingredients: List<String>
+   id: String
+}
+interface RecipeRepository << interface >> {
+  + findByCuisine(Cuisine): List<RecipeRecord>
+  + findAll(): List<RecipeRecord>
+  + findByDietaryRestrictions(DietaryRestrictions): List<RecipeRecord>
+}
+class RecipeResponse {
+  + RecipeResponse(): 
+  - ingredients: List<String>
+  - instructions: String
+  - title: String
+  - dietaryRestrictionsBool: Boolean
+  - description: String
+  - dietaryRestrictions: String
+  - id: String
+  - cuisine: String
+   description: String
+   dietaryRestrictions: String
+   title: String
+   dietaryRestrictionsBool: Boolean
+   instructions: String
+   cuisine: String
+   ingredients: List<String>
+   id: String
+}
+class RecipeService {
+  + RecipeService(RecipeRepository): 
+  + getRecipesByDietaryRestrictions(String): List<Recipe>
+  + getRecipeById(String): RecipeRecord
+  + createRecipe(Recipe): Recipe
+  + getRecipesByCuisine(String): List<Recipe>
+   allRecipes: List<Recipe>
+}
+class Scheduler {
+  + Scheduler(): 
+}
+
+Cuisine                     +-[#820000,plain]-  Enums                      
+DietaryRestrictions         +-[#820000,plain]-  Enums                      
+Ingredient                  -[#595959,dashed]->  Enums                      
+Ingredient                 "1" *-[#595959,plain]-> "quantityType\n1" QuantityType               
+Ingredient                  +-[#820000,plain]-  RecipeRecord               
+QuantityType                +-[#820000,plain]-  Enums                      
+RecipeController            -[#595959,dashed]->  Recipe                     : "«create»"
+RecipeController            -[#595959,dashed]->  RecipeCreateRequest        
+RecipeController           "1" *-[#595959,plain]-> "recipeMapper\n1" RecipeMapper               
+RecipeController            -[#595959,dashed]->  RecipeNotFoundException    
+RecipeController            -[#595959,dashed]->  RecipeResponse             : "«create»"
+RecipeController           "1" *-[#595959,plain]-> "recipeService\n1" RecipeService              
+RecipeMapper                -[#595959,dashed]->  Cuisine                    
+RecipeMapper                -[#595959,dashed]->  DietaryRestrictions        
+RecipeMapper                -[#595959,dashed]->  Enums                      
+RecipeMapper                -[#595959,dashed]->  Recipe                     : "«create»"
+RecipeMapper                -[#595959,dashed]->  RecipeRecord               : "«create»"
+RecipeRecord               "1" *-[#595959,plain]-> "cuisine\n1" Cuisine                    
+RecipeRecord               "1" *-[#595959,plain]-> "dietaryRestrictions\n1" DietaryRestrictions        
+RecipeRecord                -[#595959,dashed]->  Enums                      
+RecipeRecord                -[#595959,dashed]->  Ingredient                 
+RecipeRepository            -[#595959,dashed]->  Cuisine                    
+RecipeRepository            -[#595959,dashed]->  DietaryRestrictions        
+RecipeRepository            -[#595959,dashed]->  Enums                      
+RecipeRepository            -[#595959,dashed]->  RecipeRecord               
+RecipeService               -[#595959,dashed]->  Cuisine                    
+RecipeService               -[#595959,dashed]->  DietaryRestrictions        
+RecipeService               -[#595959,dashed]->  Enums                      
+RecipeService               -[#595959,dashed]->  Recipe                     
+RecipeService               -[#595959,dashed]->  RecipeMapper               
+RecipeService               -[#595959,dashed]->  RecipeNotFoundException    : "«create»"
+RecipeService               -[#595959,dashed]->  RecipeRecord               
+RecipeService              "1" *-[#595959,plain]-> "recipeRepository\n1" RecipeRepository           
+@enduml
