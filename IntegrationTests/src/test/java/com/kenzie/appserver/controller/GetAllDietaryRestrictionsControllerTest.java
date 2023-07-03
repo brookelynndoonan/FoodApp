@@ -1,6 +1,5 @@
 package com.kenzie.appserver.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.RecipeResponse;
 import com.kenzie.appserver.service.RecipeService;
@@ -12,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,7 +52,7 @@ public class GetAllDietaryRestrictionsControllerTest {
         recipeOne.setCuisine(cuisine);
         recipeOne.setDescription(description);
         recipeOne.setDietaryRestrictions(dietaryRestrictions);
-        recipeOne.setDietaryRestrictionsBool(false);
+        recipeOne.setHasDietaryRestrictions(false);
         recipeOne.setIngredients(ingredients);
         recipeOne.setInstructions(instructions);
 
@@ -60,7 +62,7 @@ public class GetAllDietaryRestrictionsControllerTest {
         recipeTwo.setCuisine(cuisine);
         recipeTwo.setDescription(description);
         recipeTwo.setDietaryRestrictions(dietaryRestrictions);
-        recipeTwo.setDietaryRestrictionsBool(false);
+        recipeTwo.setHasDietaryRestrictions(false);
         recipeTwo.setIngredients(ingredients);
         recipeTwo.setInstructions(instructions);
 
@@ -68,7 +70,7 @@ public class GetAllDietaryRestrictionsControllerTest {
         recipeResponseList.add(recipeOne);
         recipeResponseList.add(recipeTwo);
 
-        List<Recipe> dietaryRecipeList = recipeService.findAllDietaryRestriction(
+        List<Recipe> dietaryRecipeList = recipeService.getRecipesByDietaryRestrictions(
                 dietaryRestrictionForServiceCall);
         mvc.perform(get("/recipes/dietaryRestrictions/{dietaryRestrictions}", dietaryRecipeList)
                         .accept(MediaType.APPLICATION_JSON))
