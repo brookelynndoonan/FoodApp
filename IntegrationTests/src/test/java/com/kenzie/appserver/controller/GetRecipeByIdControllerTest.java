@@ -48,7 +48,7 @@ public class GetRecipeByIdControllerTest {
         Recipe recipe = new Recipe(title, id, cuisine, description, dietaryRestrictions,
                 hasDietaryRestrictions, ingredients,instructions);
 
-        Recipe persistedRecipe = recipeService.addNewRecipe(recipe);
+        Recipe persistedRecipe = recipeService.createRecipe(recipe);
         mvc.perform(get("/recipes/{id}", persistedRecipe.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 // THEN
@@ -73,7 +73,7 @@ public class GetRecipeByIdControllerTest {
         String recipeId = null;
 
         assertThrows(IllegalArgumentException.class,
-                () -> recipeService.findRecipeByID(recipeId));
+                () -> recipeService.getRecipeById(recipeId));
 
     }
 

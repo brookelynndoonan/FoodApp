@@ -103,7 +103,7 @@ public class AddNewRecipeControllerTest {
 
 
         assertThrows(IllegalArgumentException.class,
-                () -> recipeService.addNewRecipe(recipe));
+                () -> recipeService.createRecipe(recipe));
 
     }
 
@@ -126,7 +126,7 @@ public class AddNewRecipeControllerTest {
         Assertions.assertNull(recipe.getTitle());
 
         assertThrows(IllegalArgumentException.class,
-                () -> recipeService.addNewRecipe(recipe));
+                () -> recipeService.createRecipe(recipe));
     }
 
     @Test
@@ -148,7 +148,7 @@ public class AddNewRecipeControllerTest {
         Assertions.assertNull(recipe.getCuisine());
 
         assertThrows(IllegalArgumentException.class,
-                () -> recipeService.addNewRecipe(recipe));
+                () -> recipeService.createRecipe(recipe));
     }
 
     @Test
@@ -170,7 +170,7 @@ public class AddNewRecipeControllerTest {
         Assertions.assertNull(recipe.getDescription());
 
         assertThrows(IllegalArgumentException.class,
-                () -> recipeService.addNewRecipe(recipe));
+                () -> recipeService.createRecipe(recipe));
     }
 
     @Test
@@ -196,7 +196,7 @@ public class AddNewRecipeControllerTest {
         Assertions.assertTrue(recipe.getDescription().length() > 250);
 
         assertThrows(IllegalArgumentException.class,
-                () -> recipeService.addNewRecipe(recipe));
+                () -> recipeService.createRecipe(recipe));
     }
 
     @Test
@@ -218,7 +218,7 @@ public class AddNewRecipeControllerTest {
         Assertions.assertNull(recipe.getDietaryRestrictions());
 
         assertThrows(IllegalArgumentException.class,
-                () -> recipeService.addNewRecipe(recipe));
+                () -> recipeService.createRecipe(recipe));
     }
 
     @Test
@@ -240,7 +240,7 @@ public class AddNewRecipeControllerTest {
         Assertions.assertNull(recipe.getInstructions());
 
         assertThrows(IllegalArgumentException.class,
-                () -> recipeService.addNewRecipe(recipe));
+                () -> recipeService.createRecipe(recipe));
     }
 
 
