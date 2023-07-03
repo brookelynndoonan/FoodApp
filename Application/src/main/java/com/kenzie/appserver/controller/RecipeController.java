@@ -3,8 +3,10 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.controller.model.RecipeResponse;
+import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.appserver.service.model.Recipe;
+import com.kenzie.appserver.service.model.RecipeMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/recipes")
 public class RecipeController {
+    private RecipeMapper recipeMapper;
 
     private final RecipeService recipeService;
 
@@ -25,8 +28,8 @@ public class RecipeController {
 
     //Retrieve Recipe by ID.
     @GetMapping("/{id}")
-    public ResponseEntity<RecipeResponse> getRecipeById(@PathVariable("id") String id) {
-        Recipe recipe = recipeService.getRecipeById(id);
+    public ResponseEntity<RecipeResponse> getRecipeById(@PathVariable("id") String id) throws RecipeNotFoundException {
+        Recipe recipe = RecipeMapper.toRecipe(recipeService.getRecipeById(id));
         if (recipe == null) {
             return ResponseEntity.notFound().build();
         }
@@ -48,7 +51,7 @@ public class RecipeController {
                 recipeCreateRequest.getIngredients(),
                 recipeCreateRequest.getInstructions());
 
-        recipeService.addNewRecipe(recipe);
+        recipeService.createRecipe(recipe);
 
         RecipeResponse recipeResponse = createRecipeResponse(recipe);
 
@@ -58,7 +61,7 @@ public class RecipeController {
     @GetMapping("/cuisine/{cuisine}")
     public ResponseEntity<List<RecipeResponse>> getAllCuisine(
             @PathVariable("cuisine") String cuisine) {
-        List<Recipe> recipes = recipeService.findAllCuisine(cuisine);
+        List<Recipe> recipes = recipeService.getRecipesByCuisine(cuisine);
         // Returns 204, if no recipes present.
         if (recipes == null ||  recipes.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -75,7 +78,7 @@ public class RecipeController {
     @GetMapping("/dietaryRestrictions/{dietaryRestrictions}")
     public ResponseEntity<List<RecipeResponse>> getAllDietaryRestrictions(
             @PathVariable("dietaryRestrictions") String dietaryRestrictions) {
-        List<Recipe> recipes = recipeService.findAllDietaryRestriction(dietaryRestrictions);
+        List<Recipe> recipes = recipeService.getRecipesByDietaryRestrictions(dietaryRestrictions);
         // Returns 204, if no recipes present.
         if (recipes == null ||  recipes.isEmpty()) {
             return ResponseEntity.noContent().build();

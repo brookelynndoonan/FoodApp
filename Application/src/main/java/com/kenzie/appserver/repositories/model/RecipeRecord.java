@@ -5,14 +5,15 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "Recipes")
 public class RecipeRecord {
 
-    private String title;
     private String id;
+    private String title;
     private Enums.Cuisine cuisine;
     private String description;
     private Enums.DietaryRestrictions dietaryRestrictions;
@@ -61,7 +62,7 @@ public class RecipeRecord {
     }
 
     public void setTitle(String title) {
-        if (title == null) {
+        if (title == null || title.trim().isEmpty()) {
             throw new IllegalArgumentException("Title must not be blank.");
         }
         String titlePattern = "[A-Z][a-zA-Z0-9 ]*";
@@ -162,22 +163,35 @@ public class RecipeRecord {
             if (quantity <= 0) {
                 throw new IllegalArgumentException("Ingredient quantity must be a positive value.");
             }
-            this.name = name;
+            this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
             this.quantity = quantity;
             this.quantityType = quantityType;
-            this.ingredientString = name + " " + quantity + " " + quantityType;
+            this.ingredientString = name + " " + quantity + " " + quantityType.toString().toLowerCase();
         }
 
         public static Ingredient createIngredientFromIngredientString(String ingredientString) {
-            String[] parts = ingredientString.split(" ", 3);
-            if (parts.length != 3) {
-                throw new IllegalArgumentException("Invalid ingredientString format: " + ingredientString);
-            }
+            // Split the ingredient string into parts (quantity, unit, name)
+            String[] parts = ingredientString.split(" ");
+
+            // Extract the quantity, unit, and name
             String name = parts[0];
             int quantity = Integer.parseInt(parts[1]);
-            Enums.QuantityType quantityType = Enums.QuantityType.valueOf(parts[2]);
-            return new Ingredient(name, quantity, quantityType);
+            String unit = parts[2];
+
+            // Convert the unit to uppercase for case-insensitive comparison
+            unit = unit.toUpperCase();
+
+            // Use a case-insensitive search to find the matching QuantityType enum constant
+            String finalUnit = unit;
+            Enums.QuantityType quantityType = Arrays.stream(Enums.QuantityType.values())
+                    .filter(q -> q.name().equalsIgnoreCase(finalUnit))
+                    .findFirst()
+                    .orElse(null);
+
+            // Create the Ingredient object
+            return new Ingredient(name, quantity, Enums.QuantityType.valueOf(unit));
         }
+
 
         public String getIngredientString() {
             return ingredientString;
