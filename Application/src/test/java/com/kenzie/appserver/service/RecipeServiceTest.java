@@ -51,13 +51,13 @@ class RecipeServiceTest {
         RecipeRecord recipeRecord = createRecipeRecord();
         when(recipeRepository.save(any(RecipeRecord.class))).thenReturn(recipeRecord);
 
-        Recipe createdRecipe = recipeService.createRecipe(recipe);
+        Recipe createdRecipe = recipeService.addNewRecipe(recipe);
 
         assertEquals(recipe.getTitle(), createdRecipe.getTitle());
         assertEquals(recipe.getCuisine(), createdRecipe.getCuisine());
         assertEquals(recipe.getDescription(), createdRecipe.getDescription());
         assertEquals(recipe.getDietaryRestrictions(), createdRecipe.getDietaryRestrictions());
-        assertEquals(recipe.hasDietaryRestrictions(), createdRecipe.hasDietaryRestrictions());
+        assertEquals(recipe.getGetHasDietaryRestrictions(), createdRecipe.getGetHasDietaryRestrictions());
         assertEquals(recipe.getIngredients(), createdRecipe.getIngredients());
 
         // Check the format of the instructions
@@ -145,8 +145,8 @@ class RecipeServiceTest {
 //        recipeRecord.setIngredients(ingredients);
 //        recipeRecord.setInstructions("Step 1\nStep 2\nStep 3");
 //        recipeRepository.save(recipeRecord);
-        RecipeMapper.toRecipeRecord(createRecipe());
-        return RecipeMapper.toRecipeRecord(createRecipe());
+        RecipeMapper.recipeToRecipeRecord(createRecipe());
+        return RecipeMapper.recipeToRecipeRecord(createRecipe());
     }
 
 

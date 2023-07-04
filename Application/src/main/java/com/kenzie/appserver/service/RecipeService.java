@@ -25,26 +25,22 @@ public class RecipeService {
     public List<Recipe> getAllRecipes() {
         List<RecipeRecord> recipeRecords = recipeRepository.findAll();
         return recipeRecords.stream()
-                .map(RecipeMapper::toRecipe)
+                .map(RecipeMapper::recipeToRecipeRecord)
                 .collect(Collectors.toList());
     }
 
-    public Recipe createRecipe(Recipe recipe) {
-        RecipeRecord recipeRecord = RecipeMapper.toRecipeRecord(recipe);
-        recipeRecord.setId(UUID.randomUUID().toString());
-        recipe.setId(recipeRecord.getId());
-        System.out.println("Before save in the service");
-        RecipeRecord savedRecipeRecord = recipeRepository.save(recipeRecord);
-        System.out.println("After save in the service" + recipeRecord.getId());
-
-        return RecipeMapper.toRecipe(savedRecipeRecord);
+    public Recipe addNewRecipe(Recipe recipe) {
+        recipe.setId(UUID.randomUUID().toString());
+        RecipeRecord recipeRecord = RecipeMapper.recipeToRecipeRecord(recipe);
+        recipeRepository.save(recipeRecord);
+        return recipe;
     }
 
     public List<Recipe> getRecipesByCuisine(String cuisine) {
         Enums.Cuisine cuisineEnum = Enums.Cuisine.valueOf(cuisine);
         List<RecipeRecord> recipeRecords = recipeRepository.findByCuisine(cuisineEnum);
         return recipeRecords.stream()
-                .map(RecipeMapper::toRecipe)
+                .map(RecipeMapper::recipeToRecipeRecord)
                 .collect(Collectors.toList());
     }
 
@@ -52,7 +48,7 @@ public class RecipeService {
         Enums.DietaryRestrictions dietaryRestrictionsEnum = Enums.DietaryRestrictions.valueOf(dietaryRestrictions);
         List<RecipeRecord> recipeRecords = recipeRepository.findByDietaryRestrictions(dietaryRestrictionsEnum);
         return recipeRecords.stream()
-                .map(RecipeMapper::toRecipe)
+                .map(RecipeMapper::recipeToRecipeRecord)
                 .collect(Collectors.toList());
     }
 

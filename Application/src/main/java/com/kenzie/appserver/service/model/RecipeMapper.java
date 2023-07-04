@@ -5,7 +5,7 @@ import com.kenzie.appserver.repositories.model.RecipeRecord;
 
 public class RecipeMapper {
 
-    public static Recipe toRecipe(RecipeRecord recipeRecord) {
+    public static Recipe recipeToRecipeRecord(RecipeRecord recipeRecord) {
         return new Recipe(
                 recipeRecord.getId(),
                 recipeRecord.getTitle(),
@@ -18,7 +18,7 @@ public class RecipeMapper {
         );
     }
 
-    public static RecipeRecord toRecipeRecord(Recipe recipe) {
+    public static RecipeRecord recipeToRecipeRecord(Recipe recipe) {
         RecipeRecord recipeRecord = new RecipeRecord();
 //      recipeRecord.setId(UUID.randomUUID().toString());
         recipeRecord.setTitle(recipe.getTitle());
@@ -27,7 +27,7 @@ public class RecipeMapper {
         recipeRecord.setDescription(recipe.getDescription());
         // Convert dietaryRestrictions from String to Enums.DietaryRestrictions
         recipeRecord.setDietaryRestrictions(Enums.DietaryRestrictions.valueOf(recipe.getDietaryRestrictions()));
-        recipeRecord.setHasDietaryRestrictions(recipe.hasDietaryRestrictions());
+        recipeRecord.setHasDietaryRestrictions(recipe.getGetHasDietaryRestrictions());
         recipeRecord.setIngredients(recipe.getIngredients());
         recipeRecord.setInstructions(recipe.getInstructions());
         return recipeRecord;

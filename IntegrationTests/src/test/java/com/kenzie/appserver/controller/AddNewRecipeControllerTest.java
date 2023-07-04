@@ -22,7 +22,6 @@ import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @IntegrationTest
 @SpringBootTest
@@ -47,17 +46,18 @@ public class AddNewRecipeControllerTest {
         ingredients.add("Ingredient 1 cup");
         ingredients.add("Ingredient 2 cups");
         Recipe recipe = new Recipe(
-                UUID.randomUUID().toString(),
+                null,
                 "Sample Recipe",
                 "Italian",
                 "A delicious Italian dish",
                 "Gluten Free",
                 true,
                 ingredients,
-                "Step 1, Step 2, Step 3"
-        );
+                "Step 1, Step 2, Step 3");
+    }
 
         RecipeCreateRequest recipeCreateRequest = new RecipeCreateRequest();
+        recipeCreateRequest.setId(recipe.getId());
         recipeCreateRequest.setTitle(recipe.getTitle());
         recipeCreateRequest.setCuisine(recipe.getCuisine().toUpperCase().replace(" ", "_"));
         recipeCreateRequest.setDescription(recipe.getDescription());
@@ -104,6 +104,6 @@ public class AddNewRecipeControllerTest {
                 false, ingredients, instructions);
 
         // THEN
-        Assertions.assertThrows(IllegalArgumentException.class, () -> recipeService.createRecipe(recipe));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> recipeService.addNewRecipe(recipe));
     }
 }

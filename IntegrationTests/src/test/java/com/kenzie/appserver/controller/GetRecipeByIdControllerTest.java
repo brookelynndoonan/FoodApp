@@ -48,7 +48,7 @@ public class GetRecipeByIdControllerTest {
         Recipe recipe = new Recipe(title, id, cuisine, description, dietaryRestrictions,
                 hasDietaryRestrictions, ingredients,instructions);
 
-        Recipe persistedRecipe = recipeService.createRecipe(recipe);
+        Recipe persistedRecipe = recipeService.addNewRecipe(recipe);
         mvc.perform(get("/recipes/{id}", persistedRecipe.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 // THEN
