@@ -3,17 +3,18 @@ package com.kenzie.appserver.controller.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class RecipeCreateRequest {
 
     @NotEmpty
-    @JsonProperty("title")
-    private String title;
-
-    @NotEmpty
     @JsonProperty("id")
     private String id;
+
+    @NotEmpty
+    @JsonProperty("title")
+    private String title;
 
     @NotEmpty
     @JsonProperty("cuisine")
@@ -28,9 +29,9 @@ public class RecipeCreateRequest {
     private String dietaryRestrictions;
 
 
-    @NotEmpty
-    @JsonProperty("dietaryRestrictionsBool")
-    private Boolean dietaryRestrictionsBool;
+    @NotNull
+    @JsonProperty("hasDietaryRestrictions")
+    private Boolean hasDietaryRestrictions = false;
 
     @NotEmpty
     @JsonProperty("ingredients")
@@ -40,20 +41,20 @@ public class RecipeCreateRequest {
     @JsonProperty("instructions")
     private String instructions;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getCuisine() {
@@ -80,12 +81,12 @@ public class RecipeCreateRequest {
         this.dietaryRestrictions = dietaryRestrictions;
     }
 
-    public Boolean getDietaryRestrictionsBool() {
-        return dietaryRestrictionsBool;
+    public Boolean getHasDietaryRestrictions() {
+        return hasDietaryRestrictions;
     }
 
-    public void setDietaryRestrictionsBool(Boolean dietaryRestrictionsBool) {
-        this.dietaryRestrictionsBool = dietaryRestrictionsBool;
+    public void setHasDietaryRestrictions(Boolean hasDietaryRestrictions) {
+        this.hasDietaryRestrictions = hasDietaryRestrictions;
     }
 
     public List<String> getIngredients() {

@@ -1,6 +1,5 @@
 package com.kenzie.appserver.repositories;
 
-
 import com.kenzie.appserver.repositories.model.Enums;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
@@ -16,5 +15,7 @@ public interface RecipeRepository extends CrudRepository<RecipeRecord, String> {
     List<RecipeRecord> findByCuisine(Enums.Cuisine cuisine);
 
     List<RecipeRecord> findByDietaryRestrictions(Enums.DietaryRestrictions dietaryRestrictions);
-}
 
+    List<RecipeRecord> findAll();
+
+}

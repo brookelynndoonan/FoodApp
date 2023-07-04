@@ -7,12 +7,12 @@ public class RecipeMapper {
 
     public static Recipe toRecipe(RecipeRecord recipeRecord) {
         return new Recipe(
-                recipeRecord.getTitle(),
                 recipeRecord.getId(),
+                recipeRecord.getTitle(),
                 recipeRecord.getCuisine().toString(),
                 recipeRecord.getDescription(),
                 recipeRecord.getDietaryRestrictions().toString(),
-                recipeRecord.hasDietaryRestrictions(),
+                recipeRecord.getHasDietaryRestrictions(),
                 recipeRecord.getIngredients(),
                 recipeRecord.getInstructions()
         );
@@ -20,8 +20,8 @@ public class RecipeMapper {
 
     public static RecipeRecord toRecipeRecord(Recipe recipe) {
         RecipeRecord recipeRecord = new RecipeRecord();
+//      recipeRecord.setId(UUID.randomUUID().toString());
         recipeRecord.setTitle(recipe.getTitle());
-        recipeRecord.setId(recipe.getId());
         // Convert cuisine from String to Enums.Cuisine
         recipeRecord.setCuisine(Enums.Cuisine.valueOf(recipe.getCuisine()));
         recipeRecord.setDescription(recipe.getDescription());

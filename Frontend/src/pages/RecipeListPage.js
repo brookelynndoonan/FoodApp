@@ -1,8 +1,12 @@
 import BaseClass from "../util/baseClass";
+import DataStore from "../util/DataStore";
+import RecipeListClient from "../api/RecipeListClient";
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 class RecipeListPage extends BaseClass {
 // Function to display recipes on the page
+
+
 
     displayRecipes(recipes) {
         // Get the recipe list container element
@@ -56,11 +60,6 @@ class RecipeListPage extends BaseClass {
 function goToHomePage() {
     window.location.href = 'HomePage.html';
 }
-
-
-
-
-
 
 }
 }

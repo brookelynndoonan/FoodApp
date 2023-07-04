@@ -32,6 +32,7 @@ public class Enums {
         TEASPOONS,
         TABLESPOONS,
         CUPS,
+        CUP,
         PIECES,
         PACKS
     }

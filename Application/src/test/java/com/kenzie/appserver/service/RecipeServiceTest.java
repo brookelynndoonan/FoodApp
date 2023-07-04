@@ -1,9 +1,11 @@
 package com.kenzie.appserver.service;
 
+import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.Enums;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
+import com.kenzie.appserver.service.model.RecipeMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -16,6 +18,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.util.AssertionErrors.fail;
 
 class RecipeServiceTest {
 
@@ -33,6 +36,7 @@ class RecipeServiceTest {
     @Test
     void testGetAllRecipes() {
         List<RecipeRecord> recipeRecords = createRecipeRecords();
+        recipeRepository.saveAll(recipeRecords);
         when(recipeRepository.findAll()).thenReturn(recipeRecords);
 
         List<Recipe> recipes = recipeService.getAllRecipes();
@@ -55,7 +59,16 @@ class RecipeServiceTest {
         assertEquals(recipe.getDietaryRestrictions(), createdRecipe.getDietaryRestrictions());
         assertEquals(recipe.hasDietaryRestrictions(), createdRecipe.hasDietaryRestrictions());
         assertEquals(recipe.getIngredients(), createdRecipe.getIngredients());
-        assertEquals(recipe.getInstructions(), createdRecipe.getInstructions());
+
+        // Check the format of the instructions
+        String[] expectedSteps = recipe.getInstructions().split("\n ");
+        String[] actualSteps = createdRecipe.getInstructions().split("\n");
+        assertEquals(expectedSteps.length, actualSteps.length);
+        for (int i = 0; i < expectedSteps.length; i++) {
+            String expectedStep = (i + 1) + ". " + expectedSteps[i];
+            assertEquals(expectedStep, actualSteps[i]);
+        }
+
         verify(recipeRepository, times(1)).save(any(RecipeRecord.class));
     }
 
@@ -86,49 +99,65 @@ class RecipeServiceTest {
         RecipeRecord recipeRecord = createRecipeRecord();
         when(recipeRepository.findById(anyString())).thenReturn(Optional.of(recipeRecord));
 
-        Optional<Recipe> recipe = recipeService.getRecipeById("12345");
+        try {
+            RecipeRecord recipe = recipeService.getRecipeById("12345");
 
-        assertEquals(recipeRecord.getTitle(), recipe.get().getTitle());
-        assertEquals(recipeRecord.getCuisine().toString(), recipe.get().getCuisine());
-        assertEquals(recipeRecord.getDescription(), recipe.get().getDescription());
-        assertEquals(recipeRecord.getDietaryRestrictions().toString(), recipe.get().getDietaryRestrictions());
-        assertEquals(recipeRecord.hasDietaryRestrictions(), recipe.get().hasDietaryRestrictions());
-        assertEquals(recipeRecord.getIngredients(), recipe.get().getIngredients());
-        assertEquals(recipeRecord.getInstructions(), recipe.get().getInstructions());
+            assertEquals(recipeRecord.getTitle(), recipe.getTitle());
+            assertEquals(recipeRecord.getCuisine().toString(), recipe.getCuisine().toString());
+            assertEquals(recipeRecord.getDescription(), recipe.getDescription());
+            assertEquals(recipeRecord.getDietaryRestrictions().toString(), recipe.getDietaryRestrictions().toString());
+            assertEquals(recipeRecord.getHasDietaryRestrictions(), recipe.getHasDietaryRestrictions());
+            assertEquals(recipeRecord.getIngredients(), recipe.getIngredients());
+            assertEquals(recipeRecord.getInstructions(), recipe.getInstructions());
+        } catch (NullPointerException e) {
+            // Handle the case when recipe is null
+            // You can throw an exception, fail the test, or take appropriate action based on your requirements
+            fail("Recipe is null");
+        } catch (RecipeNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
         verify(recipeRepository, times(1)).findById(anyString());
     }
+
 
     private List<RecipeRecord> createRecipeRecords() {
         List<RecipeRecord> recipeRecords = new ArrayList<>();
         recipeRecords.add(createRecipeRecord());
         recipeRecords.add(createRecipeRecord());
         recipeRecords.add(createRecipeRecord());
+        recipeRepository.saveAll(recipeRecords);
         return recipeRecords;
     }
 
     private RecipeRecord createRecipeRecord() {
-        RecipeRecord recipeRecord = new RecipeRecord();
-        recipeRecord.setId(UUID.randomUUID().toString());
-        recipeRecord.setTitle("Sample Recipe");
-        recipeRecord.setCuisine(Enums.Cuisine.ITALIAN);
-        recipeRecord.setDescription("A delicious Italian dish");
-        recipeRecord.setDietaryRestrictions(Enums.DietaryRestrictions.GLUTEN_FREE);
-        recipeRecord.setHasDietaryRestrictions(true);
-        List<String> ingredients = new ArrayList<>();
-        ingredients.add("Ingredient 1");
-        ingredients.add("Ingredient 2");
-        recipeRecord.setIngredients(ingredients);
-        recipeRecord.setInstructions("Step 1, Step 2, Step 3");
-        return recipeRecord;
+//        RecipeRecord recipeRecord = new RecipeRecord();
+//        recipeRecord.setId(UUID.randomUUID().toString());
+//        recipeRecord.setTitle("Sample Recipe");
+//        recipeRecord.setCuisine(Enums.Cuisine.ITALIAN);
+//        recipeRecord.setDescription("A delicious Italian dish");
+//        recipeRecord.setDietaryRestrictions(Enums.DietaryRestrictions.GLUTEN_FREE);
+//        recipeRecord.setHasDietaryRestrictions(true);
+//        List<String> ingredients = new ArrayList<>();
+//        ingredients.add("Ingredient 1 cup"); // Update ingredient string format
+//        ingredients.add("Ingredient 2 cup"); // Update ingredient string format
+//        recipeRecord.setIngredients(ingredients);
+//        recipeRecord.setIngredients(ingredients);
+//        recipeRecord.setInstructions("Step 1\nStep 2\nStep 3");
+//        recipeRepository.save(recipeRecord);
+        RecipeMapper.toRecipeRecord(createRecipe());
+        return RecipeMapper.toRecipeRecord(createRecipe());
     }
 
+
     private Recipe createRecipe() {
+
         List<String> ingredients = new ArrayList<>();
-        ingredients.add("Ingredient 1");
-        ingredients.add("Ingredient 2");
-        return new Recipe(
+        ingredients.add("Ingredient 1 cups");
+        ingredients.add("Ingredient 2 cups");
+        Recipe recipe = new Recipe(
+                UUID.randomUUID().toString(),
                 "Sample Recipe",
-                null,
                 "ITALIAN",
                 "A delicious Italian dish",
                 "GLUTEN_FREE",
@@ -136,5 +165,6 @@ class RecipeServiceTest {
                 ingredients,
                 "Step 1, Step 2, Step 3"
         );
+        return recipe;
     }
 }
