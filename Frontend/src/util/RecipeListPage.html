@@ -4,8 +4,26 @@
     <title>Recipe Search</title>
     <script src="RecipeListPage.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 </head>
 <body>
+<h2>Find your meal here</h2>
+<form id="search-recipe" role="search">
+    <input type="search" id="search-bar" required class="validated-field" name="q"
+           placeholder="Search..." >
+    <!-- filter button -->
+    <select class="category-dropdown" id="category-dropdown">
+        <option value="">Dietary Restrictions</option>
+        <option value="Dairy Free"> Dairy Free </option>
+        <option value="Gluten Free"> Gluten Free </option>
+        <option value="Vegan"> Vegan </option>
+    </select>
+    <button onclick="window.location.href = 'RecipeListPage.html';">Search</button> <!-- LINK THE SEARCH BAR TO LIST OF RECIPES THAT INCLUDE THE NAME -->
+</form>
+</div>
+
+
 <header><h1>Recipe list</h1></header>
 
 <ul id="recipe-list-container"></ul>
