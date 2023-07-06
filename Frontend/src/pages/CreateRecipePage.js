@@ -9,7 +9,7 @@ class CreateRecipePage extends BaseClass {
         const titleField = document.getElementById('title');
         const titleError = document.getElementById('title-error');
 
-        if (titleField.value.trim() === '') {
+        if (titleField.value.trim() == '') {
             titleError.textContent = 'Title is required.';
             return false;
         }
