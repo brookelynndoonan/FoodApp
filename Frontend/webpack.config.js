@@ -9,7 +9,7 @@ module.exports = {
   },
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'api', 'exampleClient.js'),
-    NewRecipePage: path.resolve(__dirname, 'src', 'pages', 'NewRecipePage.js'),
+    NewRecipePage: path.resolve(__dirname, 'src', 'pages', 'CreateRecipePage.js'),
     HomePage: path.resolve(__dirname, 'src', 'pages', 'HomePage.js'),
     RecipeDetailsPage: path.resolve(__dirname, 'src', 'pages', 'RecipeDetailsPage.js'),
     RecipeListPage: path.resolve(__dirname, 'src', 'pages', 'RecipeListPage.js'),
@@ -34,7 +34,7 @@ module.exports = {
     proxy: [
           {
             context: [
-              '/example', '/recipe'
+              '/example', '/recipes'
             ],
             target: 'http://localhost:5001'
           }
@@ -62,8 +62,8 @@ module.exports = {
       inject: false
     }),
     new HtmlWebpackPlugin({
-      template: './src/util/NewRecipePage.html',
-      filename: 'NewRecipePage.html',
+      template: './src/util/CreateRecipePage.html',
+      filename: 'CreateRecipePage.html',
       inject: false
     }),
     new CopyPlugin({

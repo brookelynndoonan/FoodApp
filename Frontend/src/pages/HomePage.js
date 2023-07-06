@@ -1,5 +1,6 @@
 import BaseClass from "../util/baseClass";
-
+import DataStore from "../util/DataStore";
+import HomeClient from "../api/HomeClient";
 
 class HomePage extends BaseClass {
     constructor() {
@@ -8,56 +9,77 @@ class HomePage extends BaseClass {
     }
 
     async mount() {
-        document.getElementById("form").addEventListener("submit", this.onGet);
-        document.getElementById("get-by-id-form").addEventListener("submit",this.onGet);
+        // Get the search form element
+        const searchForm = document.getElementById('search-recipe');
+
+        // Add an event listener for the form submission event
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            // Perform your search or other actions here
+            // You can retrieve the search query from the input field
+            const searchQuery = document.getElementById('search-bar').value;
+
+            // Perform the necessary actions with the search query
+            // For example, make an AJAX request or navigate to a new page
+
+            // Clear the input field
+            document.getElementById('search-bar').value = '';
+        });
+
+
+// Call the mount() method when the document has finished loading
+    document.addEventListener('DOMContentLoaded', function() {
+        mount();
+    });
 
     }
 
-    async renderPage() {
+    async renderHomePage() {
 
-            // Get the head element
-            // const head = document.getElementsByTagName('head')[0];
-            //
-            // // Create script elements for JavaScript files
-            // const script1 = document.createElement('script');
-            // script1.type = 'text/javascript';
-            // script1.src = 'HomePage.js';
-            //
-            // const script2 = document.createElement('script');
-            // script2.type = 'text/javascript';
-            // script2.src = 'CreateRecipePage.js';
-            //
-            // // Append the script elements to the head
-            // head.appendChild(script1);
-            // head.appendChild(script2);
-            //
-            // // Create link element for CSS file
-            // const link = document.createElement('link');
-            // // link.rel = 'stylesheet';
-            // // link.type = 'text/css';
-            // // link.href = 'css/style.css';
-            //
-            // // Append the link element to the head
-            // head.appendChild(link);
+           // Get the head element
+            let head = document.getElementsByTagName('head')[0];
+
+            // Create script elements for JavaScript files
+            let script1 = document.createElement('script');
+            script1.type = 'text/javascript';
+            script1.src = 'HomePage.js';
+
+            let script2 = document.createElement('script');
+            script2.type = 'text/javascript';
+            script2.src = 'CreateRecipePage.js';
+
+            // Append the script elements to the head
+            head.appendChild(script1);
+            head.appendChild(script2);
+
+            // Create link element for CSS file
+           let link = document.createElement('link');
+            // link.rel = 'stylesheet';
+            // link.type = 'text/css';
+            // link.href = 'css/style.css';
+
+            // Append the link element to the head
+            head.appendChild(link);
 
             // Get the body element
-            const body = document.getElementsByTagName('body')[0];
+            let body = document.getElementsByTagName('body')[0];
 
             // Create header element
-            const header = document.createElement('header');
+            let header = document.createElement('header');
             header.className = 'header';
             header.id = 'header';
 
             // Create div element for site title
-            const siteTitle = document.createElement('div');
+            let siteTitle = document.createElement('div');
             siteTitle.className = 'site-title';
 
             // Create h1 element for title
-            const h1 = document.createElement('h1');
+            let h1 = document.createElement('h1');
             h1.innerText = 'Foodie';
 
             // Create h5 element for subtitle
-            const h5 = document.createElement('h5');
+            let h5 = document.createElement('h5');
             h5.innerText = 'Foodie. Where people go to find and make meals that slap';
 
             siteTitle.appendChild(h1);
@@ -65,19 +87,19 @@ class HomePage extends BaseClass {
             header.appendChild(siteTitle);
             body.appendChild(header);
 
-            const searchCard = document.createElement('div');
+            let searchCard = document.createElement('div');
             searchCard.className = 'card';
 
-            const searchTitle = document.createElement('h2');
+            let searchTitle = document.createElement('h2');
             searchTitle.innerText = 'Find your meal here';
 
             // Create form element for search bar
-            const searchForm = document.createElement('form');
+            let searchForm = document.createElement('form');
             searchForm.id = 'form';
             searchForm.role = 'search';
 
             // Create input element for search bar
-            const searchBar = document.createElement('input');
+            let searchBar = document.createElement('input');
             searchBar.type = 'search';
             searchBar.id = 'search-bar';
             searchBar.required = true;
@@ -86,24 +108,24 @@ class HomePage extends BaseClass {
             searchBar.placeholder = 'Search...';
 
             // Create select element for filter dropdown
-            const filterDropdown = document.createElement('select');
+            let filterDropdown = document.createElement('select');
             filterDropdown.className = 'category-dropdown';
             filterDropdown.id = 'category-dropdown';
 
             // Create options for the filter dropdown
-            const dietaryRestrictions = document.createElement('option');
+            let dietaryRestrictions = document.createElement('option');
             dietaryRestrictions.value = '';
             dietaryRestrictions.innerText = 'Dietary Restrictions';
 
-            const dairyFree = document.createElement('option');
+            let dairyFree = document.createElement('option');
             dairyFree.value = 'Dairy Free';
             dairyFree.innerText = 'Dairy Free';
 
-            const glutenFree = document.createElement('option');
+            let glutenFree = document.createElement('option');
             glutenFree.value = 'Gluten Free';
             glutenFree.innerText = 'Gluten Free';
 
-            const vegan = document.createElement('option');
+            let vegan = document.createElement('option');
             vegan.value = 'Vegan';
             vegan.innerText = 'Vegan';
 
@@ -113,29 +135,52 @@ class HomePage extends BaseClass {
             filterDropdown.appendChild(glutenFree);
             filterDropdown.appendChild(vegan);
 
+            searchBar.addEventListener("submit", function (event) {event.preventDefault();
+            })
+
             // Create button element for search
-            const searchButton = document.createElement('button');
+            let searchButton = document.createElement('button');
             searchButton.innerText = '';
-        }
+     }
 
     async onGet(event) {
+        //prevents page refresh on submit
         event.preventDefault();
-        //search bar
+        // Get the search bar and category dropdown values
         let searchBar = document.getElementById("search-bar").value;
-        //category dropdown
         let categoryDropdown = document.getElementById("category-dropdown").value;
 
+        let queryString = `q=${searchBar}&category=${categoryDropdown}`;
+        let url = `http://localhost:5001/api/recipes${queryString}`;
 
+        let result = await this.client.getRecipe(searchBar, this.errorHandler);
+        this.dataStore.set("recipes", result);
+        if (result) {
+            this.showMessage(`Got ${result.name}!`);
+        } else {
+            this.errorHandler("Error doing GET! Try again...");
+        }
+
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // Process the received data (list of recipes) from the server
+                console.log(data);
+                // Perform further operations with the recipe data
+                // Redirect to the Recipe List Page or update the current page content
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
-    async onCreate(){
-
-
-    }
 }
     const main = async () => {
             const homePage = new HomePage();
             homePage.mount();
         };
 
-        window.addEventListener('DOMContentLoaded', main);
+$('#searchButton').click(performSearch);
+
+window.addEventListener('DOMContentLoaded', main);
