@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Recipe {
     private String id;
-    private String title;
-    private String cuisine;
-    private String description;
-    private String dietaryRestrictions;
-    private boolean getHasDietaryRestrictions;
-    private List<String> ingredients;
-    private String instructions;
+    private final String title;
+    private final String cuisine;
+    private final String description;
+    private final String dietaryRestrictions;
+    private final boolean getHasDietaryRestrictions;
+    private final List<String> ingredients;
+    private final String instructions;
 
     public Recipe(String id, String title, String cuisine, String description, String dietaryRestrictions, boolean getHasDietaryRestrictions, List<String> ingredients, String instructions) {
         this.title = title;
