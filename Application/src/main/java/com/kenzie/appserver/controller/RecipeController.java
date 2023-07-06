@@ -91,50 +91,12 @@ public class RecipeController {
 
         return ResponseEntity.created(URI.create("/recipe/" + recipeResponse.getId())).body(recipeResponse);
 
-//        recipe.setId(UUID.randomUUID().toString());
-//        if (recipe.getTitle() == null || recipe.getTitle().trim().isEmpty()) {
-//            throw new IllegalArgumentException("Title must not be blank.");
-//        }
-//        String titlePattern = "[A-Z][a-zA-Z0-9 ]*";
-//        if (!recipe.getTitle().matches(titlePattern)) {
-//            throw new IllegalArgumentException("Invalid title format. Title should start with a capital letter and contain only alphanumeric characters.");
-//        }
-//        if (recipe.getCuisine() == null) {
-//            throw new IllegalArgumentException("Cuisine must be selected.");
-//        }
-//        if (recipe.getDescription() == null || recipe.getDescription().isEmpty()) {
-//            throw new IllegalArgumentException("Description must not be null or empty.");
-//        }
-//        if (recipe.getDescription().length() > 250) {
-//            throw new IllegalArgumentException("Description must be less than or equal to 250 characters.");
-//        }
-//        if (recipe.getDietaryRestrictions() == null) {
-//            throw new IllegalArgumentException("Dietary restrictions must be selected.");
-//        }
-//        if (recipe.getIngredients() != null) {
-//            for (String ingredient : recipe.getIngredients()) {
-//                addIngredient(RecipeRecord.Ingredient.createIngredientFromIngredientString(ingredient));
-//            }
-//        }
-//        if (recipe.getInstructions() == null || recipe.getInstructions().isEmpty()) {
-//            throw new IllegalArgumentException("Instructions must not be null or empty.");
-//        }
-//
-//        RecipeRecord recipeRecord;
-//        recipeRecord = RecipeMapper.recipeToRecipeRecord(recipe);
-//        Recipe newRecipe = recipeService.addNewRecipe(recipe);
-//        recipeRepository.save(recipeRecord);
-//        System.out.println("RecipeController" + recipe.getId());
-//        RecipeResponse recipeResponse = createRecipeResponse(recipe);
-//
-//
-//        return ResponseEntity.created(URI.create("/create/" + recipeResponse.getId())).body(recipeResponse);
-
     }
+
 
     @GetMapping("/cuisine/{cuisine}")
     public ResponseEntity<List<RecipeResponse>> getRecipesByCuisine(@PathVariable("cuisine") String cuisine) {
-        List<Recipe> recipes = recipeService.getRecipesByCuisine(cuisine);
+        List<Recipe> recipes = recipeService.getRecipesByCuisine(cuisine.toUpperCase().replace(" ", "_"));
         List<RecipeResponse> recipeResponses = recipes.stream()
                 .map(this::createRecipeResponse)
                 .collect(Collectors.toList());
@@ -162,6 +124,4 @@ public class RecipeController {
         recipeResponse.setInstructions(recipe.getInstructions());
         return recipeResponse;
     }
-
-
 }
