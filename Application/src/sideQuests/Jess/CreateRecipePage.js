@@ -286,45 +286,32 @@ function populateCuisineOptions() {
 function populateDietaryRestrictionsOptions() {
     const dietaryRestrictionsContainer = document.getElementById('checkbox-container');
 
-    fetch('http://localhost:5001/api/dietaryRestrictionsOptions') // Update the endpoint to match your backend API
+    fetch('http://localhost:5001/api/dietaryRestrictionsOptions')
         .then(response => response.json())
         .then(data => {
-            for (const option of data) {
-                const formattedOption = option.charAt(0).toUpperCase() + option.slice(1).toLowerCase().replace('_', ' ');
+            const dietaryRestrictionsOptions = data;
 
+            dietaryRestrictionsOptions.forEach(option => {
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
-                checkbox.name = 'restriction';
-                checkbox.value = option.toLowerCase();
+                checkbox.name = 'dietary-restriction';
+                checkbox.value = option;
+                checkbox.id = option;
 
                 const label = document.createElement('label');
-                label.htmlFor = 'chk-' + option.toLowerCase();
-                label.textContent = formattedOption;
+                label.textContent = option;
+                label.htmlFor = option;
 
-                const checkboxContainer = document.createElement('div');
-                checkboxContainer.className = 'checkbox-container';
-                checkboxContainer.appendChild(checkbox);
-                checkboxContainer.appendChild(label);
-
-                dietaryRestrictionsContainer.appendChild(checkboxContainer);
-            }
-
-            // Add event listener to "None" option
-            const noneCheckbox = document.querySelector('input[value="none"]');
-            noneCheckbox.addEventListener('change', () => {
-                if (noneCheckbox.checked) {
-                    setHasDietaryRestrictions(false);
-                }
+                dietaryRestrictionsContainer.appendChild(checkbox);
+                dietaryRestrictionsContainer.appendChild(label);
+                dietaryRestrictionsContainer.appendChild(document.createElement('br'));
             });
         })
         .catch(error => {
             console.error('Error fetching dietary restrictions options:', error);
         });
-
-    // Add an event listener to the form submit button
-    const submitButton = document.getElementById('submit-button');
-    submitButton.addEventListener('click', validateForm);
 }
+
 
 function setHasDietaryRestrictions(hasDietaryRestrictions) {
     const hasDietaryRestrictionsInput = document.getElementById('has-dietary-restrictions-input');

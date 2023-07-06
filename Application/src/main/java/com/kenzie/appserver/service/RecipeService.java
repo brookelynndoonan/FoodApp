@@ -37,7 +37,8 @@ public class RecipeService {
         recipeRecord.setCuisine(recipe.getCuisine());
         recipeRecord.setDescription(recipe.getDescription());
         recipeRecord.setDietaryRestrictions(recipe.getDietaryRestrictions());
-        recipeRecord.setHasDietaryRestrictions(recipeRecord.getHasDietaryRestrictions());
+        recipeRecord.setHasDietaryRestrictions(recipe.getHasDietaryRestrictions());
+        recipeRecord.setIngredients(recipe.getIngredients());
         recipeRecord.setInstructions(recipe.getInstructions());
         recipeRepository.save(recipeRecord);
         return recipe;
@@ -53,7 +54,7 @@ public class RecipeService {
 //    }
 
     public List<Recipe> getRecipesByCuisine(String cuisine) {
-        List<RecipeRecord> recipeRecords = recipeRepository.findByCuisine(cuisine);
+        List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineIgnoreCase(cuisine);
         return recipeRecords.stream()
                 .map(RecipeMapper::recipeRecordtoRecipe)
                 .collect(Collectors.toList());
