@@ -1,7 +1,6 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
 import RecipeListClient from "../api/RecipeListClient";
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 class RecipeListPage extends BaseClass {
 // Function to display recipes on the page
@@ -9,8 +8,6 @@ class RecipeListPage extends BaseClass {
 
 
     displayRecipes(recipes) {
-
-
 // Fetch recipe data from backend endpoint
         fetch('/recipes')
             .then(response => response.json())
