@@ -23,8 +23,14 @@ public class Recipe {
         this.ingredients = ingredients;
         this.instructions = instructions;
     }
-
-    public Recipe() {
+    public Recipe(String title, String cuisine, String description, String dietaryRestrictions, boolean getHasDietaryRestrictions, List<String> ingredients, String instructions) {
+        this.title = title;
+        this.cuisine = cuisine;
+        this.description = description;
+        this.dietaryRestrictions = dietaryRestrictions;
+        this.getHasDietaryRestrictions = getHasDietaryRestrictions;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
     }
 
     public String getTitle() {
@@ -32,7 +38,7 @@ public class Recipe {
     }
 
     public String getCuisine() {
-        return cuisine.toUpperCase().replace(" ", "_");
+        return cuisine;
     }
 
     public String getDescription() {
@@ -40,10 +46,10 @@ public class Recipe {
     }
 
     public String getDietaryRestrictions() {
-        return dietaryRestrictions.toUpperCase().replace(" ", "_");
+        return dietaryRestrictions;
     }
 
-    public boolean getGetHasDietaryRestrictions() {
+    public boolean getHasDietaryRestrictions() {
         return getHasDietaryRestrictions;
     }
 

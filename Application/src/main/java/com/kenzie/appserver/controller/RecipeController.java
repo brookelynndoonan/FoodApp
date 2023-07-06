@@ -2,33 +2,64 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.controller.model.RecipeResponse;
+import com.kenzie.appserver.converters.RecipeMapper;
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
+import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.appserver.service.model.Recipe;
-import com.kenzie.appserver.service.model.RecipeMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static java.util.UUID.randomUUID;
 
 @RestController
 @RequestMapping("/recipes")
 public class RecipeController {
 
-    private RecipeService recipeService;
+    private RecipeRepository recipeRepository;
+    private RecipeMapper recipeMapper;
+    private final RecipeService recipeService;
+    private List<String> ingredients;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
 
+
+
+    @GetMapping
+    public ResponseEntity<List<RecipeResponse>> getAllRecipes() {
+        List<Recipe> recipes = recipeService.getAllRecipes();
+
+        List<RecipeResponse> recipeResponses = recipes.stream()
+                .map(recipe -> {
+                    RecipeResponse recipeResponse = new RecipeResponse();
+                    recipeResponse.setId(recipe.getId());
+                    recipeResponse.setTitle(recipe.getTitle());
+                    recipeResponse.setCuisine(recipe.getCuisine());
+                    recipeResponse.setDescription(recipe.getDescription());
+                    recipeResponse.setDietaryRestrictions(recipe.getDietaryRestrictions());
+                    recipeResponse.setHasDietaryRestrictions(recipe.getHasDietaryRestrictions());
+                    recipeResponse.setIngredients(recipe.getIngredients());
+                    recipeResponse.setInstructions(recipe.getInstructions());
+                    return recipeResponse;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(recipeResponses);
+    }
+
+
+
     @GetMapping("/{id}")
     public ResponseEntity<RecipeResponse> getRecipeById(@PathVariable("id") String id) throws RecipeNotFoundException {
         RecipeRecord recipeRecord = recipeService.getRecipeById(id);
-        Recipe recipe = RecipeMapper.recipeToRecipeRecord(recipeRecord);
+        Recipe recipe = RecipeMapper.recipeRecordtoRecipe(recipeRecord);
         if (recipe == null) {
             return ResponseEntity.notFound().build();
         }
@@ -38,8 +69,7 @@ public class RecipeController {
 
     @PostMapping
     public ResponseEntity<RecipeResponse> addNewRecipe(@RequestBody RecipeCreateRequest recipeCreateRequest) {
-        Recipe recipe = new Recipe(
-                UUID.randomUUID().toString(),
+        Recipe recipe = new Recipe(randomUUID().toString(),
                 recipeCreateRequest.getTitle(),
                 recipeCreateRequest.getCuisine(),
                 recipeCreateRequest.getDescription(),
@@ -49,35 +79,58 @@ public class RecipeController {
                 recipeCreateRequest.getInstructions());
         recipeService.addNewRecipe(recipe);
 
-        RecipeResponse recipeResponse = createRecipeResponse(recipe);
+        RecipeResponse recipeResponse = new RecipeResponse();
+        recipeResponse.setId(recipe.getId());
+        recipeResponse.setTitle(recipe.getTitle());
+        recipeResponse.setCuisine(recipe.getCuisine());
+        recipeResponse.setDescription(recipe.getDescription());
+        recipeResponse.setDietaryRestrictions(recipe.getDietaryRestrictions());
+        recipeResponse.setHasDietaryRestrictions(recipe.getHasDietaryRestrictions());
+        recipeResponse.setIngredients(recipe.getIngredients());
+        recipeResponse.setInstructions(recipe.getInstructions());
 
         return ResponseEntity.created(URI.create("/recipe/" + recipeResponse.getId())).body(recipeResponse);
+
+//        recipe.setId(UUID.randomUUID().toString());
+//        if (recipe.getTitle() == null || recipe.getTitle().trim().isEmpty()) {
+//            throw new IllegalArgumentException("Title must not be blank.");
+//        }
+//        String titlePattern = "[A-Z][a-zA-Z0-9 ]*";
+//        if (!recipe.getTitle().matches(titlePattern)) {
+//            throw new IllegalArgumentException("Invalid title format. Title should start with a capital letter and contain only alphanumeric characters.");
+//        }
+//        if (recipe.getCuisine() == null) {
+//            throw new IllegalArgumentException("Cuisine must be selected.");
+//        }
+//        if (recipe.getDescription() == null || recipe.getDescription().isEmpty()) {
+//            throw new IllegalArgumentException("Description must not be null or empty.");
+//        }
+//        if (recipe.getDescription().length() > 250) {
+//            throw new IllegalArgumentException("Description must be less than or equal to 250 characters.");
+//        }
+//        if (recipe.getDietaryRestrictions() == null) {
+//            throw new IllegalArgumentException("Dietary restrictions must be selected.");
+//        }
+//        if (recipe.getIngredients() != null) {
+//            for (String ingredient : recipe.getIngredients()) {
+//                addIngredient(RecipeRecord.Ingredient.createIngredientFromIngredientString(ingredient));
+//            }
+//        }
+//        if (recipe.getInstructions() == null || recipe.getInstructions().isEmpty()) {
+//            throw new IllegalArgumentException("Instructions must not be null or empty.");
+//        }
+//
+//        RecipeRecord recipeRecord;
+//        recipeRecord = RecipeMapper.recipeToRecipeRecord(recipe);
+//        Recipe newRecipe = recipeService.addNewRecipe(recipe);
+//        recipeRepository.save(recipeRecord);
+//        System.out.println("RecipeController" + recipe.getId());
+//        RecipeResponse recipeResponse = createRecipeResponse(recipe);
+//
+//
+//        return ResponseEntity.created(URI.create("/create/" + recipeResponse.getId())).body(recipeResponse);
+
     }
-
-//    @PostMapping
-//    public ResponseEntity<ExampleResponse> addNewConcert(@RequestBody ExampleCreateRequest exampleCreateRequest) {
-//        Example example = new Example(randomUUID().toString(),
-//                exampleCreateRequest.getName());
-//        exampleService.addNewExample(example);
-//
-//        ExampleResponse exampleResponse = new ExampleResponse();
-//        exampleResponse.setId(example.getId());
-//        exampleResponse.setName(example.getName());
-//
-//        return ResponseEntity.created(URI.create("/example/" + exampleResponse.getId())).body(exampleResponse);
-//    }
-//}
-
-//           System.out.println("Recipe Record ID: " + recipeCreateRequest.getId());
-//        System.out.println("Recipe Record Title: " + recipeCreateRequest.getTitle());
-//        System.out.println("Recipe Record Cuisine: " + recipeCreateRequest.getCuisine());
-//        System.out.println("Recipe Record Description: " + recipeCreateRequest.getDescription());
-//        System.out.println("Recipe Record Dietary Restrictions: " + recipeCreateRequest.getDietaryRestrictions());
-//        System.out.println("Recipe Record Has Dietary Restrictions: " + recipeCreateRequest.getHasDietaryRestrictions());
-//        System.out.println("Recipe Record Ingredients: " + recipeCreateRequest.getIngredients());
-//        System.out.println("Recipe Record Instructions: " + recipeCreateRequest.getInstructions());
-//        System.out.println("After Create Recipe in RecipeController.java");
-
 
     @GetMapping("/cuisine/{cuisine}")
     public ResponseEntity<List<RecipeResponse>> getRecipesByCuisine(@PathVariable("cuisine") String cuisine) {
@@ -104,10 +157,11 @@ public class RecipeController {
         recipeResponse.setCuisine(recipe.getCuisine());
         recipeResponse.setDescription(recipe.getDescription());
         recipeResponse.setDietaryRestrictions(recipe.getDietaryRestrictions());
-        recipeResponse.setHasDietaryRestrictions(recipe.getGetHasDietaryRestrictions());
+        recipeResponse.setHasDietaryRestrictions(recipe.getHasDietaryRestrictions());
         recipeResponse.setIngredients(recipe.getIngredients());
         recipeResponse.setInstructions(recipe.getInstructions());
         return recipeResponse;
     }
+
 
 }

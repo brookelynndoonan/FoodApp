@@ -219,7 +219,7 @@ function createRecipe() {
     };
 
     // Send a POST request to the back-end API to create the recipe
-    fetch('/api/recipes', {
+    fetch('/api/recipes/create', {
         method: 'POST', headers: {
             'Content-Type': 'application/json'
         }, body: JSON.stringify(recipe)
