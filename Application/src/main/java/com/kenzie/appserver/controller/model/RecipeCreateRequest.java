@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.UUID;
 
 public class RecipeCreateRequest {
 
@@ -42,63 +43,63 @@ public class RecipeCreateRequest {
     private String instructions;
 
     public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        return UUID.randomUUID().toString();
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getCuisine() {
         return cuisine;
-    }
-
-    public void setCuisine(String cuisine) {
-        this.cuisine = cuisine;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getDietaryRestrictions() {
         return dietaryRestrictions;
-    }
-
-    public void setDietaryRestrictions(String dietaryRestrictions) {
-        this.dietaryRestrictions = dietaryRestrictions;
     }
 
     public Boolean getHasDietaryRestrictions() {
         return hasDietaryRestrictions;
     }
 
-    public void setHasDietaryRestrictions(Boolean hasDietaryRestrictions) {
-        this.hasDietaryRestrictions = hasDietaryRestrictions;
-    }
-
     public List<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<String> ingredients) {
-        this.ingredients = ingredients;
-    }
-
     public String getInstructions() {
         return instructions;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setCuisine(String cuisine) {
+        this.cuisine = cuisine;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDietaryRestrictions(String dietaryRestrictions) {
+        this.dietaryRestrictions = dietaryRestrictions;
+    }
+
+    public void setHasDietaryRestrictions(Boolean hasDietaryRestrictions) {
+        this.hasDietaryRestrictions = hasDietaryRestrictions;
+    }
+
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public void setInstructions(String instructions) {
