@@ -29,119 +29,119 @@ class HomePage extends BaseClass {
 
 
 // Call the mount() method when the document has finished loading
-    document.addEventListener('DOMContentLoaded', function() {
-        mount();
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            mount();
+        });
 
     }
 
     async renderHomePage() {
 
-           // Get the head element
-            let head = document.getElementsByTagName('head')[0];
+        // Get the head element
+        let head = document.getElementsByTagName('head')[0];
 
-            // Create script elements for JavaScript files
-            let script1 = document.createElement('script');
-            script1.type = 'text/javascript';
-            script1.src = 'HomePage.js';
+        // Create script elements for JavaScript files
+        let script1 = document.createElement('script');
+        script1.type = 'text/javascript';
+        script1.src = 'HomePage.js';
 
-            let script2 = document.createElement('script');
-            script2.type = 'text/javascript';
-            script2.src = 'CreateRecipePage.js';
+        let script2 = document.createElement('script');
+        script2.type = 'text/javascript';
+        script2.src = 'CreateRecipePage.js';
 
-            // Append the script elements to the head
-            head.appendChild(script1);
-            head.appendChild(script2);
+        // Append the script elements to the head
+        head.appendChild(script1);
+        head.appendChild(script2);
 
-            // Create link element for CSS file
-           let link = document.createElement('link');
-            // link.rel = 'stylesheet';
-            // link.type = 'text/css';
-            // link.href = 'css/style.css';
+        // Create link element for CSS file
+        let link = document.createElement('link');
+        // link.rel = 'stylesheet';
+        // link.type = 'text/css';
+        // link.href = 'css/style.css';
 
-            // Append the link element to the head
-            head.appendChild(link);
+        // Append the link element to the head
+        head.appendChild(link);
 
-            // Get the body element
-            let body = document.getElementsByTagName('body')[0];
+        // Get the body element
+        let body = document.getElementsByTagName('body')[0];
 
-            // Create header element
-            let header = document.createElement('header');
-            header.className = 'header';
-            header.id = 'header';
+        // Create header element
+        let header = document.createElement('header');
+        header.className = 'header';
+        header.id = 'header';
 
-            // Create div element for site title
-            let siteTitle = document.createElement('div');
-            siteTitle.className = 'site-title';
+        // Create div element for site title
+        let siteTitle = document.createElement('div');
+        siteTitle.className = 'site-title';
 
-            // Create h1 element for title
-            let h1 = document.createElement('h1');
-            h1.innerText = 'Foodie';
+        // Create h1 element for title
+        let h1 = document.createElement('h1');
+        h1.innerText = 'Foodie';
 
-            // Create h5 element for subtitle
-            let h5 = document.createElement('h5');
-            h5.innerText = 'Foodie. Where people go to find and make meals that slap';
+        // Create h5 element for subtitle
+        let h5 = document.createElement('h5');
+        h5.innerText = 'Foodie. Where people go to find and make meals that slap';
 
-            siteTitle.appendChild(h1);
-            siteTitle.appendChild(h5);
-            header.appendChild(siteTitle);
-            body.appendChild(header);
+        siteTitle.appendChild(h1);
+        siteTitle.appendChild(h5);
+        header.appendChild(siteTitle);
+        body.appendChild(header);
 
-            let searchCard = document.createElement('div');
-            searchCard.className = 'card';
+        let searchCard = document.createElement('div');
+        searchCard.className = 'card';
 
-            let searchTitle = document.createElement('h2');
-            searchTitle.innerText = 'Find your meal here';
+        let searchTitle = document.createElement('h2');
+        searchTitle.innerText = 'Find your meal here';
 
-            // Create form element for search bar
-            let searchForm = document.createElement('form');
-            searchForm.id = 'form';
-            searchForm.role = 'search';
+        // Create form element for search bar
+        let searchForm = document.createElement('form');
+        searchForm.id = 'form';
+        searchForm.role = 'search';
 
-            // Create input element for search bar
-            let searchBar = document.createElement('input');
-            searchBar.type = 'search';
-            searchBar.id = 'search-bar';
-            searchBar.required = true;
-            searchBar.className = 'validated-field';
-            searchBar.name = 'q';
-            searchBar.placeholder = 'Search...';
+        // Create input element for search bar
+        let searchBar = document.createElement('input');
+        searchBar.type = 'search';
+        searchBar.id = 'search-bar';
+        searchBar.required = true;
+        searchBar.className = 'validated-field';
+        searchBar.name = 'q';
+        searchBar.placeholder = 'Search...';
 
-            // Create select element for filter dropdown
-            let filterDropdown = document.createElement('select');
-            filterDropdown.className = 'category-dropdown';
-            filterDropdown.id = 'category-dropdown';
+        // Create select element for filter dropdown
+        let filterDropdown = document.createElement('select');
+        filterDropdown.className = 'category-dropdown';
+        filterDropdown.id = 'category-dropdown';
 
-            // Create options for the filter dropdown
-            let dietaryRestrictions = document.createElement('option');
-            dietaryRestrictions.value = '';
-            dietaryRestrictions.innerText = 'Dietary Restrictions';
+        // Create options for the filter dropdown
+        let dietaryRestrictions = document.createElement('option');
+        dietaryRestrictions.value = '';
+        dietaryRestrictions.innerText = 'Dietary Restrictions';
 
-            let dairyFree = document.createElement('option');
-            dairyFree.value = 'Dairy Free';
-            dairyFree.innerText = 'Dairy Free';
+        let dairyFree = document.createElement('option');
+        dairyFree.value = 'Dairy Free';
+        dairyFree.innerText = 'Dairy Free';
 
-            let glutenFree = document.createElement('option');
-            glutenFree.value = 'Gluten Free';
-            glutenFree.innerText = 'Gluten Free';
+        let glutenFree = document.createElement('option');
+        glutenFree.value = 'Gluten Free';
+        glutenFree.innerText = 'Gluten Free';
 
-            let vegan = document.createElement('option');
-            vegan.value = 'Vegan';
-            vegan.innerText = 'Vegan';
+        let vegan = document.createElement('option');
+        vegan.value = 'Vegan';
+        vegan.innerText = 'Vegan';
 
-            // Append options to the filter dropdown
-            filterDropdown.appendChild(dietaryRestrictions);
-            filterDropdown.appendChild(dairyFree);
-            filterDropdown.appendChild(glutenFree);
-            filterDropdown.appendChild(vegan);
+        // Append options to the filter dropdown
+        filterDropdown.appendChild(dietaryRestrictions);
+        filterDropdown.appendChild(dairyFree);
+        filterDropdown.appendChild(glutenFree);
+        filterDropdown.appendChild(vegan);
 
-            searchBar.addEventListener("submit", function (event) {event.preventDefault();
-            })
+        searchBar.addEventListener("submit", function (event) {event.preventDefault();
+        })
 
-            // Create button element for search
-            let searchButton = document.createElement('button');
-            searchButton.innerText = '';
-     }
+        // Create button element for search
+        let searchButton = document.createElement('button');
+        searchButton.innerText = '';
+    }
 
     async onGet(event) {
         //prevents page refresh on submit
@@ -176,10 +176,10 @@ class HomePage extends BaseClass {
     }
 
 }
-    const main = async () => {
-            const homePage = new HomePage();
-            homePage.mount();
-        };
+const main = async () => {
+    const homePage = new HomePage();
+    homePage.mount();
+};
 
 $('#searchButton').click(performSearch);
 

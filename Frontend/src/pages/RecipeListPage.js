@@ -62,8 +62,8 @@ class RecipeListPage extends BaseClass {
 //     window.location.href = 'HomePage.html';
 // }
 
-}
+    }
 }
 
-    // Bind the search button click event to trigger the search
-   $('#searchButton').click(performSearch);
+// Bind the search button click event to trigger the search
+$('#searchButton').click(performSearch);
