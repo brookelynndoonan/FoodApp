@@ -42,13 +42,28 @@ public class RecipeCreateRequest {
     private String instructions;
 
     public String getId() {
+<<<<<<< HEAD
         return UUID.randomUUID().toString();
+=======
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+>>>>>>> 6d637a0 (Still trying to figure out why @DynamoDBTyped error)
     }
 
     public String getTitle() {
         return title;
     }
 
+<<<<<<< HEAD
+=======
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+>>>>>>> 6d637a0 (Still trying to figure out why @DynamoDBTyped error)
     public String getCuisine() {
         return cuisine;
     }
