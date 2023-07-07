@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-//for merge
 module.exports = {
   optimization: {
     usedExports: true
@@ -32,13 +31,13 @@ module.exports = {
     //http://localhost:5001/example/bob and sent to the backend that way.
     //uncomment the following proxy section to make the example work
     proxy: [
-          {
-            context: [
-              '/example', '/recipes'
-            ],
-            target: 'http://localhost:5001'
-          }
-        ]
+      {
+        context: [
+          '/example', '/recipe'
+        ],
+        target: 'http://localhost:5001'
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
