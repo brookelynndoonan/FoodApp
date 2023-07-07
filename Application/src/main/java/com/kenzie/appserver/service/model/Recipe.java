@@ -38,7 +38,7 @@ public class Recipe {
     }
 
     public String getCuisine() {
-        return cuisine;
+        return cuisine.toUpperCase().replace(" ", "_");
     }
 
     public String getDescription() {
@@ -46,7 +46,7 @@ public class Recipe {
     }
 
     public String getDietaryRestrictions() {
-        return dietaryRestrictions;
+        return dietaryRestrictions.toUpperCase().replace(" ", "_");
     }
 
     public boolean getHasDietaryRestrictions() {

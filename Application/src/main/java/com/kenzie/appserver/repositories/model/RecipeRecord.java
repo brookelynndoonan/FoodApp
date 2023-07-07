@@ -95,8 +95,8 @@ public class RecipeRecord {
     public void setIngredients(List<String> ingredients) {
 //        if (ingredients != null) {
 //            for (String ingredient : ingredients) {
-               this.ingredients = ingredients;
-            }
+        this.ingredients = ingredients;
+    }
 //        }
 //    }
 //
