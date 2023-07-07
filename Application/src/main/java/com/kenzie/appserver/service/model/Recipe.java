@@ -9,17 +9,26 @@ public class Recipe {
     private final String cuisine;
     private final String description;
     private final String dietaryRestrictions;
-    private final boolean hasDietaryRestrictions;
+    private final boolean getHasDietaryRestrictions;
     private final List<String> ingredients;
     private final String instructions;
 
-    public Recipe(String id, String title, String cuisine, String description, String dietaryRestrictions, boolean hasDietaryRestrictions, List<String> ingredients, String instructions) {
+    public Recipe(String id, String title, String cuisine, String description, String dietaryRestrictions, boolean getHasDietaryRestrictions, List<String> ingredients, String instructions) {
         this.title = title;
         this.id = id;
         this.cuisine = cuisine;
         this.description = description;
         this.dietaryRestrictions = dietaryRestrictions;
-        this.hasDietaryRestrictions = hasDietaryRestrictions;
+        this.getHasDietaryRestrictions = getHasDietaryRestrictions;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+    }
+    public Recipe(String title, String cuisine, String description, String dietaryRestrictions, boolean getHasDietaryRestrictions, List<String> ingredients, String instructions) {
+        this.title = title;
+        this.cuisine = cuisine;
+        this.description = description;
+        this.dietaryRestrictions = dietaryRestrictions;
+        this.getHasDietaryRestrictions = getHasDietaryRestrictions;
         this.ingredients = ingredients;
         this.instructions = instructions;
     }
@@ -40,8 +49,8 @@ public class Recipe {
         return dietaryRestrictions.toUpperCase().replace(" ", "_");
     }
 
-    public boolean hasDietaryRestrictions() {
-        return hasDietaryRestrictions;
+    public boolean getHasDietaryRestrictions() {
+        return getHasDietaryRestrictions;
     }
 
     public List<String> getIngredients() {
