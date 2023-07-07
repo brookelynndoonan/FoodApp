@@ -1,5 +1,5 @@
 package com.kenzie.appserver.controller.model;
-//editing for Brooke
+//for merge
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
