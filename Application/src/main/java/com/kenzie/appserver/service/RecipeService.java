@@ -43,15 +43,7 @@ public class RecipeService {
         recipeRepository.save(recipeRecord);
         return recipe;
     }
-//        RecipeRecord recipeRecord = new RecipeRecord();
-//        recipeRecord.setId();
-//
-//        recipe.setId(recipeRecord.getId());
-//
-//                //RecipeMapper.recipeRecordToRecipe(recipe);
-//        recipeRepository.save(recipeRecord);
-//        return recipe;
-//    }
+
 
     public List<Recipe> getRecipesByCuisine(String cuisine) {
         List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineIgnoreCase(cuisine);
