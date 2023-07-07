@@ -1,55 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="">
 <head>
-<<<<<<< HEAD
-    <script type="text/javascript" src="HomePage.js"!></script>
-    <script type="text/javascript" src="CreateRecipePage.js"!></script>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <!-- link to css page, multiple pages? or one just for funcionability rn? -->
-
-    <meta charset="UTF-8">
-    <title>Foodie</title>
-=======
     <title>Create Recipe</title>
 
     <script>src="CreateRecipePage.js"</script>
     <link href="CreateRecipePage.css" rel="stylesheet"><!-- Add this line to link the CSS file -->
->>>>>>> d7ab783 (added perform search function)
 </head>
-<body class="background">
-<header class="header" id="header">
-    <div class="site-title">
-        <h1> Foodie </h1> <!-- some css style, tbd -->
-        <h5>Foodie. Where people go to find and make meals that slap</h5>
+<body>
+<div class="menu">
+    <div class="logo">
+        Foodie
     </div>
-</header>
-
-<!-- search bar, get -->
-<div class="card">
-    <h2>Find your meal here</h2>
-    <form id="search-recipe" role="search">
-        <input type="search" id="search-bar" required class="validated-field" name="q"
-               placeholder="Search..." > <!-- search bar has to link to separate page with list of recipes -->
-
-        <!-- filter button -->
-        <select class="category-dropdown" id="category-dropdown">
-            <option value="">Dietary Restrictions</option>
-            <option value="Dairy Free"> Dairy Free </option>
-            <option value="Gluten Free"> Gluten Free </option>
-            <option value="Vegan"> Vegan </option>
-        </select>
-        <button onclick="window.location.href = 'RecipeListPage.html';">Search</button> <!-- LINK THE SEARCH BAR TO LIST OF RECIPES THAT INCLUDE THE NAME -->
-    </form>
+    <ul class="menu-items">
+        <li>
+            <button onclick="window.location.href = 'HomePage.html';">Home</button>
+        </li>
+    </ul>
 </div>
+<div class="container">
+    <h1>Create Recipe</h1>
+    <div class="form-group">
+        <label for="title">Title</label> <input id="title" placeholder="Enter recipe title" type="text"> <small
+            class="error" id="title-error"></small>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" placeholder="Enter description"></textarea> <small class="error"
+                                                                                      id="description-error"></small>
+    </div>
+    <div class="form-group">
+        <label for="cuisine">Cuisine</label> <select id="cuisine">
+    </select> <small class="error" id="cuisine-error"></small>
+    </div>
+    <div class="form-group">
+        <label>Dietary Restrictions:</label>
+        <div id="checkbox-container">
+            <!-- Checkboxes will be dynamically populated here -->
+        </div>
+        <span class="error-message" id="dietary-restrictions-error"></span>
+    </div>
 
-<!-- Create Recipe button LINK BUTTON TO RECIPE LIST PAGE-->
-<div class="card">
-    <h2>Create New Recipe</h2>
-    <form class="card-content" id="create-bar">
-        <button type="submit"  onclick="window.location.href= 'CreateRecipePage.html';">Create</button>
-    </form>
+    <div class="form-group">
+        <label for="ingredients">Ingredients</label>
+        <div id="ingredient-container">
+            <div class="ingredient-row">
+                <label for="ingredient-name">Ingredient Name</label>
+                <input id="ingredient-name" class="ingredient-name" placeholder="Ingredient Name" type="text">
+                <label for="ingredient-quantity">Quantity</label>
+                <input id="ingredient-quantity" class="ingredient-quantity" placeholder="Quantity" type="text">
+                <label for="ingredient-quantity-type">Quantity Type</label>
+                <select id="ingredient-quantity-type" class="ingredient-quantity-type">
+                    <!-- Options for quantity types will be dynamically populated here -->
+                </select>
+                <button aria-label="Add" class="add-button" onclick="addIngredientField()"><span class="button-text">+</span></button>
+                <button aria-label="Remove" class="remove-button" onclick="removeIngredientField(this)"><span class="button-text">-</span></button>
+                <span class="error-message" id="ingredient-error-0"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="ingredients">Ingredients</label>
+            <input id="ingredients" type="text" placeholder="Enter ingredients">
+            <small class="error" id="ingredients-error"></small>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="instructions">Instructions</label>
+        <textarea id="instructions" placeholder="Enter instructions"></textarea> <small class="error"
+                                                                                        id="instructions-error"></small>
+    </div>
+    <div class="form-group">
+        <button class="submit-button" onclick="createRecipe()">Submit</button>
+    </div>
+    <!-- Add the following hidden input field for "hasDietaryRestrictions" -->
+    <input type="hidden" id="has-dietary-restrictions-input" name="hasDietaryRestrictionsInput">
 </div>
+<script src="CreateRecipePage.js"></script>
+<script>
 
-
+    // Call the initialization function and populate the options when the page loads
+    initCreateRecipePage();
+</script>
 </body>
 </html>

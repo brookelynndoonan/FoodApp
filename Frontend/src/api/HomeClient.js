@@ -16,6 +16,15 @@ export default class HomeClient extends BaseClass {
         }
     }
 
+    async getRecipe(id, errorCallback) {
+        try {
+            const response = await this.client.get(`/recipes/${id}`);
+            return response.data;
+        } catch (error) {
+            this.handleError("getRecipe", error, errorCallback)
+        }
+    }
+
     async fetchHomeData() {
         try {
             const response = await this.client.get('/home');
