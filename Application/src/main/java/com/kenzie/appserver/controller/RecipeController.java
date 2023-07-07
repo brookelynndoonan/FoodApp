@@ -20,10 +20,14 @@ import static java.util.UUID.randomUUID;
 @RequestMapping("/recipes")
 public class RecipeController {
 
+<<<<<<< HEAD
     private RecipeRepository recipeRepository;
     private RecipeMapper recipeMapper;
     private final RecipeService recipeService;
     private List<String> ingredients;
+=======
+    private final RecipeService recipeService;
+>>>>>>> 6d637a0 (Still trying to figure out why @DynamoDBTyped error)
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -90,6 +94,12 @@ public class RecipeController {
 
         return ResponseEntity.created(URI.create("/recipe/" + recipeResponse.getId())).body(recipeResponse);
 
+<<<<<<< HEAD
+=======
+        // Convert the saved recipe back to` DTO and return the response
+        RecipeRecord savedRecipeRecord = RecipeMapper.toRecipeRecord(savedRecipe);
+        return ResponseEntity.ok(savedRecipeRecord);
+>>>>>>> 6d637a0 (Still trying to figure out why @DynamoDBTyped error)
     }
 
 
