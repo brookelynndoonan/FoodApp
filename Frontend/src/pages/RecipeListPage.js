@@ -1,12 +1,15 @@
 import BaseClass from "../util/baseClass";
+<<<<<<< HEAD
 
+=======
+import DataStore from "../util/DataStore";
+import RecipeListClient from "../api/RecipeListClient";
+>>>>>>> bc272d5 (merge conflicts)
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 class RecipeListPage extends BaseClass {
 // Function to display recipes on the page
 
     displayRecipes(recipes) {
-
-
 // Fetch recipe data from backend endpoint
         fetch('/recipes')
             .then(response => response.json())
