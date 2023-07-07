@@ -154,4 +154,6 @@ class HomePage extends BaseClass {
             homePage.mount();
         };
 
-        window.addEventListener('DOMContentLoaded', main);
+$('#searchButton').click(performSearch);
+
+window.addEventListener('DOMContentLoaded', main);
