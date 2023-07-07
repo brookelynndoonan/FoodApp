@@ -1,5 +1,5 @@
 package com.kenzie.appserver.controller.model;
-
+//editing for Brooke
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
@@ -28,7 +28,6 @@ public class RecipeCreateRequest {
     @NotEmpty
     @JsonProperty("dietaryRestrictions")
     private String dietaryRestrictions;
-
 
     @NotNull
     @JsonProperty("hasDietaryRestrictions")
