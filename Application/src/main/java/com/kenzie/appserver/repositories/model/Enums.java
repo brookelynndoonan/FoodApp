@@ -1,5 +1,5 @@
 package com.kenzie.appserver.repositories.model;
-
+//for merge
 public class Enums {
 
     public enum Cuisine {

@@ -1,7 +1,6 @@
 import BaseClass from "../util/baseClass";
-import DataStore from "../util/DataStore";
-import RecipeListClient from "../api/RecipeListClient";
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+import $ from 'jquery';
+
 class RecipeListPage extends BaseClass {
 // Function to display recipes on the page
 
@@ -62,8 +61,8 @@ class RecipeListPage extends BaseClass {
 //     window.location.href = 'HomePage.html';
 // }
 
-}
+    }
 }
 
-    // Bind the search button click event to trigger the search
-   $('#searchButton').click(performSearch);
+// Bind the search button click event to trigger the search
+$('#searchButton').click(performSearch);

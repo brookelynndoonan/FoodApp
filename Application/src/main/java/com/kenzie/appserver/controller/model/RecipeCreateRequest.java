@@ -1,11 +1,11 @@
 package com.kenzie.appserver.controller.model;
-//editing for Brooke
+//for merge
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.UUID;
 
 public class RecipeCreateRequest {
 
@@ -42,7 +42,7 @@ public class RecipeCreateRequest {
     private String instructions;
 
     public String getId() {
-        return UUID.randomUUID().toString();
+        return id;
     }
 
     public String getTitle() {
@@ -73,16 +73,17 @@ public class RecipeCreateRequest {
         return instructions;
     }
 
+
     public void setId(String id) {
         this.id = id;
     }
 
-    public void setCuisine(String cuisine) {
-        this.cuisine = cuisine;
-    }
-
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setCuisine(String cuisine) {
+        this.cuisine = cuisine;
     }
 
     public void setDescription(String description) {
