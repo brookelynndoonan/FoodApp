@@ -1,5 +1,4 @@
 package com.kenzie.appserver.converters;
-//for merge
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
 
@@ -19,19 +18,18 @@ public class RecipeMapper {
         return recipeRecord;
     }
 
-        public static Recipe recipeRecordtoRecipe(RecipeRecord recipeRecord) {
-            List<String> ingredients = recipeRecord.getIngredients();
-            return new Recipe(
-                    recipeRecord.getId(),
-                    recipeRecord.getTitle(),
-                    recipeRecord.getCuisine(),
-                    recipeRecord.getDescription(),
-                    recipeRecord.getDietaryRestrictions(),
-                    recipeRecord.getHasDietaryRestrictions(),
-                    ingredients, // Pass the ingredients list directly
-                    recipeRecord.getInstructions()
-            );
-        }
+    public static Recipe recipeRecordtoRecipe(RecipeRecord recipeRecord) {
+        List<String> ingredients = recipeRecord.getIngredients();
+        return new Recipe(
+                recipeRecord.getId(),
+                recipeRecord.getTitle(),
+                recipeRecord.getCuisine(),
+                recipeRecord.getDescription(),
+                recipeRecord.getDietaryRestrictions(),
+                recipeRecord.getHasDietaryRestrictions(),
+                ingredients, // Pass the ingredients list directly
+                recipeRecord.getInstructions()
+        );
     }
-
+}
 
