@@ -108,7 +108,6 @@ public class RecipeRecord {
 //    }
 
     public void setInstructions(String instructions) {
-
         this.instructions = instructions;
     }
 
