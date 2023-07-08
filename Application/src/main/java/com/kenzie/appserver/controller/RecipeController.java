@@ -1,4 +1,5 @@
 package com.kenzie.appserver.controller;
+
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.controller.model.RecipeResponse;
 import com.kenzie.appserver.converters.RecipeMapper;
@@ -20,15 +21,14 @@ import static java.util.UUID.randomUUID;
 @RequestMapping("/recipes")
 public class RecipeController {
 
+    private final RecipeService recipeService;
     private RecipeRepository recipeRepository;
     private RecipeMapper recipeMapper;
-    private final RecipeService recipeService;
     private List<String> ingredients;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
-
 
 
     @GetMapping
@@ -52,8 +52,6 @@ public class RecipeController {
 
         return ResponseEntity.ok(recipeResponses);
     }
-
-
 
     @GetMapping("/{id}")
     public ResponseEntity<RecipeResponse> getRecipeById(@PathVariable("id") String id) throws RecipeNotFoundException {
@@ -91,7 +89,6 @@ public class RecipeController {
         return ResponseEntity.created(URI.create("/recipe/" + recipeResponse.getId())).body(recipeResponse);
 
     }
-
 
     @GetMapping("/cuisine/{cuisine}")
     public ResponseEntity<List<RecipeResponse>> getRecipesByCuisine(@PathVariable("cuisine") String cuisine) {
