@@ -1,5 +1,6 @@
 import BaseClass from "../util/baseClass";
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+import $ from 'jquery';
+
 class RecipeListPage extends BaseClass {
 // Function to display recipes on the page
 
