@@ -1,5 +1,5 @@
-package sideQuests;
-
+package com.kenzie.appserver.repositories.model;
+//for merge
 public class Enums {
 
     public enum Cuisine {
@@ -10,11 +10,12 @@ public class Enums {
         FRENCH,
         JAPANESE,
         AMERICAN,
+        ASIAN,
+        THAI
 
         // Add more cuisine types as needed
     }
     public enum DietaryRestrictions {
-        NONE,
         VEGAN,
         VEGETARIAN,
         GLUTEN_FREE,
@@ -31,8 +32,14 @@ public class Enums {
         TEASPOONS,
         TABLESPOONS,
         CUPS,
+        CUP,
         PIECES,
-        PACKS
+        PACKS,
+        POUND,
+        POUNDS,
+        OZ,
+        CLOVES,
+        BULB
     }
 
 }

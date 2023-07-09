@@ -1,5 +1,5 @@
 package com.kenzie.appserver.config;
-//for merge
+
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -16,7 +16,7 @@ public class DynamoDbConfig {
     String dynamoOverrideEndpoint;
 
     @Bean
-    @ConditionalOnProperty(name = "dynamodb.override_endpoint", havingValue = "false")
+    @ConditionalOnProperty(name = "dynamodb.override_endpoint", havingValue = "true")
     public AmazonDynamoDB amazonDynamoDB(@Value("${dynamodb.endpoint}") String dynamoEndpoint) {
         AwsClientBuilder.EndpointConfiguration endpointConfig = new
                 AwsClientBuilder.EndpointConfiguration(dynamoEndpoint,

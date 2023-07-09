@@ -1,8 +1,7 @@
 package com.kenzie.appserver.controller.model;
-
+//for merge
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.List;
 
@@ -15,14 +14,14 @@ public class RecipeResponse {
     @JsonProperty("cuisine")
     private String cuisine;
 
-    @JsonProperty("desctription")
+    @JsonProperty("description")
     private String description;
 
     @JsonProperty("dietaryRestrictions")
     private String dietaryRestrictions;
 
-    @JsonProperty("dietaryRestrictionsBool")
-    private Boolean dietaryRestrictionsBool;
+    @JsonProperty("hasDietaryRestrictions")
+    private Boolean hasDietaryRestrictions;
 
     @JsonProperty("ingredients")
     private List<String> ingredients;
@@ -70,12 +69,12 @@ public class RecipeResponse {
         this.dietaryRestrictions = dietaryRestrictions;
     }
 
-    public Boolean getDietaryRestrictionsBool() {
-        return dietaryRestrictionsBool;
+    public Boolean getHasDietaryRestrictions() {
+        return hasDietaryRestrictions;
     }
 
-    public void setDietaryRestrictionsBool(Boolean dietaryRestrictionsBool) {
-        this.dietaryRestrictionsBool = dietaryRestrictionsBool;
+    public void setHasDietaryRestrictions(Boolean hasDietaryRestrictions) {
+        this.hasDietaryRestrictions = hasDietaryRestrictions;
     }
 
     public List<String> getIngredients() {

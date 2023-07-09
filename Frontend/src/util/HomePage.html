@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <script type="text/javascript" src="HomePage.js"!></script>
+    <script type="text/javascript" src="CreateRecipePage.js"!></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- link to css page, multiple pages? or one just for funcionability rn? -->
 
@@ -12,17 +13,16 @@
     <header class="header" id="header">
      <div class="site-title">
          <h1> Foodie </h1> <!-- some css style, tbd -->
-         <!--some sort of welcome message, maybe a julia child quote -->
          <h5>Foodie. Where people go to find and make meals that slap</h5>
      </div>
     </header>
 
-<!-- search bar -->
+<!-- search bar, get -->
     <div class="card">
         <h2>Find your meal here</h2>
-        <form id="form" role="search">
-            <input type="search" id="query" required class="validated-field" name="q"
-                   placeholder="Search..."> <!-- search bar has to link to separate page with list of recipes -->
+        <form id="search-recipe" role="search">
+            <input type="search" id="search-bar" required class="validated-field" name="q"
+                   placeholder="Search..." > <!-- search bar has to link to separate page with list of recipes -->
 
 <!-- filter button -->
             <select class="category-dropdown" id="category-dropdown">
@@ -31,15 +31,15 @@
                 <option value="Gluten Free"> Gluten Free </option>
                 <option value="Vegan"> Vegan </option>
             </select>
-            <button>Search</button>
+            <button onclick="window.location.href = 'RecipeListPage.html';">Search</button> <!-- LINK THE SEARCH BAR TO LIST OF RECIPES THAT INCLUDE THE NAME -->
         </form>
-<!-- Create Recipe button -->
+    </div>
+
+<!-- Create Recipe button LINK BUTTON TO RECIPE LIST PAGE-->
         <div class="card">
             <h2>Create New Recipe</h2>
-            <form class="card-content" id="get-by-id-form">
-                <p class="form-field">
-                </p>
-                <button type="submit">Start</button>
+            <form class="card-content" id="create-bar">
+                <button type="submit"  onclick="window.location.href= 'CreateRecipePage.html';">Create</button>
             </form>
         </div>
 
