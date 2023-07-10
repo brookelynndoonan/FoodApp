@@ -1,5 +1,6 @@
 package com.kenzie.appserver.controller;
 //for merge
+
 import com.kenzie.appserver.repositories.model.Enums;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:63342")
+//63342
 public class FrontendCreateRecipePageOptionsController {
 
     @GetMapping("/cuisineOptions")
@@ -58,4 +60,10 @@ public class FrontendCreateRecipePageOptionsController {
 
         return jsonBuilder.toString();
     }
+
+    /*//Citing source : https://dowbecki.com/Case-insentivie-enum-mapping-with-RequestParam/
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Enums.class, new CaseInsensitiveEnumEditor(Enums.class));
+    }*/
 }

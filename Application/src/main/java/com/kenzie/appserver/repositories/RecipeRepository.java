@@ -11,7 +11,7 @@ import java.util.List;
 @EnableScan
 public interface RecipeRepository extends CrudRepository<RecipeRecord, String> {
 
-    List<RecipeRecord> findByCuisineIgnoreCase(String cuisine);
+    List<RecipeRecord> findByCuisine(String cuisine);
 
     List<RecipeRecord> findByDietaryRestrictions(String dietaryRestrictions);
 
