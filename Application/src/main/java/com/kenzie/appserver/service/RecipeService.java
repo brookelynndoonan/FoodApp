@@ -46,7 +46,7 @@ public class RecipeService {
 
 
     public List<Recipe> getRecipesByCuisine(String cuisine) {
-        List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineIgnoreCase(cuisine);
+        List<RecipeRecord> recipeRecords = recipeRepository.findByCuisine(cuisine);
         return recipeRecords.stream()
                 .map(RecipeMapper::recipeRecordtoRecipe)
                 .collect(Collectors.toList());
