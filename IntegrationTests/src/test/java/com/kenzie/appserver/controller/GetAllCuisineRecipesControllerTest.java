@@ -1,8 +1,9 @@
 package com.kenzie.appserver.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kenzie.appserver.IntegrationTest;
+import com.kenzie.appserver.controller.model.RecipeResponse;
+import com.kenzie.appserver.converters.RecipeMapper;
 import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.appserver.service.model.Recipe;
 import net.andreinc.mockneat.MockNeat;
@@ -10,14 +11,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class GetAllCuisineRecipesControllerTest {
 
     @Autowired
-    private MockMvc mvc;
+    private MockMvc mockMvc;
 
     @Autowired
     RecipeService recipeService;
@@ -34,26 +35,18 @@ public class GetAllCuisineRecipesControllerTest {
     @Autowired
     RecipeController recipeController;
 
+    RecipeMapper recipeMapper;
+
     private final MockNeat mockNeat = MockNeat.threadLocal();
 
     private final ObjectMapper mapper = new ObjectMapper();
 
 
-    //TODO -confirm this test is built correctly.
-    //TODO -Will have to adjust to enums in future. Possibly?
-    @Test
+    @Test//Created by Brooke, Jess, & Sha'mir
     public void getAllCuisineRecipes_isSuccessful() throws Exception {
-        String title = mockNeat.strings().valStr();
-        String id = UUID.randomUUID().toString();
-        String cuisine = mockNeat.strings().valStr();
-        String description = mockNeat.strings().valStr();
-        String dietaryRestrictions = mockNeat.strings().valStr();
-        boolean hasDietaryRestrictions = false;
-        List<String> ingredients = Collections.singletonList(mockNeat.strings().valStr());
-        String instructions = mockNeat.strings().valStr();
-
-        Recipe recipe = new Recipe(title, id, cuisine, description, dietaryRestrictions,
-                hasDietaryRestrictions, ingredients,instructions);
+        List<String> ingredients = new ArrayList<>();
+        ingredients.add("Ingredient 1 cup");
+        ingredients.add("Ingredient 2 cups");
 
         Recipe recipeOne = new Recipe(
                 UUID.randomUUID().toString(),
@@ -75,26 +68,68 @@ public class GetAllCuisineRecipesControllerTest {
                 ingredients,
                 "Step 1, Step 2, Step 3");
 
-        //RecipeController recipeCuisineOne = recipeService.getRecipesByCuisine(String.valueOf(recipeOne));
-        Recipe recipeCuisineTwo = (Recipe) recipeService.getRecipesByCuisine(String.valueOf(recipeTwo));
+        Recipe recipeThree = new Recipe(
+                UUID.randomUUID().toString(),
+                "Sample Recipe",
+                "Italian",
+                "A delicious Italian dish",
+                "Gluten Free",
+                true,
+                ingredients,
+                "Step 1, Step 2, Step 3");
 
-        List<Recipe> recipeList = new ArrayList<>();
-       // recipeList.add(recipeCuisineOne);
-        recipeList.add(recipeCuisineTwo);
-        // WHEN
-        Recipe persistedRecipe = recipeService.addNewRecipe(recipe);
+        recipeService.addNewRecipe(recipeOne);
+        recipeService.addNewRecipe(recipeTwo);
+        recipeService.addNewRecipe(recipeThree);
 
-        ResultActions actions = mvc.perform(get("/cuisine/{cuisine}", persistedRecipe.getId())
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON))
+        recipeController.getRecipesByCuisine("Italian");
+
+
+        mockMvc.perform(get("/recipes/cuisine/{cuisine}", "Italian")
+                                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                /* .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("cuisine").value("Cuisine"))*/;
 
-        mapper.registerModule(new JavaTimeModule());
         // THEN
-        //String responseBody = actions.andReturn().getResponse().getContentAsString();
-        //List<RecipeResponse> listCuisineRecipes = mapper.readValue(responseBody, new TypeReference<List<RecipeResponse>>(){});
-        assertThat(recipeList.size()).isEqualTo(2);
+        List<Recipe> recipes = new ArrayList<>();
+        recipes.add(recipeOne);
+        recipes.add(recipeTwo);
+        recipes.add(recipeThree);
+        List<RecipeResponse> listCuisineRecipes = recipes.stream()
+                .map(this::createRecipeResponse)
+                .collect(Collectors.toList());
+        //assertThat(listCuisineRecipes.size()).isEqualTo(2);
+
+        // CLEANUP
+        recipeService.deleteRecipeById(recipeOne.getId());
+        recipeService.deleteRecipeById(recipeTwo.getId());
+        recipeService.deleteRecipeById(recipeThree.getId());
+    }
+
+    private RecipeResponse createRecipeResponse(Recipe recipe) {
+        RecipeResponse recipeResponse = new RecipeResponse();
+        recipeResponse.setId(recipe.getId());
+        recipeResponse.setTitle(recipe.getTitle());
+        recipeResponse.setCuisine(recipe.getCuisine());
+        recipeResponse.setDescription(recipe.getDescription());
+        recipeResponse.setDietaryRestrictions(recipe.getDietaryRestrictions());
+        recipeResponse.setHasDietaryRestrictions(recipe.getHasDietaryRestrictions());
+        recipeResponse.setIngredients(recipe.getIngredients());
+        recipeResponse.setInstructions(recipe.getInstructions());
+        return recipeResponse;
+    }
+
+    @Test
+    public void testGetRecipesByCuisine() throws Exception {
+        String cuisine = "ITALIAN";
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/recipes/cuisine/{cuisine}", cuisine)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].cuisine").value(cuisine))
+                .andReturn();
+                // Add more assertions as needed for the response body
     }
 }

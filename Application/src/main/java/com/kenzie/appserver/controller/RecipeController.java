@@ -30,6 +30,24 @@ public class RecipeController {
     }
 
 
+    @PostMapping
+    public ResponseEntity<RecipeResponse> addNewRecipe(@RequestBody RecipeCreateRequest recipeCreateRequest) {
+        Recipe recipe = new Recipe(randomUUID().toString(),
+                recipeCreateRequest.getTitle(),
+                recipeCreateRequest.getCuisine(),
+                recipeCreateRequest.getDescription(),
+                recipeCreateRequest.getDietaryRestrictions(),
+                recipeCreateRequest.getHasDietaryRestrictions(),
+                recipeCreateRequest.getIngredients(),
+                recipeCreateRequest.getInstructions());
+        recipeService.addNewRecipe(recipe);
+
+        RecipeResponse recipeResponse = createRecipeResponse(recipe);
+
+        return ResponseEntity.created(URI.create("/recipe/" + recipeResponse.getId())).body(recipeResponse);
+
+    }
+
     @GetMapping
     public ResponseEntity<List<RecipeResponse>> getAllRecipes() {
         List<Recipe> recipes = recipeService.getAllRecipes();
@@ -53,24 +71,6 @@ public class RecipeController {
         }*/
         RecipeResponse recipeResponse = createRecipeResponse(recipe);
         return ResponseEntity.ok(recipeResponse);
-    }
-
-    @PostMapping
-    public ResponseEntity<RecipeResponse> addNewRecipe(@RequestBody RecipeCreateRequest recipeCreateRequest) {
-        Recipe recipe = new Recipe(randomUUID().toString(),
-                recipeCreateRequest.getTitle(),
-                recipeCreateRequest.getCuisine(),
-                recipeCreateRequest.getDescription(),
-                recipeCreateRequest.getDietaryRestrictions(),
-                recipeCreateRequest.getHasDietaryRestrictions(),
-                recipeCreateRequest.getIngredients(),
-                recipeCreateRequest.getInstructions());
-        recipeService.addNewRecipe(recipe);
-
-        RecipeResponse recipeResponse = createRecipeResponse(recipe);
-
-        return ResponseEntity.created(URI.create("/recipe/" + recipeResponse.getId())).body(recipeResponse);
-
     }
 
     @GetMapping("/cuisine/{cuisine}")
