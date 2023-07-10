@@ -3,7 +3,6 @@ package com.kenzie.appserver.controller;
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.controller.model.RecipeResponse;
 import com.kenzie.appserver.converters.RecipeMapper;
-import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.RecipeService;
@@ -37,15 +36,7 @@ public class RecipeController {
 
         List<RecipeResponse> recipeResponses = recipes.stream()
                 .map(recipe -> {
-                    RecipeResponse recipeResponse = new RecipeResponse();
-                    recipeResponse.setId(recipe.getId());
-                    recipeResponse.setTitle(recipe.getTitle());
-                    recipeResponse.setCuisine(recipe.getCuisine());
-                    recipeResponse.setDescription(recipe.getDescription());
-                    recipeResponse.setDietaryRestrictions(recipe.getDietaryRestrictions());
-                    recipeResponse.setHasDietaryRestrictions(recipe.getHasDietaryRestrictions());
-                    recipeResponse.setIngredients(recipe.getIngredients());
-                    recipeResponse.setInstructions(recipe.getInstructions());
+                    RecipeResponse recipeResponse = createRecipeResponse(recipe);
                     return recipeResponse;
                 })
                 .collect(Collectors.toList());
@@ -54,12 +45,12 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecipeResponse> getRecipeById(@PathVariable("id") String id) throws RecipeNotFoundException {
+    public ResponseEntity<RecipeResponse> getRecipeById(@PathVariable("id") String id) throws Exception {
         RecipeRecord recipeRecord = recipeService.getRecipeById(id);
         Recipe recipe = RecipeMapper.recipeRecordtoRecipe(recipeRecord);
-        if (recipe == null) {
+       /* if (recipe.equals(null)) {
             return ResponseEntity.notFound().build();
-        }
+        }*/
         RecipeResponse recipeResponse = createRecipeResponse(recipe);
         return ResponseEntity.ok(recipeResponse);
     }
@@ -76,15 +67,7 @@ public class RecipeController {
                 recipeCreateRequest.getInstructions());
         recipeService.addNewRecipe(recipe);
 
-        RecipeResponse recipeResponse = new RecipeResponse();
-        recipeResponse.setId(recipe.getId());
-        recipeResponse.setTitle(recipe.getTitle());
-        recipeResponse.setCuisine(recipe.getCuisine());
-        recipeResponse.setDescription(recipe.getDescription());
-        recipeResponse.setDietaryRestrictions(recipe.getDietaryRestrictions());
-        recipeResponse.setHasDietaryRestrictions(recipe.getHasDietaryRestrictions());
-        recipeResponse.setIngredients(recipe.getIngredients());
-        recipeResponse.setInstructions(recipe.getInstructions());
+        RecipeResponse recipeResponse = createRecipeResponse(recipe);
 
         return ResponseEntity.created(URI.create("/recipe/" + recipeResponse.getId())).body(recipeResponse);
 
@@ -96,6 +79,7 @@ public class RecipeController {
         List<RecipeResponse> recipeResponses = recipes.stream()
                 .map(this::createRecipeResponse)
                 .collect(Collectors.toList());
+
         return ResponseEntity.ok(recipeResponses);
     }
 
@@ -108,6 +92,7 @@ public class RecipeController {
         return ResponseEntity.ok(recipeResponses);
     }
 
+    //Helper Method for Recipe Response
     private RecipeResponse createRecipeResponse(Recipe recipe) {
         RecipeResponse recipeResponse = new RecipeResponse();
         recipeResponse.setId(recipe.getId());
@@ -120,4 +105,5 @@ public class RecipeController {
         recipeResponse.setInstructions(recipe.getInstructions());
         return recipeResponse;
     }
+
 }
