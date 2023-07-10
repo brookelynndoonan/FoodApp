@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -27,12 +26,12 @@ public class AddNewRecipeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private RecipeService recipeService;
+
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private RecipeService recipeService;
 
     private final MockNeat mockNeat = MockNeat.threadLocal();
 
@@ -43,7 +42,6 @@ public class AddNewRecipeControllerTest {
         ingredients.add("Ingredient 1 cup");
         ingredients.add("Ingredient 2 cups");
         Recipe recipe = new Recipe(
-                UUID.randomUUID().toString(),
                 "Sample Recipe",
                 "Italian",
                 "A delicious Italian dish",
@@ -90,6 +88,10 @@ public class AddNewRecipeControllerTest {
         Assertions.assertNotNull(recipeCreateRequest.getInstructions());
         Assertions.assertNotNull(recipeCreateRequest.getHasDietaryRestrictions());
         Assertions.assertEquals(Boolean.FALSE, recipeCreateRequest.getHasDietaryRestrictions());
+
+        // CLEANUP
+        recipeService.deleteRecipeById(recipe.getId());
+
     }
 
 }
