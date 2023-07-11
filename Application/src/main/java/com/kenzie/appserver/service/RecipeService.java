@@ -79,7 +79,7 @@ public class RecipeService {
                     .collect(Collectors.toList());
         } else if (cuisine != null && dietaryRestrictions != null) {
             // Search by cuisine, dietary restrictions, and query
-            List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineAndDietaryRestrictionsOrTitleContainsIgnoreCase(cuisine, dietaryRestrictions, query);
+            List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineAndDietaryRestrictionsAndTitleContains(cuisine, dietaryRestrictions, query);
             return recipeRecords.stream()
                     .map(RecipeMapper::recipeRecordtoRecipe)
                     .collect(Collectors.toList());
