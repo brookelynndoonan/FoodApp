@@ -98,7 +98,7 @@ public class RecipeController {
             @RequestParam(required = false) String dietaryRestrictions,
             @RequestParam(required = false) String query
     ) {
-        List<Recipe> recipes = recipeService.searchRecipes(cuisine, dietaryRestrictions, query);
+        List<Recipe> recipes = recipeService.searchRecipes(cuisine.toUpperCase().replace(" ", "_"), dietaryRestrictions.toUpperCase().replace(" ", "_"), query);
         List<RecipeResponse> recipeResponses = recipes.stream()
                 .map(this::createRecipeResponse)
                 .collect(Collectors.toList());
