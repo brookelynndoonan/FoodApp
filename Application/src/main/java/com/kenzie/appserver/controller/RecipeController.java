@@ -92,6 +92,21 @@ public class RecipeController {
         return ResponseEntity.ok(recipeResponses);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<RecipeResponse>> searchRecipes(
+            @RequestParam(required = false) String cuisine,
+            @RequestParam(required = false) String dietaryRestrictions,
+            @RequestParam(required = false) String query
+    ) {
+        List<Recipe> recipes = recipeService.searchRecipes(cuisine, dietaryRestrictions, query);
+        List<RecipeResponse> recipeResponses = recipes.stream()
+                .map(this::createRecipeResponse)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(recipeResponses);
+    }
+
+
     //Helper Method for Recipe Response
     private RecipeResponse createRecipeResponse(Recipe recipe) {
         RecipeResponse recipeResponse = new RecipeResponse();

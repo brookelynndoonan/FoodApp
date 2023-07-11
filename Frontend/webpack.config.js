@@ -7,7 +7,6 @@ module.exports = {
         usedExports: true
     },
     entry: {
-        examplePage: path.resolve(__dirname, 'src', 'api', 'exampleClient.js'),
         CreateRecipePage: path.resolve(__dirname, 'src', 'pages', 'CreateRecipePage.js'),
         HomePage: path.resolve(__dirname, 'src', 'pages', 'HomePage.js'),
         RecipeDetailsPage: path.resolve(__dirname, 'src', 'pages', 'RecipeDetailsPage.js'),
@@ -46,7 +45,7 @@ module.exports = {
             inject: false
         }),
         new HtmlWebpackPlugin({
-            template: './src/util/HomePage.html',
+            template: './src/HomePage.html',
             filename: 'HomePage.html',
             inject: false
         }),

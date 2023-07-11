@@ -69,6 +69,36 @@ public class RecipeService {
             throw new RecipeNotFoundException("Recipe not found with ID: " + id);
         }
     }
+
+    public List<Recipe> searchRecipes(String cuisine, String dietaryRestrictions, String query) {
+        if (cuisine != null && dietaryRestrictions != null) {
+            // Search by cuisine, dietary restrictions, and query
+            List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineAndDietaryRestrictionsAndTitleContaining(cuisine, dietaryRestrictions, query);
+            return recipeRecords.stream()
+                    .map(RecipeMapper::recipeRecordtoRecipe)
+                    .collect(Collectors.toList());
+        } else if (cuisine != null) {
+            // Search by cuisine and query
+            List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineAndTitleContaining(cuisine, query);
+            return recipeRecords.stream()
+                    .map(RecipeMapper::recipeRecordtoRecipe)
+                    .collect(Collectors.toList());
+        } else if (dietaryRestrictions != null) {
+            // Search by dietary restrictions and query
+            List<RecipeRecord> recipeRecords = recipeRepository.findByDietaryRestrictionsAndTitleContaining(dietaryRestrictions, query);
+            return recipeRecords.stream()
+                    .map(RecipeMapper::recipeRecordtoRecipe)
+                    .collect(Collectors.toList());
+        } else {
+            // Search by query only
+            List<RecipeRecord> recipeRecords = recipeRepository.findByTitleContaining(query);
+            return recipeRecords.stream()
+                    .map(RecipeMapper::recipeRecordtoRecipe)
+                    .collect(Collectors.toList());
+        }
+    }
+
+
     public void deleteRecipeById(String id) {
         recipeRepository.deleteById(id);
     }
