@@ -1,89 +1,149 @@
-:root {
-    /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
-    --primary-color: #131921;
-    --secondary-color: #fff;
-    --error-color: rgba(194, 0, 0, 0.71);
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../../../fonts/Montserrat-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.background {
-    background-color: #eaeded;
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../../../fonts/Montserrat-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Add more @font-face rules for different font weights and styles as needed */
+
+/* Set the font-family for elements that should use the Montserrat font */
+body {
+    background-color: #f7f3e9;
+    color: #363636;
     margin: 0;
-    counter-reset: section;
+    padding: 0;
+    font-family: 'Montserrat', Arial, sans-serif;
 }
 
-.header {
-    /* Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+/* Styling for the header section */
+header {
+    background-color: #f7f3e9;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Styling for the container that holds the main title */
+.title-container {
+    background-color: #f7f3e9;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+/* Styling for the main title */
+.title-container h1 {
+    font-size: 48px;
+    padding: 10px;
+    border: 5px solid #ffc857;
+    display: inline-block;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Styling for the navigation menu */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 30px 30px;
+}
+
+nav ul li a {
+    color: #363636;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Styling for the header image */
+.header-image {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    padding: 0 20px;
+    overflow: hidden;
 }
 
-.header_home {
-    font-size: 36px;
-    line-height: 40px;
-    height: 100px;
-    text-decoration: none;
-    color: var(--secondary-color);
+.image-container {
+    width: 75%;
+    margin: 0 auto;
 }
 
-.header_nav_link {
-    margin-left: 20px;
-    vertical-align: top;
-    line-height: 40px;
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
-.about {
-    margin-left: 20px;
+/* Styling for the search bar */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
-.button, button {
-    background: #aed9ff;
-    padding: 3px;
-    border-radius: 3px;
-    text-decoration: none;
-    color: black;
-    border: 1px solid black;
+.search-bar input[type="text"] {
+    padding: 10px;
+    width: 400px;
+    border: 2px solid #ffc857;
+    background-color: #ffffff;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    background-color: #ffc857;
+    color: #ffffff;
+    border: none;
     cursor: pointer;
 }
 
-.button:hover, button:hover {
-    background: #9cc3e4;
+.intro-container {
+    background-color: #f9f5f2;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-.card {
-    color: var(--primary-color);
-    background-color: var(--secondary-color);
-    margin: 20px;
-    padding: 10px 20px;
+.intro-container h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #363636;
+    max-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.validated-field:invalid {
-    outline: 2px solid var(--error-color);
-}
-.validated-field:focus:invalid {
-    color: var(--error-color);
+.intro-container p {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #666666;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+
+
 }
 
-.card-content {
-    max-width: 500px;
-}
-
-.card-content .form-field {
-    display: flex;
-    flex-direction: column;
-}
-
-#concert-list li {
-    margin-bottom: 1rem;
-}
-
-.state {
-    display: none;
-}
-
-.state.active {
-    display: block;
+/* Styling for the footer */
+footer {
+    background-color: #f7f3e9;
+    color: #363636;
+    padding: 10px;
+    text-align: center;
 }
