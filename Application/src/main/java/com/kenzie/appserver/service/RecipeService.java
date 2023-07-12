@@ -71,9 +71,15 @@ public class RecipeService {
     }
 
     public List<Recipe> searchRecipes(String cuisine, String dietaryRestrictions, String query) {
-        if (cuisine != null && dietaryRestrictions != null) {
+        if (cuisine != null && dietaryRestrictions != null  && query == null) {
+            // Search by cuisine & dietary restrictions
+            List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineAndDietaryRestrictions(cuisine, dietaryRestrictions);
+            return recipeRecords.stream()
+                    .map(RecipeMapper::recipeRecordtoRecipe)
+                    .collect(Collectors.toList());
+        } else if (cuisine != null && dietaryRestrictions != null) {
             // Search by cuisine, dietary restrictions, and query
-            List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineAndDietaryRestrictionsAndTitleContaining(cuisine, dietaryRestrictions, query);
+            List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineAndDietaryRestrictionsAndTitleContains(cuisine, dietaryRestrictions, query);
             return recipeRecords.stream()
                     .map(RecipeMapper::recipeRecordtoRecipe)
                     .collect(Collectors.toList());

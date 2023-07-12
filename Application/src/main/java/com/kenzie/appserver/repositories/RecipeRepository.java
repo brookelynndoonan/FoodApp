@@ -18,7 +18,7 @@ public interface RecipeRepository extends CrudRepository<RecipeRecord, String> {
 
     List<RecipeRecord> findAll();
 
-    List<RecipeRecord> findByCuisineAndDietaryRestrictionsAndTitleContaining(String cuisine, String dietaryRestrictions, String query);
+    List<RecipeRecord> findByCuisineAndDietaryRestrictionsAndTitleContains(String cuisine, String dietaryRestrictions, String query);
 
     List<RecipeRecord> findByCuisineAndTitleContaining(String cuisine, String query);
 
