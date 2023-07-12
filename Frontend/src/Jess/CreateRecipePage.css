@@ -109,7 +109,7 @@ h1 {
 
 /* Checkbox container styles */
 .checkbox-container {
-    display: inline-flex;
+    display: block;
     align-items: center;
     margin-right: 10px;
 }
