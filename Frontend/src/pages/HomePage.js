@@ -1,11 +1,12 @@
 import BaseClass from "../util/baseClass";
 import HomeClient from "../api/HomeClient";// Import the client class for making API requests
+import DataStore from "../util/DataStore";
 
 class HomePage extends BaseClass {
     constructor() {
         super();
         this.client = new HomeClient(); // Create an instance of the client class
-        this.bindClassMethods(['onSearch', 'renderHomePage'], this);
+        this.bindClassMethods(['onSearch', 'renderHomePage', 'onGet'], this);
     }
     //
     // async mount() {
