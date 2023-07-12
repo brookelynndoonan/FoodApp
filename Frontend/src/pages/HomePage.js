@@ -44,5 +44,7 @@ class HomePage extends BaseClass {
         this.mount();
     }
 }
+$('#searchButton').click(performSearch);
+
 
 export default HomePage;
