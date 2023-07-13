@@ -222,4 +222,4 @@ $('#searchButton').click(performSearch);
 window.addEventListener('DOMContentLoaded', main);
 
 
-export default HomePage;
+//export default HomePage;

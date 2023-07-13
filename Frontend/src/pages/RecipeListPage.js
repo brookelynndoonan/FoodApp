@@ -1,5 +1,6 @@
 import BaseClass from "../util/baseClass";
 import $ from 'jquery';
+import RecipeListClient from "../api/RecipeListClient";
 
 class RecipeListPage extends BaseClass {
 // Function to display recipes on the page
