@@ -6,7 +6,7 @@ class HomePage extends BaseClass {
     constructor() {
         super();
         this.client = new HomeClient(); // Create an instance of the client class
-        this.bindClassMethods(['onSearch', 'renderHomePage', 'onGet'], this);
+        this.bindClassMethods(['onSearch', 'renderHomePage','mount', 'onGet'], this);
     }
     //
     // async mount() {
