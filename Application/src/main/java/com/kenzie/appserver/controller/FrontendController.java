@@ -1,10 +1,15 @@
 package com.kenzie.appserver.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.appserver.repositories.model.Enums;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -29,19 +34,11 @@ public class FrontendController {
     }
 
     @GetMapping("/dietaryRestrictionOptions")
-    public String getDietaryRestrictionOptions() {
-        Enums.DietaryRestrictions[] dietaryRestrictions = Enums.DietaryRestrictions.values();
+    public String getDietaryRestrictionOptions() throws JsonProcessingException {
+        List<Enums.DietaryRestrictions> dietaryRestrictions = Arrays.asList(Enums.DietaryRestrictions.values());
 
-        StringBuilder jsonBuilder = new StringBuilder("[");
-        for (int i = 0; i < dietaryRestrictions.length; i++) {
-            jsonBuilder.append("\"").append(dietaryRestrictions[i].toString()).append("\"");
-            if (i < dietaryRestrictions.length - 1) {
-                jsonBuilder.append(",");
-            }
-        }
-        jsonBuilder.append("]");
-
-        return jsonBuilder.toString();
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(dietaryRestrictions);
     }
 
     @GetMapping("/quantityTypeOptions")
