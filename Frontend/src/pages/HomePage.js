@@ -24,7 +24,7 @@ class HomePage extends BaseClass {
 
     async mount() {
         // Get the search form element
-        const searchForm = document.getElementById('search-recipe');
+        const searchForm = document.getElementById('search-recipe-input');
 
         // Add an event listener for the form submission event
         searchForm.addEventListener('submit', function(event) {
@@ -222,4 +222,4 @@ $('#searchButton').click(performSearch);
 window.addEventListener('DOMContentLoaded', main);
 
 
-export default HomePage;
+//export default HomePage;

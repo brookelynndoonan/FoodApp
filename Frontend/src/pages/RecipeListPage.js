@@ -17,6 +17,7 @@ class RecipeListPage extends BaseClass {
             .catch(error => {
                 console.error('Error:', error);
             });
+        this.displayRecipes();
 
 
 
