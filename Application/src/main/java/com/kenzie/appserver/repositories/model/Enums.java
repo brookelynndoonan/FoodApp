@@ -1,17 +1,17 @@
 package com.kenzie.appserver.repositories.model;
-//for merge
+
 public class Enums {
 
     public enum Cuisine {
         ITALIAN,
         MEXICAN,
-        CHINESE,
         INDIAN,
         FRENCH,
         JAPANESE,
         AMERICAN,
         ASIAN,
-        THAI
+        THAI,
+        CHINESE
 
         // Add more cuisine types as needed
     }
@@ -20,7 +20,8 @@ public class Enums {
         VEGETARIAN,
         GLUTEN_FREE,
         DAIRY_FREE,
-        NUT_FREE,
+        NUT_FREE
+
         // Add more dietary restrictions as needed
     }
 
@@ -32,14 +33,13 @@ public class Enums {
         TEASPOONS,
         TABLESPOONS,
         CUPS,
-        CUP,
+        QUARTS,
+        GALLONS,
         PIECES,
         PACKS,
-        POUND,
         POUNDS,
-        OZ,
-        CLOVES,
-        BULB
+        OZ
+
     }
 
 }
