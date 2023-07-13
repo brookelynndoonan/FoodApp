@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Foodie App</title>
+    <script>src="Homepage.js"</script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
@@ -36,10 +37,10 @@
     </div>
     <nav>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Cuisines</a></li>
-            <li><a href="#">Dietary Restrictions</a></li>
-            <li><a href="#">Create a Recipe</a></li>
+            <li onclick="window.location.href = 'RecipeListPage.html';"><a >Home</a></li>
+            <li onclick="window.location.href = 'RecipeListPage.html';"><a >Cuisines</a></li>
+            <li onclick="window.location.href = 'RecipeListPage.html';"><a >Dietary Restrictions</a></li>
+            <li onclick="window.location.href = 'CreateRecipePage.html';"><a >Create a Recipe</a></li>
         </ul>
     </nav>
     <div class="header-image">
@@ -50,7 +51,7 @@
     <div class="search-bar">
         <form id="search-recipe">
             <input type="text" id="search-bar-input" placeholder="Search...">
-            <button type="submit"><i class="fas fa-search"></i></button>
+            <button type="submit" onclick="window.location.href = 'RecipeListPage.html';"><i class="fas fa-search"></i></button>
         </form>
     </div>
 

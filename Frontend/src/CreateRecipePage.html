@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="">
 <head>
     <title>Create Recipe</title>
-    <link href="Jess/CreateRecipePage.css" rel="stylesheet"><!-- Add the correct path to the CSS file -->
+    <script>src="CreateRecipePage.js"</script>
+    <link rel="stylesheet" type="text/css" href="css/CreateRecipePage.css">
 </head>
 <body>
 <div class="menu">
@@ -11,30 +12,25 @@
     </div>
     <ul class="menu-items">
         <li>
-            <a href="#">Home</a>
-        </li>
-        <li>
-            <a href="#">Search</a>
+
+            <button onclick="window.location.href = 'HomePage.html';">Home</button>
         </li>
     </ul>
 </div>
 <div class="container">
     <h1>Create Recipe</h1>
     <div class="form-group">
-        <label for="title">Title</label>
-        <input id="title" placeholder="Enter recipe title" type="text">
-        <small class="error" id="title-error"></small>
+        <label for="title">Title</label> <input id="title" placeholder="Enter recipe title" type="text"> <small
+            class="error" id="title-error"></small>
     </div>
     <div class="form-group">
         <label for="description">Description</label>
-        <textarea id="description" placeholder="Enter description"></textarea>
-        <small class="error" id="description-error"></small>
+        <textarea id="description" placeholder="Enter description"></textarea> <small class="error"
+                                                                                      id="description-error"></small>
     </div>
     <div class="form-group">
-        <label for="cuisine">Cuisine</label>
-        <select id="cuisine">
-        </select>
-        <small class="error" id="cuisine-error"></small>
+        <label for="cuisine">Cuisine</label> <select id="cuisine">
+    </select> <small class="error" id="cuisine-error"></small>
     </div>
     <div class="form-group">
         <label>Dietary Restrictions:</label>
@@ -60,11 +56,18 @@
                 <span class="error-message" id="ingredient-error-0"></span>
             </div>
         </div>
+        <div class="form-group">
+            <label for="ingredients">Ingredients</label>
+            <input id="ingredients" type="text" placeholder="Enter ingredients">
+            <small class="error" id="ingredients-error"></small>
+        </div>
     </div>
+
+
     <div class="form-group">
         <label for="instructions">Instructions</label>
-        <textarea id="instructions" placeholder="Enter instructions"></textarea>
-        <small class="error" id="instructions-error"></small>
+        <textarea id="instructions" placeholder="Enter instructions"></textarea> <small class="error"
+                                                                                        id="instructions-error"></small>
     </div>
     <div class="form-group">
         <button class="submit-button" onclick="createRecipe()">Submit</button>
@@ -72,8 +75,9 @@
     <!-- Add the following hidden input field for "hasDietaryRestrictions" -->
     <input type="hidden" id="has-dietary-restrictions-input" name="hasDietaryRestrictionsInput">
 </div>
-<script src="Jess/CreateRecipePage.js"></script>
+<script src="CreateRecipePage.js"></script>
 <script>
+
     // Call the initialization function and populate the options when the page loads
     initCreateRecipePage();
 </script>
