@@ -39,7 +39,7 @@ header {
 
 /* Styling for the main title */
 .title-container h1 {
-    font-size: 48px;
+    font-size: 110px;
     padding: 10px;
     border: 5px solid #ffc857;
     display: inline-block;
@@ -67,6 +67,11 @@ nav ul li a {
     font-weight: bold;
     font-size: 20px;
 }
+
+nav ul li a:hover {
+    cursor: pointer;
+}
+
 
 /* Styling for the header image */
 .header-image {

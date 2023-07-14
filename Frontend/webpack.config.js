@@ -32,7 +32,7 @@ module.exports = {
         proxy: [
             {
                 context: [
-                    '/example', '/recipe'
+                    '/recipe'
                 ],
                 target: 'http://localhost:5001'
             }
@@ -50,17 +50,17 @@ module.exports = {
             inject: false
         }),
         new HtmlWebpackPlugin({
-            template: './src/util/RecipeListPage.html',
+            template: './src/RecipeListPage.html',
             filename: 'RecipeListPage.html',
             inject: false
         }),
         new HtmlWebpackPlugin({
-            template: './src/util/RecipeDetailsPage.html',
+            template: './src/RecipeDetailsPage.html',
             filename: 'RecipeDetailsPage.html',
             inject: false
         }),
         new HtmlWebpackPlugin({
-            template: './src/util/CreateRecipePage.html',
+            template: './src/CreateRecipePage.html',
             filename: 'CreateRecipePage.html',
             inject: false
         }),

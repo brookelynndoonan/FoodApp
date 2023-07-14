@@ -1,37 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
 <head>
-    <title>Recipe Search</title>
+    <title>Recipe List</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="api/RecipeListClient.js"></script>
-    <script src="js/RecipeListPage.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-
-
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<h2>Find your meal here</h2>
-<form id="search-recipe" role="search">
-    <!-- filter button -->
-    <select class="category-dropdown" id="category-dropdown">
-        <option value="">Dietary Restrictions</option>
-        <option value="Dairy Free"> Dairy Free </option>
-        <option value="Gluten Free"> Gluten Free </option>
-        <option value="Vegan"> Vegan </option>
-    </select>
-    <input type="text" id="search-bar-input" placeholder="Search...">
-    <button type="submit" onclick="window.location.href = 'RecipeListPage.html';">search </button>
-</form>
-</div>
-
-
-<header><h1>Recipe list</h1></header>
+<header>
+    <h1>Recipe List</h1>
+</header>
 
 <ul id="recipe-list-container"></ul>
 
 <!-- return to home button -->
 <div>
-    <button  onclick="window.location.href = 'HomePage.html';">Home</button>
+    <button onclick="window.location.href = 'HomePage.html';">Home</button>
 </div>
+
+<script src="api/RecipeListClient.js"></script>
+<script src="pages/RecipeListPage.js"></script>
 </body>
 </html>
