@@ -69,7 +69,6 @@ public class RecipeService {
             throw new RecipeNotFoundException("Recipe not found with ID: " + id);
         }
     }
-<<<<<<< HEAD
 
     public List<Recipe> searchRecipes(String cuisine, String dietaryRestrictions, String query) {
         if (cuisine != null && dietaryRestrictions != null  && query == null) {
@@ -106,8 +105,6 @@ public class RecipeService {
     }
 
 
-=======
->>>>>>> 2a9dfe5 (resolving merge conflict)
     public void deleteRecipeById(String id) {
         recipeRepository.deleteById(id);
     }
