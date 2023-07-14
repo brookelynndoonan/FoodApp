@@ -72,7 +72,7 @@ function validateIngredients() {
         const ingredientQuantity = ingredientRow.querySelector('.ingredient-quantity').value.trim();
         const ingredientQuantityType = ingredientRow.querySelector('.ingredient-quantity-type').value.trim();
 
-        if (ingredientName === '' || ingredientQuantity === '' || ingredientQuantityType === '') {
+        if (ingredientName === '' || ingredientQuantity === '') {
             const ingredientError = document.getElementById(`ingredient-error-${i}`);
             ingredientError.textContent = 'Please enter all fields for the ingredient.';
             isValid = false;
@@ -84,6 +84,7 @@ function validateIngredients() {
 
     return isValid;
 }
+
 
 // Function to validate the instructions field
 function validateInstructions() {
@@ -124,13 +125,11 @@ function getIngredients() {
         const ingredientQuantity = ingredientRow.querySelector('.ingredient-quantity').value.trim();
         const ingredientQuantityType = ingredientRow.querySelector('.ingredient-quantity-type').value.trim();
 
-        const ingredient = {
-            name: ingredientName,
-            quantity: ingredientQuantity,
-            quantityType: ingredientQuantityType
-        };
+        // Format the quantity type with a capital first letter
+        const formattedQuantityType = ingredientQuantityType ? ingredientQuantityType.charAt(0).toUpperCase() + ingredientQuantityType.slice(1) : '';
 
-        ingredients.push(ingredient);
+        const formattedIngredient = `${ingredientName} (${ingredientQuantity} ${formattedQuantityType})`;
+        ingredients.push(formattedIngredient);
     }
 
     return ingredients;
@@ -218,103 +217,182 @@ function createRecipe() {
         title, cuisine, description, dietaryRestrictions, ingredients, instructions
     };
 
-    // Send a POST request to the back-end API to create the recipe
-    fetch('/api/recipes/create', {
-        method: 'POST', headers: {
-            'Content-Type': 'application/json'
-        }, body: JSON.stringify(recipe)
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Recipe created successfully, display success message or redirect to another page
-            alert('Recipe created successfully!');
+    // Function to create a recipe
+    function createRecipe() {
+        // Validate the form
+        const isFormValid = validateForm();
 
-            // Clear the form fields
-            document.getElementById('title').value = '';
-            document.getElementById('cuisine').value = '';
-            document.getElementById('description').value = '';
-            document.getElementById('dietary-restrictions').value = 'NONE';
-            resetIngredientFields();
-            document.getElementById('instructions').value = '';
+        if (!isFormValid) {
+            return;
+        }
+
+        // Get input values
+        const title = document.getElementById('title').value;
+        const cuisine = formatOptionString(document.getElementById('cuisine').value);
+        const description = document.getElementById('description').value;
+        const dietaryRestrictions = formatOptionString(document.getElementById('dietary-restrictions').value);
+        const ingredients = getIngredients();
+        const instructions = document.getElementById('instructions').value;
+
+        // Create the recipe object
+        const recipe = {
+            title, cuisine, description, dietaryRestrictions, ingredients, instructions
+        };
+
+        // Send a POST request to the back-end API to create the recipe
+        fetch('/api/recipes/create', {
+            method: 'POST', headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify(recipe)
         })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
+            .then(response => response.json())
+            .then(data => {
+                // Recipe created successfully, display success message or redirect to another page
+                alert('Recipe created successfully!');
+
+                // Clear the form fields
+                document.getElementById('title').value = '';
+                document.getElementById('cuisine').value = '';
+                document.getElementById('description').value = '';
+                document.getElementById('dietary-restrictions').value = 'NONE';
+                resetIngredientFields();
+                document.getElementById('instructions').value = '';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+// Function to format an option string
+    function formatOptionString(option) {
+        return option.split('_').map(word => {
+            const firstLetter = word.charAt(0).toUpperCase();
+            const restOfWord = word.slice(1).toLowerCase();
+            return firstLetter + restOfWord;
+        }).join(' ');
+    }
+
 
 // Function to initialize the create recipe page
-function initCreateRecipePage() {
-    resetIngredientFields();
-    populateCuisineOptions();
-    populateDietaryRestrictionsOptions();
-
-
-}
+    function initCreateRecipePage() {
+        resetIngredientFields();
+        populateCuisineOptions();
+        populateDietaryRestrictionsOptions();
+        populateQuantityTypeOptions(); // Call the function to populate the quantity type options
+    }
 
 // Function to populate cuisine options
-function populateCuisineOptions() {
-    // Make an AJAX request to fetch the cuisine options from the server
-    fetch('http://localhost:5001/api/cuisineOptions')
-        .then(response => response.json())
-        .then(data => {
-            const cuisineOptions = data;
+    function populateCuisineOptions() {
+        // Make an AJAX request to fetch the cuisine options from the server
+        fetch('http://localhost:5001/api/cuisineOptions')
+            .then(response => response.json())
+            .then(data => {
+                const cuisineOptions = data;
 
-            // Get the select element for cuisine
-            const cuisineSelect = document.getElementById('cuisine');
+                // Sort the cuisine options alphabetically
+                cuisineOptions.sort();
 
-            // Create the default "Select one" option
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = 'Select one';
-            cuisineSelect.appendChild(defaultOption);
+                // Get the select element for cuisine
+                const cuisineSelect = document.getElementById('cuisine');
 
-            // Loop through the cuisine options and create an option element for each
-            cuisineOptions.forEach(option => {
-                const optionElement = document.createElement('option');
-                optionElement.value = option;
-                optionElement.textContent = option.charAt(0) + option.slice(1).toLowerCase().replace('_', ' ');
+                // Create the default "Select one" option
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Select one';
+                cuisineSelect.appendChild(defaultOption);
 
-                cuisineSelect.appendChild(optionElement);
+                // Loop through the cuisine options and create an option element for each
+                cuisineOptions.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.textContent = option.charAt(0) + option.slice(1).toLowerCase().replace('_', ' ');
+
+                    cuisineSelect.appendChild(optionElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching cuisine options:', error);
             });
-        })
-        .catch(error => {
-            console.error('Error fetching cuisine options:', error);
-        });
-}
+    }
 
 // Function to populate the dietary restriction options
-function populateDietaryRestrictionsOptions() {
-    const dietaryRestrictionsContainer = document.getElementById('checkbox-container');
+    function populateDietaryRestrictionsOptions() {
+        const dietaryRestrictionsContainer = document.getElementById('checkbox-container'); // Update ID to 'checkbox-container'
 
-    fetch('http://localhost:5001/api/dietaryRestrictionsOptions')
-        .then(response => response.json())
-        .then(data => {
-            const dietaryRestrictionsOptions = data;
+        fetch('http://localhost:5001/api/dietaryRestrictionOptions')
+            .then(response => response.json())
+            .then(data => {
+                const dietaryRestrictionsOptions = data;
 
-            dietaryRestrictionsOptions.forEach(option => {
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.name = 'dietary-restriction';
-                checkbox.value = option;
-                checkbox.id = option;
+                // Sort the dietary restriction options alphabetically
+                dietaryRestrictionsOptions.sort();
 
-                const label = document.createElement('label');
-                label.textContent = option;
-                label.htmlFor = option;
+                dietaryRestrictionsOptions.forEach(option => {
+                    const formattedOption = option
+                        .split('_')
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                        .join(' ');
 
-                dietaryRestrictionsContainer.appendChild(checkbox);
-                dietaryRestrictionsContainer.appendChild(label);
-                dietaryRestrictionsContainer.appendChild(document.createElement('br'));
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = 'dietary-restriction';
+                    checkbox.value = option;
+                    checkbox.id = option;
+
+                    const label = document.createElement('label');
+                    label.textContent = formattedOption;
+                    label.htmlFor = option;
+
+                    dietaryRestrictionsContainer.appendChild(checkbox);
+                    dietaryRestrictionsContainer.appendChild(label);
+                    dietaryRestrictionsContainer.appendChild(document.createElement('br'));
+                });
+
+            })
+            .catch(error => {
+                console.error('Error fetching dietary restrictions options:', error);
             });
-        })
-        .catch(error => {
-            console.error('Error fetching dietary restrictions options:', error);
-        });
-}
+    }
+
+// Function to populate the quantity type options
+    function populateQuantityTypeOptions() {
+        // Make an AJAX request to fetch the quantity type options from the server
+        fetch('http://localhost:5001/api/quantityTypeOptions')
+            .then(response => response.json())
+            .then(data => {
+                const quantityTypeOptions = data;
+
+                // Sort the quantity type options alphabetically
+                quantityTypeOptions.sort();
+
+                // Get the select element for quantity type
+                const quantityTypeSelects = document.getElementsByClassName('ingredient-quantity-type');
+
+                // Loop through the quantity type options and create an option element for each
+                for (let i = 0; i < quantityTypeSelects.length; i++) {
+                    const quantityTypeSelect = quantityTypeSelects[i];
+                    quantityTypeOptions.forEach(option => {
+                        const formattedOption = option
+                            .split('_')
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                            .join(' ');
+
+                        const optionElement = document.createElement('option');
+                        optionElement.value = option;
+                        optionElement.textContent = formattedOption;
+                        quantityTypeSelect.appendChild(optionElement);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching quantity type options:', error);
+            });
+    }
 
 
-function setHasDietaryRestrictions(hasDietaryRestrictions) {
-    const hasDietaryRestrictionsInput = document.getElementById('has-dietary-restrictions-input');
-    hasDietaryRestrictionsInput.value = hasDietaryRestrictions;
+    function setHasDietaryRestrictions(hasDietaryRestrictions) {
+        const hasDietaryRestrictionsInput = document.getElementById('has-dietary-restrictions-input');
+        hasDietaryRestrictionsInput.value = hasDietaryRestrictions;
+    }
 }
 
