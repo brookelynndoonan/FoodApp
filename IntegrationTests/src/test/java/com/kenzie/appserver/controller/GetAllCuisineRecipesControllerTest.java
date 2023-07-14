@@ -3,6 +3,7 @@ package com.kenzie.appserver.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kenzie.appserver.IntegrationTest;
+import com.kenzie.appserver.controller.model.RecipeResponse;
 import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.appserver.service.model.Recipe;
 import net.andreinc.mockneat.MockNeat;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -93,8 +95,8 @@ public class GetAllCuisineRecipesControllerTest {
 
         mapper.registerModule(new JavaTimeModule());
         // THEN
-        //String responseBody = actions.andReturn().getResponse().getContentAsString();
-        //List<RecipeResponse> listCuisineRecipes = mapper.readValue(responseBody, new TypeReference<List<RecipeResponse>>(){});
-        assertThat(recipeList.size()).isEqualTo(2);
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        List<RecipeResponse> listCuisineRecipes = mapper.readValue(responseBody, new TypeReference<List<RecipeResponse>>(){});
+        assertThat(listCuisineRecipes.size()).isEqualTo(2);
     }
 }
