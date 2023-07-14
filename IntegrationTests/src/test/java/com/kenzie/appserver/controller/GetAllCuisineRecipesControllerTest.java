@@ -132,4 +132,6 @@ public class GetAllCuisineRecipesControllerTest {
                 .andReturn();
         // Add more assertions as needed for the response body
     }
+
 }
+
