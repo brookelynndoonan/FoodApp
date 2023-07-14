@@ -86,7 +86,7 @@ public class GetAllCuisineRecipesControllerTest {
 
 
         mockMvc.perform(get("/recipes/cuisine/{cuisine}", "Italian")
-                                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                /* .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("cuisine").value("Cuisine"))*/;
@@ -130,6 +130,6 @@ public class GetAllCuisineRecipesControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].cuisine").value(cuisine))
                 .andReturn();
-                // Add more assertions as needed for the response body
+        // Add more assertions as needed for the response body
     }
 }
