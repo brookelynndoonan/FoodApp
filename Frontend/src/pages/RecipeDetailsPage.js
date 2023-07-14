@@ -1,5 +1,5 @@
 import BaseClass from "../util/baseClass";
-import RecipeListClient from "../api/RecipeListClient";
+import RecipeListClient from "../api/RecipeListClient.js"
 
 
 
