@@ -3,6 +3,7 @@ package com.kenzie.appserver.repositories.model;
 public class Enums {
 
     public enum Cuisine {
+
         ITALIAN,
         MEXICAN,
         INDIAN,
@@ -16,6 +17,7 @@ public class Enums {
         // Add more cuisine types as needed
     }
     public enum DietaryRestrictions {
+
         VEGAN,
         VEGETARIAN,
         GLUTEN_FREE,
@@ -26,6 +28,7 @@ public class Enums {
     }
 
     public enum QuantityType {
+
         GRAMS,
         KILOGRAMS,
         MILLILITERS,
@@ -39,7 +42,6 @@ public class Enums {
         PACKS,
         POUNDS,
         OZ
-
     }
 
 }
