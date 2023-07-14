@@ -47,9 +47,10 @@ public class RecipeService {
 
     public List<Recipe> getRecipesByCuisine(String cuisine) {
         List<RecipeRecord> recipeRecords = recipeRepository.findByCuisine(cuisine);
-        return recipeRecords.stream()
+        List<Recipe> recipes = recipeRecords.stream()
                 .map(RecipeMapper::recipeRecordtoRecipe)
                 .collect(Collectors.toList());
+        return recipes;
     }
 
     public List<Recipe> getRecipesByDietaryRestrictions(String dietaryRestrictions) {
@@ -67,5 +68,8 @@ public class RecipeService {
         } else {
             throw new RecipeNotFoundException("Recipe not found with ID: " + id);
         }
+    }
+    public void deleteRecipeById(String id) {
+        recipeRepository.deleteById(id);
     }
 }
