@@ -1,13 +1,29 @@
 /* style.css */
 
 /* CSS styles for the page */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../../../fonts/Montserrat-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../../../fonts/Montserrat-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
 
 /* Body styles */
 body {
-    font-family: 'Lobster', cursive;
+    font-family: 'Montserrat', Arial, sans-serif;
+    background-color: #f7f3e9;
+    color: #363636;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    font-weight: normal;
+    font-style: unset;
 }
 
 /* Menu styles */
@@ -108,10 +124,10 @@ h1 {
 }
 
 /* Checkbox container styles */
-.checkbox-container {
-    display: block;
-    align-items: center;
-    margin-right: 10px;
+#checkbox-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 5px;
 }
 
 /* Checkbox container label styles */
@@ -122,6 +138,7 @@ h1 {
 /* Checkbox input styles */
 .form-group input[type="checkbox"] {
     cursor: pointer;
+    margin-right: 5px;
 }
 
 /* Submit button styles */

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Foodie App</title>
-    <script>src="Homepage.js"</script>
+    <script src="pages/HomePage.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
@@ -23,39 +23,30 @@
             margin-right: auto;
         }
 
-
         .intro-container p {
             font-size: 16px;
             margin-bottom: 20px;
         }
+
+        /* Styling for the footer */
+        footer {
+            background-color: #f7f3e9;
+            color: #363636;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Add padding to the bottom of the main content */
+        main {
+            padding-bottom: 60px; /* Adjust the value to leave space for the footer */
+        }
     </style>
 </head>
 <body>
-<header>
-    <div class="title-container">
-        <h1>FOODIE</h1>
-    </div>
-    <nav>
-        <ul>
-            <li onclick="window.location.href = 'RecipeListPage.html';"><a >Home</a></li>
-            <li onclick="window.location.href = 'RecipeListPage.html';"><a >Cuisines</a></li>
-            <li onclick="window.location.href = 'RecipeListPage.html';"><a >Dietary Restrictions</a></li>
-            <li onclick="window.location.href = 'CreateRecipePage.html';"><a >Create a Recipe</a></li>
-        </ul>
-    </nav>
-    <div class="header-image">
-        <div class="image-container">
-            <img src="../../images/malgorzata-bujalska-RGM_UAsQwXA-unsplash.jpg" alt="Food Image">
-        </div>
-    </div>
-    <div class="search-bar">
-        <form id="search-recipe">
-            <input type="text" id="search-bar-input" placeholder="Search...">
-            <button type="submit" onclick="window.location.href = 'RecipeListPage.html';"><i class="fas fa-search"></i></button>
-        </form>
-    </div>
-
-</header>
+<div class="header-container" id="header-container"></div>
 
 <main>
     <div class="intro-container">
@@ -67,5 +58,7 @@
 <footer>
     <p>Created by: Brooke, Jess, Megan, & Sha'mir</p>
 </footer>
+
+<script src="pages/header.js"></script>
 </body>
 </html>
