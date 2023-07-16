@@ -18,6 +18,7 @@ import static java.util.UUID.randomUUID;
 
 @RestController
 @RequestMapping("/recipes")
+@CrossOrigin(origins = "http://localhost:63342")
 public class RecipeController {
 
     private final RecipeService recipeService;
