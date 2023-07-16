@@ -89,8 +89,6 @@ public class AddNewRecipeControllerTest {
         Assertions.assertNotNull(recipeCreateRequest.getHasDietaryRestrictions());
         Assertions.assertEquals(Boolean.FALSE, recipeCreateRequest.getHasDietaryRestrictions());
 
-        // CLEANUP
-        recipeService.deleteRecipeById(recipe.getId());
 
     }
 
