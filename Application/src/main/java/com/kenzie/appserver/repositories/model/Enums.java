@@ -20,7 +20,9 @@ public class Enums {
         VEGETARIAN,
         GLUTEN_FREE,
         DAIRY_FREE,
-        NUT_FREE
+        NUT_FREE,
+        LOW_CARB,
+        PALEO
 
         // Add more dietary restrictions as needed
     }
@@ -38,7 +40,11 @@ public class Enums {
         PIECES,
         PACKS,
         POUNDS,
-        OZ
+        OZ,
+        MINCED,
+        DICED,
+        PINCH,
+        DASH
 
     }
 
