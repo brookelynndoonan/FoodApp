@@ -1,610 +1,366 @@
-<<<<<<< HEAD
-document.addEventListener('DOMContentLoaded', function () {
-    populateCuisineOptions();
-    populateDietaryRestrictionsOptions();
+import BaseClass from "../util/baseClass";
 
-    document.getElementById('recipeForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-=======
 // JavaScript code to interact with the back-end API
->>>>>>> e1387b8 (Removed index and examples)
+class CreateRecipePage extends BaseClass {
+// Function to validate the title field
+    function
 
-        // Get form data
-        const formData = new FormData(event.target);
-        const dietaryRestrictions = [];
-        formData.getAll('dietary-restriction').forEach((option) => {
-            dietaryRestrictions.push(option);
-        });
+    validateTitle() {
+        const titleField = document.getElementById('title');
+        const titleError = document.getElementById('title-error');
 
-        const hasDietaryRestrictions = dietaryRestrictions.length > 0;
+        if (titleField.value.trim() == '') {
+            titleError.textContent = 'Title is required.';
+            return false;
+        }
 
-        const ingredients = Array.from(document.querySelectorAll('#ingredients-container .ingredient-row input[name="ingredient"]')).map(input => input.value.trim()).filter(value => value !== '');
-
-        const recipeData = {
-            title: capitalizeWords(formData.get('title')),
-            cuisine: capitalizeWords(formData.get('cuisine')).replace(/_/g, ' '),
-            description: formData.get('description'),
-            dietaryRestrictions: capitalizeWordsWithSpaces(dietaryRestrictions),
-            hasDietaryRestrictions: hasDietaryRestrictions,
-            ingredients: ingredients,
-            instructions: formData.get('instructions')
-        };
-
-        // Send POST request to backend
-        fetch('http://localhost:5001/recipes', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(recipeData)
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Failed to create recipe');
-                }
-            })
-            .then(data => {
-                console.log('Recipe created:', data);
-                // Redirect to the created recipe's page
-                window.location.href = `RecipeDetailsPage.html?id=${data.id}`;
-            })
-            .catch(error => {
-                console.error(error);
-                // Handle error
-            });
-    });
-
-    const ingredientsContainer = document.getElementById('ingredients-container');
-
-<<<<<<< HEAD
-    ingredientsContainer.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            addIngredientField();
-=======
-// Function to validate the cuisine field
-function validateCuisine() {
-    const cuisineField = document.getElementById('cuisine');
-    const cuisineError = document.getElementById('cuisine-error');
-
-    if (cuisineField.value.trim() === '') {
-        cuisineError.textContent = 'Cuisine is required.';
-        return false;
+        titleError.textContent = '';
+        return true;
     }
 
-    cuisineError.textContent = '';
-    return true;
-}
+// Function to validate the description field
+    function
+
+    validateDescription() {
+        const descriptionField = document.getElementById('description');
+        const descriptionError = document.getElementById('description-error');
+
+        if (descriptionField.value.trim() === '') {
+            descriptionError.textContent = 'Description is required.';
+            return false;
+        }
+
+        descriptionError.textContent = '';
+        return true;
+    }
+
+// Function to validate the cuisine field
+    function
+
+    validateCuisine() {
+        const cuisineField = document.getElementById('cuisine');
+        const cuisineError = document.getElementById('cuisine-error');
+
+        if (cuisineField.value.trim() === '') {
+            cuisineError.textContent = 'Cuisine is required.';
+            return false;
+        }
+
+        cuisineError.textContent = '';
+        return true;
+    }
 
 // Function to validate the dietary restrictions field
-function validateDietaryRestrictions() {
-    const dietaryRestrictionsField = document.querySelectorAll('input[name="dietary-restriction"]:checked');
-    const dietaryRestrictionsError = document.getElementById('dietary-restrictions-error');
+    function
 
-    if (dietaryRestrictionsField.length === 0) {
-        dietaryRestrictionsError.textContent = 'Dietary restrictions is required.';
-        return false;
+    validateDietaryRestrictions() {
+        const dietaryRestrictionsField = document.getElementById('dietary-restrictions');
+        const dietaryRestrictionsError = document.getElementById('dietary-restrictions-error');
+
+        if (dietaryRestrictionsField.value.trim() === '') {
+            dietaryRestrictionsError.textContent = 'Dietary restrictions is required.';
+            return false;
+        }
+        if (dietaryRestrictionsField.value.trim() === 'NONE' && dietaryRestrictionsField.selectedOptions.length > 1) {
+            dietaryRestrictionsError.textContent = 'Cannot select other options when "None" is selected.';
+            return false;
+        }
+
+        dietaryRestrictionsError.textContent = '';
+        return true;
     }
-
-    if (dietaryRestrictionsField.length === 1 && dietaryRestrictionsField[0].value === 'NONE') {
-        dietaryRestrictionsError.textContent = 'Cannot select other options when "None" is selected.';
-        return false;
-    }
-
-    dietaryRestrictionsError.textContent = '';
-    return true;
-}
 
 // Function to validate the ingredients field
-function validateIngredients() {
-    const ingredientRows = document.getElementsByClassName('ingredient-row');
-    let isValid = true;
+    function
 
-    for (let i = 0; i < ingredientRows.length; i++) {
-        const ingredientRow = ingredientRows[i];
-        const ingredientName = ingredientRow.querySelector('.ingredient-name').value.trim();
-        const ingredientQuantity = ingredientRow.querySelector('.ingredient-quantity').value.trim();
-        const ingredientQuantityType = ingredientRow.querySelector('.ingredient-quantity-type').value.trim();
+    validateIngredients() {
+        const ingredientRows = document.getElementsByClassName('ingredient-row');
+        let isValid = true;
 
-        if (ingredientName === '' || ingredientQuantity === '') {
-            const ingredientError = document.getElementById(`ingredient-error-${i}`);
-            ingredientError.textContent = 'Please enter all fields for the ingredient.';
-            isValid = false;
-        } else {
-            const ingredientError = document.getElementById(`ingredient-error-${i}`);
-            ingredientError.textContent = '';
->>>>>>> e1387b8 (Removed index and examples)
-        }
-    });
+        for (let i = 0; i < ingredientRows.length; i++) {
+            const ingredientRow = ingredientRows[i];
+            const ingredientName = ingredientRow.querySelector('.ingredient-name').value.trim();
+            const ingredientQuantity = ingredientRow.querySelector('.ingredient-quantity').value.trim();
+            const ingredientQuantityType = ingredientRow.querySelector('.ingredient-quantity-type').value.trim();
 
-    ingredientsContainer.addEventListener('keydown', function (event) {
-        if (event.key === 'Backspace' && event.target.value.trim() === '') {
-            const ingredientRow = event.target.closest('.ingredient-row');
-            const ingredients = Array.from(document.querySelectorAll('#ingredients-container .ingredient-row'));
-            const index = ingredients.indexOf(ingredientRow);
-            if (index > 0) {
-                event.preventDefault();
-                ingredientsContainer.removeChild(ingredientRow);
-                ingredients[index - 1].querySelector('input').focus();
+            if (ingredientName === '' || ingredientQuantity === '' || ingredientQuantityType === '') {
+                const ingredientError = document.getElementById(`ingredient-error-${i}`);
+                ingredientError.textContent = 'Please enter all fields for the ingredient.';
+                isValid = false;
+            } else {
+                const ingredientError = document.getElementById(`ingredient-error-${i}`);
+                ingredientError.textContent = '';
             }
         }
-    });
-});
 
-// Function to populate cuisine options
-function populateCuisineOptions() {
-    // Make an AJAX request to fetch the cuisine options from the server
-    fetch('http://localhost:5001/api/cuisineOptions')
-        .then((response) => response.json())
-        .then((data) => {
-            const cuisineOptions = data;
+        return isValid;
+    }
 
-            // Sort the cuisine options alphabetically
-            cuisineOptions.sort();
-
-            // Get the select element for cuisine
-            const cuisineSelect = document.getElementById('cuisine');
-
-            // Loop through the cuisine options and create an option element for each
-            cuisineOptions.forEach((option) => {
-                const optionElement = document.createElement('option');
-                optionElement.value = option;
-                optionElement.textContent = capitalizeWords(option).replace(/_/g, ' ');
-
-                cuisineSelect.appendChild(optionElement);
-            });
-        })
-        .catch((error) => {
-            console.error('Error fetching cuisine options:', error);
-        });
-}
-
-<<<<<<< HEAD
-// Function to populate the dietary restriction options
-function populateDietaryRestrictionsOptions() {
-    const dietaryRestrictionsContainer = document.getElementById('checkbox-container');
-
-    fetch('http://localhost:5001/api/dietaryRestrictionOptions')
-        .then((response) => response.json())
-        .then((data) => {
-            const dietaryRestrictionsOptions = data;
-=======
 // Function to validate the instructions field
-function validateInstructions() {
-    const instructionsField = document.getElementById('instructions');
-    const instructionsError = document.getElementById('instructions-error');
->>>>>>> e1387b8 (Removed index and examples)
+    function
 
-            // Sort the dietary restriction options alphabetically
-            dietaryRestrictionsOptions.sort();
+    validateInstructions() {
+        const instructionsField = document.getElementById('instructions');
+        const instructionsError = document.getElementById('instructions-error');
 
-            dietaryRestrictionsOptions.forEach((option) => {
-                const formattedOption = option
-                    .split('_')
-                    .map((word) => capitalizeWords(word))
-                    .join(' ');
-
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.name = 'dietary-restriction';
-                checkbox.value = option;
-                checkbox.id = option;
-
-                const label = document.createElement('label');
-                label.textContent = formattedOption;
-                label.htmlFor = option;
-
-                checkbox.addEventListener('change', function () {
-                    updateHasDietaryRestrictions();
-                });
-
-                dietaryRestrictionsContainer.appendChild(checkbox);
-                dietaryRestrictionsContainer.appendChild(label);
-            });
-
-            // Set the display style of the container to flex or grid
-            dietaryRestrictionsContainer.style.display = 'flex'; // Or use 'grid' for CSS grid layout
-
-            // Initially update the hasDietaryRestrictions checkbox
-            updateHasDietaryRestrictions();
-        })
-        .catch((error) => {
-            console.error('Error fetching dietary restrictions options:', error);
-        });
-}
-
-<<<<<<< HEAD
-// Helper function to capitalize the first letter of each word in a string
-function capitalizeWords(str) {
-    return str.toLowerCase().replace(/(^|\s)\S/g, (match) => match.toUpperCase());
-}
-
-// Helper function to capitalize words with spaces instead of underscores
-function capitalizeWordsWithSpaces(options) {
-    const capitalizedOptions = options.map((option) =>
-        option
-            .split('_')
-            .map((word) => capitalizeWords(word))
-            .join(' ')
-    );
-    return capitalizedOptions.join(', ');
-}
-
-// Helper function to update the hasDietaryRestrictions checkbox
-function updateHasDietaryRestrictions() {
-    const checkboxes = document.querySelectorAll('input[name="dietary-restriction"]');
-    const hasDietaryRestrictionsCheckbox = document.createElement('input');
-    hasDietaryRestrictionsCheckbox.type = 'hidden';
-    hasDietaryRestrictionsCheckbox.name = 'hasDietaryRestrictions';
-    hasDietaryRestrictionsCheckbox.value = '';
-
-    let hasDietaryRestrictions = false;
-
-    checkboxes.forEach((checkbox) => {
-        if (checkbox.checked) {
-            hasDietaryRestrictions = true;
+        if (instructionsField.value.trim() === '') {
+            instructionsError.textContent = 'Instructions are required.';
+            return false;
         }
-    });
 
-    hasDietaryRestrictionsCheckbox.value = hasDietaryRestrictions;
+        instructionsError.textContent = '';
+        return true;
+    }
 
-    document.getElementById('recipeForm').appendChild(hasDietaryRestrictionsCheckbox);
-}
-
-// Function to add an ingredient field
-function addIngredientField() {
-    const ingredientsContainer = document.getElementById('ingredients-container');
-
-    const ingredientRow = document.createElement('div');
-    ingredientRow.classList.add('ingredient-row');
-
-    const ingredientInput = document.createElement('input');
-    ingredientInput.type = 'text';
-    ingredientInput.name = 'ingredient';
-    ingredientInput.required = true;
-
-    ingredientRow.appendChild(ingredientInput);
-
-    ingredientsContainer.appendChild(ingredientRow);
-
-    ingredientInput.focus();
-=======
 // Function to validate the entire form
-function validateForm() {
-    // Perform validation for each form field
-    const isValidTitle = validateTitle();
-    const isValidDescription = validateDescription();
-    const isValidCuisine = validateCuisine();
-    const isValidDietaryRestrictions = validateDietaryRestrictions();
-    const isValidIngredients = validateIngredients();
-    const isValidInstructions = validateInstructions();
+    function
 
-    // Return true if all fields are valid
-    return (
-        isValidTitle &&
-        isValidDescription &&
-        isValidCuisine &&
-        isValidDietaryRestrictions &&
-        isValidIngredients &&
-        isValidInstructions
-    );
-}
+    validateForm() {
+        // Perform validation for each form field
+        const isValidTitle = validateTitle();
+        const isValidDescription = validateDescription();
+        const isValidCuisine = validateCuisine();
+        const isValidDietaryRestrictions = validateDietaryRestrictions();
+        const isValidIngredient = validateIngredients();
+        const isValidInstructions = validateInstructions();
+
+        // Return true if all fields are valid
+        return (isValidTitle && isValidDescription && isValidCuisine && isValidDietaryRestrictions && isValidIngredient && isValidInstructions);
+    }
 
 // Function to get the list of ingredients from the ingredient fields
-function getIngredients() {
-    const ingredientRows = document.getElementsByClassName('ingredient-row');
-    const ingredients = [];
+    function
 
-    for (let i = 0; i < ingredientRows.length; i++) {
-        const ingredientRow = ingredientRows[i];
-        const ingredientName = ingredientRow.querySelector('.ingredient-name').value.trim();
-        const ingredientQuantity = ingredientRow.querySelector('.ingredient-quantity').value.trim();
-        const ingredientQuantityType = ingredientRow.querySelector('.ingredient-quantity-type').value.trim();
+    getIngredients() {
+        const ingredientRows = document.getElementsByClassName('ingredient-row');
+        const ingredients = [];
 
-        // Format the quantity type with a capital first letter
-        const formattedQuantityType =
-            ingredientQuantityType ? ingredientQuantityType.charAt(0).toUpperCase() + ingredientQuantityType.slice(1) : '';
+        for (let i = 0; i < ingredientRows.length; i++) {
+            const ingredientRow = ingredientRows[i];
+            const ingredientName = ingredientRow.querySelector('.ingredient-name').value.trim();
+            const ingredientQuantity = ingredientRow.querySelector('.ingredient-quantity').value.trim();
+            const ingredientQuantityType = ingredientRow.querySelector('.ingredient-quantity-type').value.trim();
 
-        const formattedIngredient = `${ingredientName} (${ingredientQuantity} ${formattedQuantityType})`;
-        ingredients.push(formattedIngredient);
+            const ingredient = {
+                name: ingredientName,
+                quantity: ingredientQuantity,
+                quantityType: ingredientQuantityType
+            };
+
+            ingredients.push(ingredient);
+        }
+
+        return ingredients;
     }
 
-    return ingredients;
-}
+// Function to add a new ingredient field
+    function
 
-let ingredientIndex = 1;
-// Function to add a new ingredient row
-function addIngredientField() {
-    const ingredientContainer = document.getElementById('ingredient-container');
+    addIngredientField() {
+        const ingredientContainer = document.getElementById('ingredient-container');
+        const ingredientRow = document.createElement('div');
+        ingredientRow.className = 'ingredient-row';
 
-    // Create a new ingredient row
-    const newIngredientRow = document.createElement('div');
-    newIngredientRow.classList.add('ingredient-row');
+        const ingredientNameInput = document.createElement('input');
+        ingredientNameInput.type = 'text';
+        ingredientNameInput.className = 'ingredient-name';
+        ingredientNameInput.placeholder = 'Ingredient Name';
 
-    // Quantity field
-    const ingredientQuantityLabel = document.createElement('label');
-    ingredientQuantityLabel.textContent = 'Quantity';
+        const ingredientQuantityInput = document.createElement('input');
+        ingredientQuantityInput.type = 'text';
+        ingredientQuantityInput.className = 'ingredient-quantity';
+        ingredientQuantityInput.placeholder = 'Quantity';
+        const ingredientQuantityTypeSelect = document.createElement('select');
+        ingredientQuantityTypeSelect.className = 'ingredient-quantity-type';
+        // Populate the quantity type options dynamically, you can use a loop or add options manually
 
-    const ingredientQuantityInput = document.createElement('input');
-    ingredientQuantityInput.classList.add('ingredient-quantity');
-    ingredientQuantityInput.placeholder = 'Quantity';
-    ingredientQuantityInput.type = 'text';
+        const addButton = document.createElement('button');
+        addButton.setAttribute('aria-label', 'Add');
+        addButton.className = 'add-button';
+        addButton.innerHTML = '<span class="button-text">+</span>';
+        addButton.onclick = addIngredientField;
 
-
-    // Quantity Type field
-    const ingredientQuantityTypeLabel = document.createElement('label');
-    ingredientQuantityTypeLabel.textContent = 'Quantity Type';
-
-    const ingredientQuantityTypeSelect = document.createElement('select');
-    ingredientQuantityTypeSelect.classList.add('ingredient-quantity-type');
-    populateQuantityTypeOptions(ingredientQuantityTypeSelect); // Populate the quantity type options
-
-
-    // Ingredient Name field
-    const ingredientNameLabel = document.createElement('label');
-    ingredientNameLabel.textContent = 'Ingredient Name';
-
-    const ingredientNameInput = document.createElement('input');
-    ingredientNameInput.classList.add('ingredient-name');
-    ingredientNameInput.placeholder = 'Ingredient Name';
-    ingredientNameInput.type = 'text';
-
-
-    // Plus button
-    const addButton = document.createElement('button');
-    addButton.setAttribute('aria-label', 'Add');
-    addButton.classList.add('add-button');
-    addButton.onclick = addIngredientField;
-
-    const buttonText = document.createElement('span');
-    buttonText.classList.add('button-text');
-    buttonText.textContent = '+';
-
-    addButton.appendChild(buttonText);
-
-    // Minus button (only for rows other than the first one)
-    let removeButton = null;
-    if (ingredientIndex > 0) {
-        removeButton = document.createElement('button');
+        const removeButton = document.createElement('button');
         removeButton.setAttribute('aria-label', 'Remove');
-        removeButton.classList.add('remove-button');
+        removeButton.className = 'remove-button';
+        removeButton.innerHTML = '<span class="button-text">-</span>';
         removeButton.onclick = function () {
-            removeIngredientField(newIngredientRow);
+            removeIngredientField(ingredientRow);
         };
 
-        const removeButtonText = document.createElement('span');
-        removeButtonText.classList.add('button-text');
-        removeButtonText.textContent = '-';
+        const errorMessage = document.createElement('span');
+        errorMessage.className = 'error-message';
+        errorMessage.id = `ingredient-error-${ingredientContainer.childElementCount}`;
 
-        removeButton.appendChild(removeButtonText);
+        ingredientRow.appendChild(ingredientNameInput);
+        ingredientRow.appendChild(ingredientQuantityInput);
+        ingredientRow.appendChild(ingredientQuantityTypeSelect);
+        ingredientRow.appendChild(addButton);
+        ingredientRow.appendChild(removeButton);
+        ingredientRow.appendChild(errorMessage);
+
+        ingredientContainer.appendChild(ingredientRow);
     }
-
-    // Error message
-    const errorSpan = document.createElement('span');
-    errorSpan.classList.add('error-message');
-    errorSpan.id = 'ingredient-error-' + ingredientIndex;
-
-    // Append all elements to the ingredient row
-    newIngredientRow.appendChild(ingredientQuantityLabel);
-    newIngredientRow.appendChild(ingredientQuantityInput);
-    newIngredientRow.appendChild(ingredientQuantityTypeLabel);
-    newIngredientRow.appendChild(ingredientQuantityTypeSelect);
-    newIngredientRow.appendChild(ingredientNameLabel);
-    newIngredientRow.appendChild(ingredientNameInput);
-    newIngredientRow.appendChild(addButton);
-    if (removeButton) {
-        newIngredientRow.appendChild(removeButton);
-    }
-    newIngredientRow.appendChild(errorSpan);
-
-    // Append the new ingredient row to the ingredient container
-    ingredientContainer.appendChild(newIngredientRow);
-
-    ingredientIndex++; // Increment the ingredient index for the next row
->>>>>>> e1387b8 (Removed index and examples)
-}
 
 // Function to remove an ingredient field
-function removeIngredientField(row) {
-    const ingredientsContainer = document.getElementById('ingredients-container');
-    ingredientsContainer.removeChild(row);
-}
-<<<<<<< HEAD
-=======
+    function
 
-// Function to reset all ingredient fields
-function resetIngredientFields() {
-    const ingredientContainer = document.getElementById('ingredient-container');
-    ingredientContainer.innerHTML = ''; // Remove all ingredient fields
-    addIngredientField(); // Add a single ingredient field by default
-
-    let ingredientIndex = 0; // Reset the ingredient index
-}
-
-// Function to create a recipe
-function createRecipe() {
-    // Validate the form
-    const isFormValid = validateForm();
-
-    if (!isFormValid) {
-        return;
+    removeIngredientField(row) {
+        const ingredientContainer = document.getElementById('ingredient-container');
+        ingredientContainer.removeChild(row);
     }
 
-    // Get input values
-    const title = document.getElementById('title').value;
-    const cuisine = document.getElementById('cuisine').value;
-    const description = document.getElementById('description').value;
-    const dietaryRestrictionsField = document.querySelectorAll('input[name="dietary-restriction"]:checked');
-    const dietaryRestrictions = Array.from(dietaryRestrictionsField).map((input) => input.value);
-    const ingredients = getIngredients();
-    const instructions = document.getElementById('instructions').value;
+// Function to reset all ingredient fields
+    function
 
-    // Create the recipe object
-    const recipe = {
-        title,
-        cuisine,
-        description,
-        dietaryRestrictions,
-        ingredients,
-        instructions,
-    };
+    resetIngredientFields() {
+        const ingredientContainer = document.getElementById('ingredient-container');
+        ingredientContainer.innerHTML = ''; // Remove all ingredient fields
+        addIngredientField(); // Add a single ingredient field by default
+    }
 
-    // Send a POST request to the back-end API to create the recipe
-    fetch('/api/recipes/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(recipe),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            // Recipe created successfully, display success message or redirect to another page
-            alert('Recipe created successfully!');
+// Function to create a recipe
+    function
 
-            // Clear the form fields
-            document.getElementById('title').value = '';
-            document.getElementById('cuisine').value = '';
-            document.getElementById('description').value = '';
-            document.getElementById('dietary-restrictions').value = 'NONE';
-            resetIngredientFields();
-            document.getElementById('instructions').value = '';
+    createRecipe() {
+        // Validate the form
+        const isFormValid = validateForm();
+
+        if (!isFormValid) {
+            return;
+        }
+
+        // Get input values
+        const title = document.getElementById('title').value;
+        const cuisine = document.getElementById('cuisine').value;
+        const description = document.getElementById('description').value;
+        const dietaryRestrictions = document.getElementById('dietary-restrictions').value;
+        const ingredients = getIngredients();
+        const instructions = document.getElementById('instructions').value;
+
+        // Create the recipe object
+        const recipe = {
+            title, cuisine, description, dietaryRestrictions, ingredients, instructions
+        };
+
+        // Send a POST request to the back-end API to create the recipe
+        fetch('/api/recipes', {
+            method: 'POST', headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify(recipe)
         })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-}
+            .then(response => response.json())
+            .then(data => {
+                // Recipe created successfully, display success message or redirect to another page
+                alert('Recipe created successfully!');
 
-// Function to format an option string
-function formatOptionString(option) {
-    return option
-        .split('_')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(' ');
-}
+                // Clear the form fields
+                document.getElementById('title').value = '';
+                document.getElementById('cuisine').value = '';
+                document.getElementById('description').value = '';
+                document.getElementById('dietary-restrictions').value = 'NONE';
+                resetIngredientFields();
+                document.getElementById('instructions').value = '';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 
 // Function to initialize the create recipe page
-function initCreateRecipePage() {
-    resetIngredientFields();
-    populateCuisineOptions();
-    populateDietaryRestrictionsOptions();
-    populateQuantityTypeOptions(); // Call the function to populate the quantity type options
-}
+    function
+
+    initCreateRecipePage() {
+        resetIngredientFields();
+        populateCuisineOptions();
+        populateDietaryRestrictionsOptions();
+
+
+    }
 
 // Function to populate cuisine options
-function populateCuisineOptions() {
-    // Make an AJAX request to fetch the cuisine options from the server
-    fetch('http://localhost:5001/api/cuisineOptions')
-        .then((response) => response.json())
-        .then((data) => {
-            const cuisineOptions = data;
+    function
 
-            // Sort the cuisine options alphabetically
-            cuisineOptions.sort();
+    populateCuisineOptions() {
+        // Make an AJAX request to fetch the cuisine options from the server
+        fetch('http://localhost:5001/api/cuisineOptions')
+            .then(response => response.json())
+            .then(data => {
+                const cuisineOptions = data;
 
-            // Get the select element for cuisine
-            const cuisineSelect = document.getElementById('cuisine');
+                // Get the select element for cuisine
+                const cuisineSelect = document.getElementById('cuisine');
 
-            // Create the default "Select one" option
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = 'Select one';
-            cuisineSelect.appendChild(defaultOption);
+                // Create the default "Select one" option
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Select one';
+                cuisineSelect.appendChild(defaultOption);
 
-            // Loop through the cuisine options and create an option element for each
-            cuisineOptions.forEach((option) => {
-                const optionElement = document.createElement('option');
-                optionElement.value = option;
-                optionElement.textContent = option.charAt(0) + option.slice(1).toLowerCase().replace('_', ' ');
+                // Loop through the cuisine options and create an option element for each
+                cuisineOptions.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.textContent = option.charAt(0) + option.slice(1).toLowerCase().replace('_', ' ');
 
-                cuisineSelect.appendChild(optionElement);
+                    cuisineSelect.appendChild(optionElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching cuisine options:', error);
             });
-        })
-        .catch((error) => {
-            console.error('Error fetching cuisine options:', error);
-        });
-}
+    }
 
 // Function to populate the dietary restriction options
-function populateDietaryRestrictionsOptions() {
-    const dietaryRestrictionsContainer = document.getElementById('checkbox-container');
+    function
 
-    fetch('http://localhost:5001/api/dietaryRestrictionOptions')
-        .then((response) => response.json())
-        .then((data) => {
-            const dietaryRestrictionsOptions = data;
+    populateDietaryRestrictionsOptions() {
+        const dietaryRestrictionsContainer = document.getElementById('checkbox-container');
 
-            // Sort the dietary restriction options alphabetically
-            dietaryRestrictionsOptions.sort();
+        fetch('http://localhost:5001/api/dietaryRestrictionsOptions') // Update the endpoint to match your backend API
+            .then(response => response.json())
+            .then(data => {
+                for (const option of data) {
+                    const formattedOption = option.charAt(0).toUpperCase() + option.slice(1).toLowerCase().replace('_', ' ');
 
-            dietaryRestrictionsOptions.forEach((option) => {
-                const formattedOption = option
-                    .split('_')
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                    .join(' ');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = 'restriction';
+                    checkbox.value = option.toLowerCase();
 
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.name = 'dietary-restriction';
-                checkbox.value = option;
-                checkbox.id = option;
+                    const label = document.createElement('label');
+                    label.htmlFor = 'chk-' + option.toLowerCase();
+                    label.textContent = formattedOption;
 
-                const label = document.createElement('label');
-                label.textContent = formattedOption;
-                label.htmlFor = option;
+                    const checkboxContainer = document.createElement('div');
+                    checkboxContainer.className = 'checkbox-container';
+                    checkboxContainer.appendChild(checkbox);
+                    checkboxContainer.appendChild(label);
 
-                dietaryRestrictionsContainer.appendChild(checkbox);
-                dietaryRestrictionsContainer.appendChild(label);
-                dietaryRestrictionsContainer.appendChild(document.createElement('br'));
+                    dietaryRestrictionsContainer.appendChild(checkboxContainer);
+                }
+
+                // Add event listener to "None" option
+                const noneCheckbox = document.querySelector('input[value="none"]');
+                noneCheckbox.addEventListener('change', () => {
+                    if (noneCheckbox.checked) {
+                        setHasDietaryRestrictions(false);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching dietary restrictions options:', error);
             });
-        })
-        .catch((error) => {
-            console.error('Error fetching dietary restrictions options:', error);
-        });
+
+        // Add an event listener to the form submit button
+        const submitButton = document.getElementById('submit-button');
+        submitButton.addEventListener('click', validateForm);
+    }
+
+    function
+
+    setHasDietaryRestrictions(hasDietaryRestrictions) {
+        const hasDietaryRestrictionsInput = document.getElementById('has-dietary-restrictions-input');
+        hasDietaryRestrictionsInput.value = hasDietaryRestrictions;
+    }
 }
-
-// Function to populate the quantity type options
-function populateQuantityTypeOptions(selectElement) {
-    // Make an AJAX request to fetch the quantity type options from the server
-    fetch('http://localhost:5001/api/quantityTypeOptions')
-        .then((response) => response.json())
-        .then((data) => {
-            const quantityTypeOptions = data;
-
-            // Sort the quantity type options alphabetically
-            quantityTypeOptions.sort();
-
-            // Create the default "Select one" option
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = 'Select one';
-            selectElement.appendChild(defaultOption);
-
-            // Loop through the quantity type options and create an option element for each
-            quantityTypeOptions.forEach((option) => {
-                const formattedOption = option
-                    .split('_')
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                    .join(' ');
-
-                const optionElement = document.createElement('option');
-                optionElement.value = option;
-                optionElement.textContent = formattedOption;
-                selectElement.appendChild(optionElement);
-            });
-        })
-        .catch((error) => {
-            console.error('Error fetching quantity type options:', error);
-        });
-}
-
-
-
-// Function to set the value of the hidden input field for hasDietaryRestrictions
-function setHasDietaryRestrictions(hasDietaryRestrictions) {
-    const hasDietaryRestrictionsInput = document.getElementById('has-dietary-restrictions-input');
-    hasDietaryRestrictionsInput.value = hasDietaryRestrictions;
-}
->>>>>>> e1387b8 (Removed index and examples)
