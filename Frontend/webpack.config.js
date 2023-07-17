@@ -38,12 +38,8 @@ module.exports = {
             filename: 'HomePage.html',
         }),
         new HtmlWebpackPlugin({
-            template: './src/RecipeListPage.html',
-            filename: 'RecipeListPage.html',
-        }),
-        new HtmlWebpackPlugin({
-            template: './src/RecipeDetailsPage.html',
-            filename: 'RecipeDetailsPage.html',
+            template: './src/header.html',
+            filename: 'header.html',
         }),
         new HtmlWebpackPlugin({
             template: './src/CreateRecipePage.html',

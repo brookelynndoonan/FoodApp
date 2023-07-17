@@ -1,47 +1,29 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Create Recipe</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        .ingredient-row {
-            display: flex;
-            align-items: center;
-        }
-
-        .ingredient-row input[type="text"] {
-            flex: 1;
-        }
-
-        .ingredient-row:first-child .remove-ingredient {
-            display: none;
-        }
-
-        #ingredients-container {
-            display: flex;
-            flex-direction: column;
-        }
-
-        #ingredients-container .ingredient-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        #ingredients-container .ingredient-row input[type="text"] {
-            flex: 1;
-            max-width: 300px;
-            margin-right: 10px;
-        }
-
-        .instructions {
-            font-style: italic;
-            margin-top: 5px;
+        /* Additional CSS for the Create Recipe page */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-<h1>Create Recipe</h1>
-<form id="recipeForm">
+<!-- Include the header HTML -->
+<div class="header-container" id="header-container"></div>
+
+<div class="form-container">
+    <h1>Create Recipe</h1>
+    <form id="recipeForm">
     <label for="title">Title:</label>
     <input type="text" id="title" name="title" required><br><br>
 
@@ -61,7 +43,9 @@
     <label for="ingredients">Ingredients:</label>
     <div id="ingredients-container">
         <div class="ingredient-row">
-            <input type="text" name="ingredient" required>
+            <label>
+                <input type="text" name="ingredient" required>
+            </label>
         </div>
     </div>
 
@@ -71,9 +55,13 @@
 
     <button type="submit" id="createRecipeButton">Create Recipe</button>
 </form>
+</div>
+<footer>
+    <p>Created by: Brooke, Jess, Megan, & Sha'mir</p>
+</footer>
 
 <script src="pages/RecipeDetailsPage.js"></script>
 <script src="pages/CreateRecipePage.js"></script>
-
+<script src="pages/header.js"></script>
 </body>
 </html>
