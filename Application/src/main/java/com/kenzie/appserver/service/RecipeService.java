@@ -1,7 +1,6 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.converters.RecipeMapper;
-import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
@@ -59,14 +58,15 @@ public class RecipeService {
                 .collect(Collectors.toList());
     }
 
-    public RecipeRecord getRecipeById(String id) throws RecipeNotFoundException {
+    public RecipeRecord getRecipeById(String id)  {
         Optional<RecipeRecord> optionalRecipeRecord = recipeRepository.findById(id);
 
         if (optionalRecipeRecord.isPresent()) {
             return optionalRecipeRecord.get();
-        } else {
+        } /*else {
             throw new RecipeNotFoundException("Recipe not found with ID: " + id);
-        }
+        }*/
+        return null;
     }
 
     public List<Recipe> searchRecipes(String query, String cuisine, String dietaryRestrictions) {
