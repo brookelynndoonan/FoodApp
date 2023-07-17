@@ -1,25 +1,21 @@
-/*
 package com.kenzie.appserver.service;
 
-import com.kenzie.appserver.exceptions.RecipeNotFoundException;
+import com.kenzie.appserver.converters.RecipeMapper;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.Enums;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
-import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.appserver.service.model.Recipe;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
+import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.util.AssertionErrors.fail;
 
 class RecipeServiceTest {
 
@@ -66,33 +62,33 @@ class RecipeServiceTest {
         String[] actualSteps = createdRecipe.getInstructions().split("\n");
         assertEquals(expectedSteps.length, actualSteps.length);
         for (int i = 0; i < expectedSteps.length; i++) {
-            String expectedStep = (i + 1) + ". " + expectedSteps[i];
+            String expectedStep = expectedSteps[i];
             assertEquals(expectedStep, actualSteps[i]);
         }
 
-        verify(recipeRepository, times(1)).save(any(RecipeRecord.class));
     }
 
     @Test
     void testGetRecipesByCuisine() {
+        String cuisine = "ITALIAN";
         List<RecipeRecord> recipeRecords = createRecipeRecords();
-        when(recipeRepository.(any(Enums.Cuisine.class))).thenReturn(recipeRecords);
+        when(recipeRepository.findByCuisine(cuisine)).thenReturn(recipeRecords);
 
         List<Recipe> recipes = recipeService.getRecipesByCuisine("ITALIAN");
 
         assertEquals(recipeRecords.size(), recipes.size());
-        verify(recipeRepository, times(1)).findByCuisine(any(Enums.Cuisine.class));
+        verify(recipeRepository, times(1)).findByCuisine(cuisine);
     }
 
     @Test
     void testGetRecipesByDietaryRestrictions() {
         List<RecipeRecord> recipeRecords = createRecipeRecords();
-        when(recipeRepository.findByDietaryRestrictions(any(Enums.DietaryRestrictions.class))).thenReturn(recipeRecords);
+        when(recipeRepository.findByDietaryRestrictions(String.valueOf(any(Enums.DietaryRestrictions.class)))).thenReturn(recipeRecords);
 
         List<Recipe> recipes = recipeService.getRecipesByDietaryRestrictions("GLUTEN_FREE");
 
         assertEquals(recipeRecords.size(), recipes.size());
-        verify(recipeRepository, times(1)).findByDietaryRestrictions(any(Enums.DietaryRestrictions.class));
+        verify(recipeRepository, times(1)).findByDietaryRestrictions(String.valueOf(any(Enums.DietaryRestrictions.class)));
     }
 
     @Test
@@ -100,26 +96,69 @@ class RecipeServiceTest {
         RecipeRecord recipeRecord = createRecipeRecord();
         when(recipeRepository.findById(anyString())).thenReturn(Optional.of(recipeRecord));
 
-        try {
+
             RecipeRecord recipe = recipeService.getRecipeById("12345");
 
             assertEquals(recipeRecord.getTitle(), recipe.getTitle());
-            assertEquals(recipeRecord.getCuisine().toString(), recipe.getCuisine().toString());
+            assertEquals(recipeRecord.getCuisine(), recipe.getCuisine());
             assertEquals(recipeRecord.getDescription(), recipe.getDescription());
-            assertEquals(recipeRecord.getDietaryRestrictions().toString(), recipe.getDietaryRestrictions().toString());
+            assertEquals(recipeRecord.getDietaryRestrictions(), recipe.getDietaryRestrictions());
             assertEquals(recipeRecord.getHasDietaryRestrictions(), recipe.getHasDietaryRestrictions());
             assertEquals(recipeRecord.getIngredients(), recipe.getIngredients());
             assertEquals(recipeRecord.getInstructions(), recipe.getInstructions());
-        } catch (NullPointerException e) {
-            // Handle the case when recipe is null
-            // You can throw an exception, fail the test, or take appropriate action based on your requirements
-            fail("Recipe is null");
-        } catch (RecipeNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+
+
 
         verify(recipeRepository, times(1)).findById(anyString());
     }
+
+
+
+    @Test
+    void findByRecipeId_invalid() {
+        // GIVEN
+        String id = randomUUID().toString();
+
+        when(recipeRepository.findById(id)).thenReturn(Optional.empty());
+
+        // WHEN
+        RecipeRecord recipe = recipeService.getRecipeById(id);
+
+        // THEN
+        Assertions.assertNull(recipe, "The recipe is null when not found");
+    }
+
+    @Test
+    void deleteRecipeByIdTest() {
+        String id = randomUUID().toString();
+
+        recipeService.deleteRecipeById(id);
+
+        verify(recipeRepository).deleteById(id);
+
+    }
+
+    @Test
+    void searchRecipes_successful(){
+        // GIVEN
+        String query = randomUUID().toString();
+        String cuisine = randomUUID().toString();
+        String dietaryRestrictions = randomUUID().toString();
+
+        List<Recipe> recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+
+        List<RecipeRecord> recipeRecord = createRecipeRecords();
+
+        when(recipeRepository.findAll()).thenReturn(recipeRecord);
+
+        when(recipeService.searchRecipes(query, cuisine, dietaryRestrictions))
+                .thenReturn(recipes);
+
+        verify(recipeRepository, times(1)).findAll();
+
+
+    }
+
 
 
     private List<RecipeRecord> createRecipeRecords() {
@@ -135,9 +174,9 @@ class RecipeServiceTest {
         RecipeRecord recipeRecord = new RecipeRecord();
         recipeRecord.setId(UUID.randomUUID().toString());
         recipeRecord.setTitle("Sample Recipe");
-        recipeRecord.setCuisine(Enums.Cuisine.ITALIAN);
+        recipeRecord.setCuisine(String.valueOf(Enums.Cuisine.ITALIAN));
         recipeRecord.setDescription("A delicious Italian dish");
-        recipeRecord.setDietaryRestrictions(Enums.DietaryRestrictions.GLUTEN_FREE);
+        recipeRecord.setDietaryRestrictions(String.valueOf(Enums.DietaryRestrictions.GLUTEN_FREE));
         recipeRecord.setHasDietaryRestrictions(true);
         List<String> ingredients = new ArrayList<>();
         ingredients.add("Ingredient 1 cup"); // Update ingredient string format
@@ -168,4 +207,4 @@ class RecipeServiceTest {
         );
         return recipe;
     }
-}*/
+}
