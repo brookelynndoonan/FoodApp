@@ -1,12 +1,13 @@
 import BaseClass from "../util/baseClass";
 import HomeClient from "../api/HomeClient"; // Import the client class for making API requests
 import DataStore from "../util/DataStore";
+import RecipeListPage from "src/pages/RecipeListPage";
 
 class HomePage extends BaseClass {
     constructor() {
         super();
         this.client = new HomeClient(); // Create an instance of the client class
-        this.bindClassMethods(['onSearch', 'renderHomePage', 'mount', 'onGet'], this);
+        this.bindClassMethods(['onSearch', 'renderHomePage', 'mount'], this);
     }
 
     async mount() {
@@ -20,49 +21,50 @@ class HomePage extends BaseClass {
         await this.renderHomePage();
 
         // Fetch the available cuisines and populate the cuisine filter
-        fetch('http://localhost:5001/api/cuisineOptions')
+        fetch('/api/cuisineOptions')
             .then(response => response.json())
             .then(data => populateCuisineFilter(data));
 
         // Fetch the available dietary restrictions and populate the dietary restrictions filter
-        fetch('http://localhost:5001/api/dietaryRestrictionOptions')
+        fetch('/api/dietaryRestrictionOptions')
             .then(response => response.json())
             .then(data => populateDietaryRestrictionsFilter(data));
+        console.log('Testing console log')
     }
 
-    onSearch = async (event) => {
+    onSearch(event) {
         event.preventDefault(); // Prevent the default form submission behavior
 
-        // Retrieve the search query from the input field
+        // Retrieve the search query, cuisine, and dietary restrictions from the input fields
         const searchQuery = document.getElementById('search-bar-input').value;
+        const cuisine = document.getElementById('cuisineFilter').value;
+        const dietaryRestrictions = document.getElementById('dietaryRestrictionsFilter').value;
 
-        // Perform the API request to search for recipes
-        const recipes = await this.client.searchRecipes(searchQuery);
+        // Construct the base URL for RecipeListPage.html
+        let url = 'RecipeListPage.html?';
 
-        // Render the search results in the <main> section
-        const searchResultsContainer = document.getElementById('searchResultsContainer');
-        searchResultsContainer.innerHTML = '';
-
-        if (recipes.length === 0) {
-            // If no recipes are found, display a message
-            const noResultsMessage = document.createElement('p');
-            noResultsMessage.innerText = 'No recipes found. Please try again.';
-            searchResultsContainer.appendChild(noResultsMessage);
-        } else {
-            // Render the list of recipes
-            const recipeList = document.createElement('ul');
-            recipeList.className = 'recipe-list';
-
-            recipes.forEach(recipe => {
-                const recipeItem = document.createElement('li');
-                recipeItem.innerText = recipe.title;
-
-                recipeList.appendChild(recipeItem);
-            });
-
-            searchResultsContainer.appendChild(recipeList);
+        // Add the search query parameter
+        if (searchQuery !== '') {
+            url += `query=${encodeURIComponent(searchQuery)}`;
         }
-    };
+
+        // Add the cuisine parameter if selected
+        if (cuisine !== '') {
+            url += `&cuisine=${encodeURIComponent(cuisine)}`;
+        }
+
+        // Add the dietary restrictions parameter if selected
+        if (dietaryRestrictions !== '') {
+            url += `&dietaryRestrictions=${encodeURIComponent(dietaryRestrictions)}`;
+        }
+
+        // Log the constructed URL
+        console.log('Search URL:', url);
+
+        // Redirect to the constructed URL
+        window.location.href = url;
+    }
+
 
     async renderHomePage() {
         // Get the main element
@@ -73,6 +75,7 @@ class HomePage extends BaseClass {
         if (introContainer) {
             // If the intro container exists, remove it from the main element
             mainElement.removeChild(introContainer);
+            console.log('Testing console log')
         }
 
         // Fetch all recipes from the API
@@ -95,8 +98,12 @@ class HomePage extends BaseClass {
             // Append the recipe container to the main element
             mainElement.appendChild(recipeContainer);
         });
+        console.log('Testing console log')
     }
+
 }
 
 const homePage = new HomePage();
-homePage.mount();
+homePage.mount().catch(error => {
+    console.error('Error during mount:', error);
+});

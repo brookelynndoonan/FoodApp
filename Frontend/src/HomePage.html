@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Foodie App</title>
+<<<<<<< HEAD
     <script src="pages/HomePage.js"></script>
     <script src="pages/PopulateOptions.js"></script> <!-- Include the PopulateOptions.js file -->
+=======
+    <script src="src/pages/HomePage.js" type="module"></script>
+    <script src="src/pages/PopulateOptions.js"></script>
+>>>>>>> 3221cc0 (MCR)
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
@@ -60,15 +65,14 @@
 </head>
 <body>
 <div class="header-container" id="header-container"></div>
-
 <main>
     <div class="search-bar">
-        <form id="search-recipe">
-            <input type="text" id="search-bar-input" placeholder="Search...">
-            <select id="cuisineFilter">
+        <form id="search-recipe" action="RecipeListPage.html" method="get">
+            <label for="search-bar-input"></label><input type="text" id="search-bar-input" placeholder="Search...">
+            <label for="cuisineFilter"></label><select id="cuisineFilter">
                 <option value="">All Cuisines</option>
             </select>
-            <select id="dietaryRestrictionsFilter">
+            <label for="dietaryRestrictionsFilter"></label><select id="dietaryRestrictionsFilter">
                 <option value="">All Dietary Restrictions</option>
             </select>
             <button type="submit" id="search-button">
@@ -76,12 +80,10 @@
             </button>
         </form>
     </div>
-
     <div class="intro-container">
         <h2>Welcome to Foodie!</h2>
         <p>Where people come to find and make meals that slap! With our app, you can explore a wide range of delicious recipes that cater to your cravings and dietary needs. Whether you're searching for a specific cuisine or have dietary restrictions, Foodie has you covered. Discover mouthwatering dishes, get inspired, and unleash your inner chef. Let's embark on a culinary adventure together!</p>
     </div>
-
     <!-- Display the search results in this container -->
     <div id="searchResultsContainer"></div>
 </main>
