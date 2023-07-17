@@ -8,10 +8,11 @@ module.exports = {
         usedExports: true
     },
     entry: {
-        CreateRecipePage: path.resolve(__dirname, 'src', 'pages', 'CreateRecipePage.js'),
         HomePage: path.resolve(__dirname, 'src', 'pages', 'HomePage.js'),
+        CreateRecipePage: path.resolve(__dirname, 'src', 'pages', 'CreateRecipePage.js'),
         RecipeDetailsPage: path.resolve(__dirname, 'src', 'pages', 'RecipeDetailsPage.js'),
         RecipeListPage: path.resolve(__dirname, 'src', 'pages', 'RecipeListPage.js'),
+        header: path.resolve(__dirname, 'src', 'pages', 'header.js'),
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -46,6 +47,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/CreateRecipePage.html',
             filename: 'CreateRecipePage.html',
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/header.html',
+            filename: 'header.html',
         }),
         new CopyPlugin({
             patterns: [
