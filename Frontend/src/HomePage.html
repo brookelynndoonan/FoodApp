@@ -44,11 +44,38 @@
         main {
             padding-bottom: 60px; /* Adjust the value to leave space for the footer */
         }
+
+        /* CSS for filters container */
+        .filter-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .filter-container select {
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
 <div class="header-container" id="header-container"></div>
 <main>
+    <div class="search-bar">
+        <form id="search-recipe">
+            <input type="text" id="search-bar-input" placeholder="Search...">
+            <select id="cuisineFilter">
+                <option value="">All Cuisines</option>
+            </select>
+            <select id="dietaryRestrictionsFilter">
+                <option value="">All Dietary Restrictions</option>
+            </select>
+            <button type="submit" id="search-button">
+                <img src="../../images/Magnifying_glass_icon.svg" alt="Search">
+            </button>
+        </form>
+    </div>
+
     <div class="intro-container">
         <h2>Welcome to Foodie!</h2>
         <p>Where people come to find and make meals that slap! With our app, you can explore a wide range of delicious recipes that cater to your cravings and dietary needs. Whether you're searching for a specific cuisine or have dietary restrictions, Foodie has you covered. Discover mouthwatering dishes, get inspired, and unleash your inner chef. Let's embark on a culinary adventure together!</p>

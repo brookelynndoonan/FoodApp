@@ -128,16 +128,13 @@ nav ul li a:hover {
     padding: 10px;
     border: 2px solid #ffc857;
     background-color: #ffffff;
-    border-radius: 5px 0 0 5px;
 }
 
 .search-bar button {
-    padding: 17px;
     background-color: #ffc857;
-    color: #ffffff;
     border: 2px solid #ffc857;
     cursor: pointer;
-    width: 60px;
+    width: 40px;
     transition: background-color 0.3s ease;
 }
 
@@ -145,8 +142,7 @@ nav ul li a:hover {
 #search-button {
     padding: 10px;
     background-color: #ffc857;
-    
-    border-radius: 0 5px 5px 0;
+    border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -158,12 +154,9 @@ nav ul li a:hover {
     margin-right: 5px;
 }
 
-
 .search-bar button:hover {
     background-color: #ffa500;
 }
-
-
 
 .intro-container {
     background-color: #f7f3e9;
@@ -186,24 +179,6 @@ nav ul li a:hover {
     color: #666666;
     width: 700px;
     margin: auto auto 20px;
-}
-
-/*Create Recipe Styling*/
-/* Menu styles */
-.menu {
-    background-color: #f1f1f1;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Logo styles */
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    text-decoration: none;
 }
 
 /* Menu items styles */
@@ -240,181 +215,6 @@ nav ul li a:hover {
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
-
-div.container {
-    margin-bottom: 100px;
-}
-
-/* Heading styles */
-h1 {
-    color: #333;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-h3 {
-    margin-bottom: auto;
-}
-
-/* Form group styles */
-.form-group {
-    margin-bottom: 20px;
-}
-
-/* Label styles */
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #555;
-}
-
-/* Text input and textarea styles */
-.form-group input[type="text"],
-.form-group textarea {
-    width: 100%;
-    padding: 8px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-family: 'Roboto', sans-serif;
-}
-
-/* Select dropdown styles */
-.form-group select {
-    width: 100%;
-    padding: 8px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-/* Style only the first option (Select cuisine) */
-.form-group select option[value=""] {
-    color: #555;
-}
-
-/* Checkbox container styles */
-#checkbox-container {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 5px;
-}
-
-/* Checkbox container label styles */
-.form-group input[type="checkbox"] + label {
-    font-weight: lighter;
-    margin-right: 10px;
-}
-
-/* Checkbox input styles */
-.form-group input[type="checkbox"] {
-    cursor: pointer;
-    margin-right: 5px;
-}
-
-/* Submit button styles */
-.form-group .submit-button {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: auto;
-    display: inline-block;
-}
-
-/* Submit button styles on hover */
-.form-group .submit-button:hover {
-    background-color: #45a049;
-}
-
-/* Plus and minus button styles */
-.form-group button {
-    padding: 6px;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Plus button styles */
-.form-group button.add-button {
-    color: #4CAF50;
-    font-weight: bold;
-    font-size: 18px;
-    opacity: 100%;
-    align-items: center;
-}
-
-/* Minus button styles */
-.form-group button.remove-button {
-    color: #F44336;
-    font-weight: bold;
-    font-size: 18px;
-    opacity: 100%;
-    align-items: center;
-    margin-right: 10px;
-}
-
-/* Plus and minus button styles on hover */
-.form-group button:hover {
-    opacity: 0.8;
-}
-
-/* Hide labels for ingredient fields */
-div.ingredient-row label {
-    display: none;
-}
-
-div.ingredient-row .ingredient-name{
-    max-width: 300px;
-    margin-right: 10px;
-}
-
-div.ingredient-row .ingredient-quantity {
-    max-width: 60px;
-    margin-right: 10px;
-}
-
-div.ingredient-row .ingredient-quantity-type {
-    max-width: 200px;
-    margin-right: 10px;
-}
-
-/* Hide minus button in the first ingredient row */
-.ingredient-row:first-child button.remove-button {
-    display: none;
-}
-
-/* Ingredient row styles */
-.ingredient-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-outside: 15px;
-}
-
-/* Error message styles */
-.error {
-    color: red;
-    font-size: 12px;
-}
-
-/* Success message styles */
-.success-message {
-    color: green;
-    font-size: 14px;
-    text-align: center;
-    margin-top: 20px;
-}
-
 /* Responsive styles */
 @media screen and (max-width: 600px) {
     .container {
@@ -422,7 +222,6 @@ div.ingredient-row .ingredient-quantity-type {
         padding: 10px;
     }
 }
-
 
 /* Styling for the footer */
 footer {
