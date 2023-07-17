@@ -1,7 +1,7 @@
-import BaseClass from "../util/baseClass";
-import HomeClient from "../api/HomeClient"; // Import the client class for making API requests
-import DataStore from "../util/DataStore";
 
+import BaseClass from "baseClass.js";
+import HomeClient from "../api/HomeClient"; // Import the client class for making API requests
+import DataStore from "./DataStore";
 class HomePage extends BaseClass {
     constructor() {
         super();
