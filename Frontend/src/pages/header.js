@@ -11,4 +11,3 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Error fetching header content:", error);
         });
 });
-
