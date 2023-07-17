@@ -61,12 +61,7 @@ public class RecipeService {
     public RecipeRecord getRecipeById(String id)  {
         Optional<RecipeRecord> optionalRecipeRecord = recipeRepository.findById(id);
 
-        if (optionalRecipeRecord.isPresent()) {
-            return optionalRecipeRecord.get();
-        } /*else {
-            throw new RecipeNotFoundException("Recipe not found with ID: " + id);
-        }*/
-        return null;
+        return optionalRecipeRecord.orElse(null);
     }
 
     public List<Recipe> searchRecipes(String query, String cuisine, String dietaryRestrictions) {
