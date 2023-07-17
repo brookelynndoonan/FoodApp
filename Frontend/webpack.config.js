@@ -14,6 +14,7 @@ module.exports = {
         RecipeDetailsPage: path.resolve(__dirname, 'src', 'pages', 'RecipeDetailsPage.js'),
         RecipeListPage: path.resolve(__dirname, 'src', 'pages', 'RecipeListPage.js'),
         PopulateOptions: path.resolve(__dirname, 'src', 'pages', 'PopulateOptions.js'),
+
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -38,20 +39,16 @@ module.exports = {
             filename: 'HomePage.html',
         }),
         new HtmlWebpackPlugin({
-            template: './src/header.html',
-            filename: 'header.html',
-        }),
-        new HtmlWebpackPlugin({
-            template: './src/CreateRecipePage.html',
-            filename: 'CreateRecipePage.html',
-        }),
-        new HtmlWebpackPlugin({
             template: './src/RecipeListPage.html',
             filename: 'RecipeListPage.html',
         }),
         new HtmlWebpackPlugin({
             template: './src/RecipeDetailsPage.html',
             filename: 'RecipeDetailsPage.html',
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/CreateRecipePage.html',
+            filename: 'CreateRecipePage.html',
         }),
         new CopyPlugin({
             patterns: [

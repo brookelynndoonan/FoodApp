@@ -4,8 +4,11 @@
     "@babel/preset-env": "^7.22.9",
     "babel-loader": "^9.1.3",
     "webpack": "^5.88.1"
+<<<<<<< HEAD
   },
   "dependencies": {
     "src": "^1.1.2"
+=======
+>>>>>>> e1387b8 (Removed index and examples)
   }
 }
