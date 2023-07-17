@@ -159,6 +159,41 @@ class RecipeServiceTest {
 
     }
 
+    @Test
+    void searchRecipes() {
+        // GIVEN
+        String query = "Sample";
+        String cuisine = ""; // Empty cuisine
+        String dietaryRestrictions = null; // Null dietaryRestrictions
+
+        // Create sample recipe records
+        List<RecipeRecord> recipeRecords = createRecipeRecords();
+
+        // Mock the repository's findAll method to return the sample recipe records
+        when(recipeRepository.findAll()).thenReturn(recipeRecords);
+
+        // WHEN
+        List<Recipe> recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+
+        // THEN
+        verify(recipeRepository, times(1)).findAll();
+
+        // Check if the correct recipes are present in the result
+        assertEquals(3, recipes.size()); // Update the expected count to 3 based on your actual data
+
+        for (Recipe recipe : recipes) {
+            assertEquals("Sample Recipe", recipe.getTitle());
+            assertEquals("ITALIAN", recipe.getCuisine());
+            assertEquals("A delicious Italian dish", recipe.getDescription());
+            assertEquals("GLUTEN_FREE", recipe.getDietaryRestrictions());
+            assertEquals(true, recipe.getHasDietaryRestrictions());
+            assertEquals(2, recipe.getIngredients().size()); // Adjust the expected count based on your actual data
+            assertEquals("Step 1, Step 2, Step 3", recipe.getInstructions());
+        }
+    }
+
+
+
 
 
     private List<RecipeRecord> createRecipeRecords() {
