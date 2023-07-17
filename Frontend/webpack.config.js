@@ -9,10 +9,12 @@ module.exports = {
     },
     entry: {
         HomePage: path.resolve(__dirname, 'src', 'pages', 'HomePage.js'),
+        header: path.resolve(__dirname, 'src', 'pages', 'header.js'),
         CreateRecipePage: path.resolve(__dirname, 'src', 'pages', 'CreateRecipePage.js'),
         RecipeDetailsPage: path.resolve(__dirname, 'src', 'pages', 'RecipeDetailsPage.js'),
         RecipeListPage: path.resolve(__dirname, 'src', 'pages', 'RecipeListPage.js'),
-        header: path.resolve(__dirname, 'src', 'pages', 'header.js'),
+        PopulateOptions: path.resolve(__dirname, 'src', 'pages', 'PopulateOptions.js'),
+
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -27,7 +29,7 @@ module.exports = {
                 context: [
                     '/recipe'
                 ],
-                target: 'http://localhost:5001'
+                target: 'http://localhost:63342/kenzie-lbc-project/kenzie-lbc-project.Frontend'
             }
         ]
     },
@@ -49,8 +51,12 @@ module.exports = {
             filename: 'CreateRecipePage.html',
         }),
         new HtmlWebpackPlugin({
-            template: './src/header.html',
-            filename: 'header.html',
+            template: './src/RecipeListPage.html',
+            filename: 'RecipeListPage.html',
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/RecipeDetailsPage.html',
+            filename: 'RecipeDetailsPage.html',
         }),
         new CopyPlugin({
             patterns: [

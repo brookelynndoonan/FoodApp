@@ -1,6 +1,7 @@
 import BaseClass from "../util/baseClass";
 import HomeClient from "../api/HomeClient"; // Import the client class for making API requests
 import DataStore from "../util/DataStore";
+import RecipeListPage from "src/pages/RecipeListPage";
 
 class HomePage extends BaseClass {
     constructor() {
@@ -103,4 +104,6 @@ class HomePage extends BaseClass {
 }
 
 const homePage = new HomePage();
-homePage.mount();
+homePage.mount().catch(error => {
+    console.error('Error during mount:', error);
+});
