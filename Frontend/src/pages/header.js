@@ -10,8 +10,4 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => {
             console.log("Error fetching header content:", error);
         });
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> e1387b8 (Removed index and examples)
