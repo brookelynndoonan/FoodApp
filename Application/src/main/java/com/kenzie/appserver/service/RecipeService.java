@@ -1,10 +1,12 @@
 package com.kenzie.appserver.service;
-//for merge
+
 import com.kenzie.appserver.converters.RecipeMapper;
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
+import io.micrometer.core.instrument.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,13 +14,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-
 @Service
 public class RecipeService {
-
-
     private final RecipeRepository recipeRepository;
 
+    @Autowired
     public RecipeService(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
     }
@@ -43,7 +43,6 @@ public class RecipeService {
         recipeRepository.save(recipeRecord);
         return recipe;
     }
-
 
     public List<Recipe> getRecipesByCuisine(String cuisine) {
         List<RecipeRecord> recipeRecords = recipeRepository.findByCuisine(cuisine);
@@ -70,39 +69,44 @@ public class RecipeService {
         }
     }
 
-    public List<Recipe> searchRecipes(String cuisine, String dietaryRestrictions, String query) {
-        if (cuisine != null && dietaryRestrictions != null  && query == null) {
-            // Search by cuisine & dietary restrictions
-            List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineAndDietaryRestrictions(cuisine, dietaryRestrictions);
-            return recipeRecords.stream()
-                    .map(RecipeMapper::recipeRecordtoRecipe)
-                    .collect(Collectors.toList());
-        } else if (cuisine != null && dietaryRestrictions != null) {
-            // Search by cuisine, dietary restrictions, and query
-            List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineAndDietaryRestrictionsAndTitleContains(cuisine, dietaryRestrictions, query);
-            return recipeRecords.stream()
-                    .map(RecipeMapper::recipeRecordtoRecipe)
-                    .collect(Collectors.toList());
-        } else if (cuisine != null) {
-            // Search by cuisine and query
-            List<RecipeRecord> recipeRecords = recipeRepository.findByCuisineAndTitleContaining(cuisine, query);
-            return recipeRecords.stream()
-                    .map(RecipeMapper::recipeRecordtoRecipe)
-                    .collect(Collectors.toList());
-        } else if (dietaryRestrictions != null) {
-            // Search by dietary restrictions and query
-            List<RecipeRecord> recipeRecords = recipeRepository.findByDietaryRestrictionsAndTitleContaining(dietaryRestrictions, query);
-            return recipeRecords.stream()
-                    .map(RecipeMapper::recipeRecordtoRecipe)
-                    .collect(Collectors.toList());
-        } else {
-            // Search by query only
-            List<RecipeRecord> recipeRecords = recipeRepository.findByTitleContaining(query);
-            return recipeRecords.stream()
-                    .map(RecipeMapper::recipeRecordtoRecipe)
+    public List<Recipe> searchRecipes(String query, String cuisine, String dietaryRestrictions) {
+        // Convert the query to lowercase
+        String lowercaseQuery = query.toLowerCase();
+
+        List<RecipeRecord> recipeRecords = recipeRepository.findAll();
+
+        List<Recipe> recipes = recipeRecords.stream()
+                .map(RecipeMapper::recipeRecordtoRecipe)
+                .filter(recipe -> {
+                    String title = recipe.getTitle().toLowerCase();
+                    String description = recipe.getDescription().toLowerCase();
+                    List<String> ingredients = recipe.getIngredients().stream()
+                            .map(String::toLowerCase)
+                            .collect(Collectors.toList());
+                    String instructions = recipe.getInstructions().toLowerCase();
+
+                    return title.contains(lowercaseQuery)
+                            || description.contains(lowercaseQuery)
+                            || ingredients.stream().anyMatch(ingredient -> ingredient.contains(lowercaseQuery))
+                            || instructions.contains(lowercaseQuery);
+                })
+                .collect(Collectors.toList());
+
+        if (StringUtils.isNotBlank(cuisine)) {
+            recipes = recipes.stream()
+                    .filter(recipe -> cuisine.equalsIgnoreCase(recipe.getCuisine()))
                     .collect(Collectors.toList());
         }
+
+        if (StringUtils.isNotBlank(dietaryRestrictions)) {
+            recipes = recipes.stream()
+                    .filter(recipe -> dietaryRestrictions.equalsIgnoreCase(recipe.getDietaryRestrictions()))
+                    .collect(Collectors.toList());
+        }
+
+        return recipes;
     }
+
 
 
     public void deleteRecipeById(String id) {
