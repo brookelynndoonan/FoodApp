@@ -163,6 +163,87 @@ class RecipeServiceTest {
     void searchRecipes() {
         // GIVEN
         String query = "Sample";
+        String cuisine = "ITALIAN";
+        String dietaryRestrictions = "GLUTEN_FREE";
+
+        // Create sample recipe records
+        List<RecipeRecord> recipeRecords = createRecipeRecords();
+
+        // Mock the repository's findAll method to return the sample recipe records
+        when(recipeRepository.findAll()).thenReturn(recipeRecords);
+
+        // WHEN
+        List<Recipe> recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+
+        // THEN
+        verify(recipeRepository, times(1)).findAll();
+
+        // Check if the correct recipes are present in the result
+        assertEquals(3, recipes.size()); // Update the expected count to 3 based on your actual data
+
+        for (Recipe recipe : recipes) {
+            assertEquals("Sample Recipe", recipe.getTitle());
+            assertEquals("ITALIAN", recipe.getCuisine());
+            assertEquals("A delicious Italian dish", recipe.getDescription());
+            assertEquals("GLUTEN_FREE", recipe.getDietaryRestrictions());
+            assertEquals(true, recipe.getHasDietaryRestrictions());
+            assertEquals(2, recipe.getIngredients().size()); // Adjust the expected count based on your actual data
+            assertEquals("Step 1, Step 2, Step 3", recipe.getInstructions());
+        }
+
+        // Test additional branches
+        // 1. Search by description
+        query = "delicious";
+        recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+        assertEquals(3, recipes.size());
+
+        // 2. Search by ingredient
+        query = "Ingredient 1";
+        recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+        assertEquals(3, recipes.size());
+
+        // 3. Search by instructions
+        query = "Step 2";
+        recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+        assertEquals(3, recipes.size());
+
+        // 4. Search by cuisine and dietaryRestrictions (additional branches)
+        cuisine = "MEXICAN";
+        dietaryRestrictions = "VEGAN";
+        recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+        assertEquals(0, recipes.size()); // No recipes with Mexican cuisine and Vegan dietary restrictions
+
+        cuisine = "ITALIAN";
+        dietaryRestrictions = "VEGAN";
+        recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+        assertEquals(0, recipes.size()); // No recipes with Italian cuisine and Vegan dietary restrictions
+
+        cuisine = "ITALIAN";
+        dietaryRestrictions = "GLUTEN_FREE";
+        recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+        assertEquals(3, recipes.size()); // Recipes with Italian cuisine and Gluten-Free dietary restrictions
+
+        cuisine = "MEXICAN";
+        dietaryRestrictions = "GLUTEN_FREE";
+        recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+        assertEquals(0, recipes.size()); // No recipes with Mexican cuisine and Gluten-Free dietary restrictions
+
+        cuisine = "MEXICAN";
+        dietaryRestrictions = "";
+        recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+        assertEquals(0, recipes.size()); // No recipes with Mexican cuisine and empty dietary restrictions
+
+        cuisine = "";
+        dietaryRestrictions = "VEGAN";
+        recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+        assertEquals(0, recipes.size()); // No recipes with empty cuisine and Vegan dietary restrictions
+    }
+
+
+    @Test
+    void searchRecipes_EmptyAndNullDietaryRestrictions() {
+        // GIVEN
+        String query = "Sample";
         String cuisine = ""; // Empty cuisine
         String dietaryRestrictions = null; // Null dietaryRestrictions
 
@@ -191,7 +272,6 @@ class RecipeServiceTest {
             assertEquals("Step 1, Step 2, Step 3", recipe.getInstructions());
         }
     }
-
 
 
 
