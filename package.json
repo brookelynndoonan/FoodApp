@@ -5,10 +5,16 @@
     "babel-loader": "^9.1.3",
     "webpack": "^5.88.1"
 <<<<<<< HEAD
+<<<<<<< HEAD
   },
   "dependencies": {
     "src": "^1.1.2"
 =======
 >>>>>>> e1387b8 (Removed index and examples)
+=======
+  },
+  "dependencies": {
+    "src": "^1.1.2"
+>>>>>>> 3221cc0 (MCR)
   }
 }
