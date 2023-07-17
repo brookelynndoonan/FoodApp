@@ -2,7 +2,6 @@ package com.kenzie.appserver.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.appserver.IntegrationTest;
-import com.kenzie.appserver.controller.model.RecipeResponse;
 import com.kenzie.appserver.converters.RecipeMapper;
 import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.appserver.service.model.Recipe;
@@ -17,7 +16,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,6 +40,7 @@ public class GetAllCuisineRecipesControllerTest {
     private final ObjectMapper mapper = new ObjectMapper();
 
 
+    //Long, painstakingly, we weren't giving up until we made it work, way of finding a cuisine list.
     @Test//Created by Brooke, Jess, & Sha'mir
     public void getAllCuisineRecipes_isSuccessful() throws Exception {
         List<String> ingredients = new ArrayList<>();
@@ -78,48 +77,21 @@ public class GetAllCuisineRecipesControllerTest {
                 ingredients,
                 "Step 1, Step 2, Step 3");
 
-        recipeService.addNewRecipe(recipeOne);
-        recipeService.addNewRecipe(recipeTwo);
-        recipeService.addNewRecipe(recipeThree);
+        recipeService.getRecipesByCuisine(String.valueOf(recipeOne));
+        recipeService.getRecipesByCuisine(String.valueOf(recipeTwo));
+        recipeService.getRecipesByCuisine(String.valueOf(recipeThree));
 
         recipeController.getRecipesByCuisine("Italian");
 
 
         mockMvc.perform(get("/recipes/cuisine/{cuisine}", "Italian")
-                                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-               /* .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("cuisine").value("Cuisine"))*/;
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
 
-        // THEN
-        List<Recipe> recipes = new ArrayList<>();
-        recipes.add(recipeOne);
-        recipes.add(recipeTwo);
-        recipes.add(recipeThree);
-        List<RecipeResponse> listCuisineRecipes = recipes.stream()
-                .map(this::createRecipeResponse)
-                .collect(Collectors.toList());
-        //assertThat(listCuisineRecipes.size()).isEqualTo(2);
-
-        // CLEANUP
-        recipeService.deleteRecipeById(recipeOne.getId());
-        recipeService.deleteRecipeById(recipeTwo.getId());
-        recipeService.deleteRecipeById(recipeThree.getId());
     }
 
-    private RecipeResponse createRecipeResponse(Recipe recipe) {
-        RecipeResponse recipeResponse = new RecipeResponse();
-        recipeResponse.setId(recipe.getId());
-        recipeResponse.setTitle(recipe.getTitle());
-        recipeResponse.setCuisine(recipe.getCuisine());
-        recipeResponse.setDescription(recipe.getDescription());
-        recipeResponse.setDietaryRestrictions(recipe.getDietaryRestrictions());
-        recipeResponse.setHasDietaryRestrictions(recipe.getHasDietaryRestrictions());
-        recipeResponse.setIngredients(recipe.getIngredients());
-        recipeResponse.setInstructions(recipe.getInstructions());
-        return recipeResponse;
-    }
 
+    //Fast Way to check for a cuisine list.
     @Test
     public void testGetRecipesByCuisine() throws Exception {
         String cuisine = "ITALIAN";
@@ -130,6 +102,8 @@ public class GetAllCuisineRecipesControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].cuisine").value(cuisine))
                 .andReturn();
-                // Add more assertions as needed for the response body
+        // This creates and labels a query for cuisine, curating a list in the "andExpect", minimizing our efforts
+        // above, where we created our own mocked list of recipes.
     }
+
 }

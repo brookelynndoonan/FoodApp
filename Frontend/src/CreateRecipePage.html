@@ -1,85 +1,76 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Create Recipe</title>
-    <script>src="CreateRecipePage.js"</script>
-    <link rel="stylesheet" type="text/css" href="css/CreateRecipePage.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<div class="menu">
-    <div class="logo">
-        Foodie
-    </div>
-    <ul class="menu-items">
-        <li>
+<div class="header-container" id="header-container"></div>
 
-            <button onclick="window.location.href = 'HomePage.html';">Home</button>
-        </li>
-    </ul>
-</div>
+<h1>Create Recipe</h1>
 <div class="container">
-    <h1>Create Recipe</h1>
+    <h3 class="title">Title</h3>
     <div class="form-group">
-        <label for="title">Title</label> <input id="title" placeholder="Enter recipe title" type="text"> <small
-            class="error" id="title-error"></small>
+        <label for="title"></label><input id="title" placeholder="Enter recipe title" type="text">
+        <small class="error" id="title-error"></small>
     </div>
+    <h3 class="description">Description</h3>
     <div class="form-group">
-        <label for="description">Description</label>
-        <textarea id="description" placeholder="Enter description"></textarea> <small class="error"
-                                                                                      id="description-error"></small>
+        <label for="description"></label><textarea id="description" placeholder="Enter description"></textarea>
+        <small class="error" id="description-error"></small>
     </div>
+    <h3 class="cuisine">Cuisine</h3>
     <div class="form-group">
-        <label for="cuisine">Cuisine</label> <select id="cuisine">
-    </select> <small class="error" id="cuisine-error"></small>
+        <label for="cuisine"></label><select id="cuisine">
+            <option value="">Select one</option>
+        </select>
+        <small class="error" id="cuisine-error"></small>
     </div>
+    <h3 class="dietary-restrictions">Dietary Restrictions:</h3>
     <div class="form-group">
-        <label>Dietary Restrictions:</label>
         <div id="checkbox-container">
-            <!-- Checkboxes will be dynamically populated here -->
+            <!-- Dietary restrictions checkboxes will be dynamically populated here -->
         </div>
         <span class="error-message" id="dietary-restrictions-error"></span>
     </div>
-    <div class="form-group">
-        <label for="ingredients">Ingredients</label>
-        <div id="ingredient-container">
-            <div class="ingredient-row">
-                <label for="ingredient-name">Ingredient Name</label>
-                <input id="ingredient-name" class="ingredient-name" placeholder="Ingredient Name" type="text">
-                <label for="ingredient-quantity">Quantity</label>
-                <input id="ingredient-quantity" class="ingredient-quantity" placeholder="Quantity" type="text">
-                <label for="ingredient-quantity-type">Quantity Type</label>
-                <select id="ingredient-quantity-type" class="ingredient-quantity-type">
-                    <!-- Options for quantity types will be dynamically populated here -->
+    <h3 class="ingredients-title">Ingredients</h3>
+    <div class="form-group" id="ingredient-container">
+        <div class="ingredient-row">
+            <label for="ingredient-name">Ingredient Name</label>
+            <div class="ingredient-fields">
+                <label for="ingredient-quantity"></label><input id="ingredient-quantity" class="ingredient-quantity" placeholder="Quantity" type="text">
+                <label for="ingredient-quantity-type"></label><select id="ingredient-quantity-type" class="ingredient-quantity-type">
+            <input id="ingredient-name" class="ingredient-name" placeholder="Ingredient Name" type="text">
+                    <!-- Quantity types will be dynamically populated here -->
                 </select>
-                <button aria-label="Add" class="add-button" onclick="addIngredientField()"><span class="button-text">+</span></button>
-                <button aria-label="Remove" class="remove-button" onclick="removeIngredientField(this)"><span class="button-text">-</span></button>
-                <span class="error-message" id="ingredient-error-0"></span>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="ingredients">Ingredients</label>
-            <input id="ingredients" type="text" placeholder="Enter ingredients">
-            <small class="error" id="ingredients-error"></small>
+            <button aria-label="Add" class="add-button" onclick="addIngredientField()"><span class="button-text">+</span></button>
+            <span class="error-message" id="ingredient-error-0"></span>
         </div>
     </div>
-
-
+    <h3 class="instructions">Instructions</h3>
     <div class="form-group">
-        <label for="instructions">Instructions</label>
-        <textarea id="instructions" placeholder="Enter instructions"></textarea> <small class="error"
-                                                                                        id="instructions-error"></small>
+        <label for="instructions"></label><textarea id="instructions" placeholder="Enter instructions"></textarea>
+        <small class="error" id="instructions-error"></small>
     </div>
     <div class="form-group">
         <button class="submit-button" onclick="createRecipe()">Submit</button>
     </div>
-    <!-- Add the following hidden input field for "hasDietaryRestrictions" -->
     <input type="hidden" id="has-dietary-restrictions-input" name="hasDietaryRestrictionsInput">
 </div>
-<script src="CreateRecipePage.js"></script>
-<script>
 
+<footer>
+    <p>Created by: Brooke, Jess, Megan, & Sha'mir</p>
+</footer>
+
+<script src="pages/header.js"></script>
+<script src="pages/CreateRecipePage.js"></script>
+<script>
     // Call the initialization function and populate the options when the page loads
-    initCreateRecipePage();
+    window.addEventListener('DOMContentLoaded', function () {
+        initCreateRecipePage();
+    });
 </script>
 </body>
 </html>

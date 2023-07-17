@@ -2,16 +2,18 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 module.exports = {
     optimization: {
         usedExports: true
     },
     entry: {
-        CreateRecipePage: path.resolve(__dirname, 'src', 'pages', 'CreateRecipePage.js'),
         HomePage: path.resolve(__dirname, 'src', 'pages', 'HomePage.js'),
+        header: path.resolve(__dirname, 'src', 'pages', 'header.js'),
+        CreateRecipePage: path.resolve(__dirname, 'src', 'pages', 'CreateRecipePage.js'),
         RecipeDetailsPage: path.resolve(__dirname, 'src', 'pages', 'RecipeDetailsPage.js'),
         RecipeListPage: path.resolve(__dirname, 'src', 'pages', 'RecipeListPage.js'),
-
+        PopulateOptions: path.resolve(__dirname, 'src', 'pages', 'PopulateOptions.js'),
 
     },
     output: {
@@ -22,47 +24,39 @@ module.exports = {
         https: false,
         port: 8080,
         open: true,
-        //proxy is what tells your frontend where to find the backend and what requests to send there
-        //if you  notice in the example we are sending all requests that start with /example to
-        //http://localhost:5001 which is where the backend is, when sent to the backend it will become
-        //http://localhost:5001/exemple/...
-        //for example if you sent the request /example/bob to the backend, it will be converted into
-        //http://localhost:5001/example/bob and sent to the backend that way.
-        //uncomment the following proxy section to make the example work
         proxy: [
             {
                 context: [
-                    '/example', '/recipe'
+                    '/recipe'
                 ],
-                target: 'http://localhost:5001'
+                target: 'http://localhost:63342/kenzie-lbc-project/kenzie-lbc-project.Frontend'
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html',
-            filename: 'index.html',
-            inject: false
-        }),
-        new HtmlWebpackPlugin({
             template: './src/HomePage.html',
             filename: 'HomePage.html',
-            inject: false
         }),
         new HtmlWebpackPlugin({
-            template: './src/util/RecipeListPage.html',
+            template: './src/RecipeListPage.html',
             filename: 'RecipeListPage.html',
-            inject: false
         }),
         new HtmlWebpackPlugin({
-            template: './src/util/RecipeDetailsPage.html',
+            template: './src/RecipeDetailsPage.html',
             filename: 'RecipeDetailsPage.html',
-            inject: false
         }),
         new HtmlWebpackPlugin({
-            template: './src/util/CreateRecipePage.html',
+            template: './src/CreateRecipePage.html',
             filename: 'CreateRecipePage.html',
-            inject: false
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/RecipeListPage.html',
+            filename: 'RecipeListPage.html',
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/RecipeDetailsPage.html',
+            filename: 'RecipeDetailsPage.html',
         }),
         new CopyPlugin({
             patterns: [
@@ -73,5 +67,23 @@ module.exports = {
             ]
         }),
         new CleanWebpackPlugin()
-    ]
-}
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.js$/, // Apply the loader to JavaScript files
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                    },
+                },
+            },
+        ],
+    },
+    resolve: {
+        extensions: ['.js'], // Enable importing modules without specifying the extension
+        modules: [path.resolve(__dirname, 'src'), 'node_modules'], // Specify the module resolution paths
+    },
+};

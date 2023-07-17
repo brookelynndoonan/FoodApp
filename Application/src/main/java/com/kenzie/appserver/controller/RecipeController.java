@@ -3,7 +3,6 @@ package com.kenzie.appserver.controller;
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.controller.model.RecipeResponse;
 import com.kenzie.appserver.converters.RecipeMapper;
-import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.appserver.service.model.Recipe;
@@ -18,12 +17,10 @@ import static java.util.UUID.randomUUID;
 
 @RestController
 @RequestMapping("/recipes")
+@CrossOrigin(origins = "http://localhost:63342")
 public class RecipeController {
 
     private final RecipeService recipeService;
-    private RecipeRepository recipeRepository;
-    private RecipeMapper recipeMapper;
-    private List<String> ingredients;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -93,19 +90,17 @@ public class RecipeController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<RecipeResponse>> searchRecipes(
-            @RequestParam(required = false) String cuisine,
-            @RequestParam(required = false) String dietaryRestrictions,
-            @RequestParam(required = false) String query
-    ) {
-        List<Recipe> recipes = recipeService.searchRecipes(cuisine.toUpperCase().replace(" ", "_"), dietaryRestrictions.toUpperCase().replace(" ", "_"), query);
+    public ResponseEntity<List<RecipeResponse>> searchRecipes(@RequestParam("query") String query,
+                                                              @RequestParam(name = "cuisine", required = false) String cuisine,
+                                                              @RequestParam(name = "dietaryRestrictions", required = false) String dietaryRestrictions) {
+        List<Recipe> recipes = recipeService.searchRecipes(query, cuisine, dietaryRestrictions);
+
         List<RecipeResponse> recipeResponses = recipes.stream()
                 .map(this::createRecipeResponse)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(recipeResponses);
     }
-
 
     //Helper Method for Recipe Response
     private RecipeResponse createRecipeResponse(Recipe recipe) {

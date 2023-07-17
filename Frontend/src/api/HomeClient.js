@@ -4,7 +4,7 @@ import axios from 'axios';
 export default class HomeClient extends BaseClass {
     constructor(props = {}) {
         super();
-        this.bindClassMethods(['fetchHomeData'], this);
+        this.bindClassMethods(['fetchHomeData', 'getAllRecipes'], this);
         this.props = props;
         this.clientLoaded(axios);
     }
@@ -16,12 +16,13 @@ export default class HomeClient extends BaseClass {
         }
     }
 
-    async getRecipe(id, errorCallback) {
+    async getAllRecipes() {
         try {
-            const response = await this.client.get(`/recipes/${id}`);
+            const response = await this.client.get('/recipes');
             return response.data;
         } catch (error) {
-            this.handleError("getRecipe", error, errorCallback)
+            this.handleError("getAllRecipes", error);
+            return null;
         }
     }
 
