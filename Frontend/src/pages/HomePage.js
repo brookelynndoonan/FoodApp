@@ -3,7 +3,6 @@ import HomeClient from "../api/HomeClient"; // Import the client class for makin
 import DataStore from "../util/DataStore";
 import RecipeListPage from "src/pages/RecipeListPage";
 
-
 class HomePage extends BaseClass {
     constructor() {
         super();
