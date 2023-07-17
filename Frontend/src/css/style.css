@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'Montserrat';
-    src: url('../../../fonts/Montserrat-Regular.ttf') format('truetype');
+    src: url('css/Montserrat-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Montserrat';
-    src: url('../../../fonts/Montserrat-Bold.ttf') format('truetype');
+    src: url('css/Montserrat-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
 }
@@ -132,33 +132,6 @@ nav ul li a:hover {
 }
 
 .search-bar button {
-<<<<<<< HEAD
-    background-color: #ffc857;
-    border: 2px solid #ffc857;
-    cursor: pointer;
-    width: 40px;
-    transition: background-color 0.3s ease;
-}
-
-/* Search button styles */
-#search-button {
-    padding: 10px;
-    background-color: #ffc857;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#search-button img {
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
-    margin-right: 5px;
-}
-
-.search-bar button:hover {
-    background-color: #ffa500;
-=======
     padding: 17px;
     background-color: #ffc857;
     color: #ffffff;
@@ -166,7 +139,6 @@ nav ul li a:hover {
     cursor: pointer;
     width: 60px;
     transition: background-color 0.3s ease;
->>>>>>> e1387b8 (Removed index and examples)
 }
 
 /* Search button styles */
@@ -214,51 +186,6 @@ nav ul li a:hover {
     color: #666666;
     width: 700px;
     margin: auto auto 20px;
-<<<<<<< HEAD
-}
-
-/* Menu items styles */
-.menu-items {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* Menu item styles */
-.menu-items li {
-    display: inline-block;
-    margin-right: 10px;
-}
-
-/* Menu item link styles */
-.menu-items li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-
-/* Menu item link styles on hover */
-.menu-items li a:hover {
-    color: #555;
-}
-
-/* Container styles */
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
-/* Responsive styles */
-@media screen and (max-width: 600px) {
-    .container {
-        margin: 0 10px;
-        padding: 10px;
-    }
-=======
->>>>>>> e1387b8 (Removed index and examples)
 }
 
 /*Create Recipe Styling*/
@@ -473,36 +400,6 @@ div.ingredient-row .ingredient-quantity-type {
     margin-bottom: 10px;
     margin-outside: 15px;
 }
-
-/* Ingredient fields container styles */
-/*.ingredient-row .ingredient-fields {*/
-/*    display: flex;*/
-/*    margin-right: 10px;*/
-/*}*/
-
-/*!* Ingredient name input field styles *!*/
-/*.ingredient-row .ingredient-name,*/
-/*.ingredient-row .ingredient-quantity,*/
-/*.ingredient-row .ingredient-quantity-type {*/
-/*    padding: 8px;*/
-/*    font-size: 14px;*/
-/*    border-radius: 5px;*/
-/*    border: 1px solid #ccc;*/
-/*    font-family: 'Montserrat', sans-serif;*/
-/*    margin-bottom: 5px;*/
-/*}*/
-
-/*!* Ingredient quantity input field styles *!*/
-/*.ingredient-row .ingredient-quantity {*/
-/*    max-width: 60px;*/
-/*    margin-right: 10px;*/
-/*}*/
-
-/*!* Ingredient name input field styles *!*/
-/*.ingredient-row .ingredient-quantity-type {*/
-/*    max-width: 200px;*/
-/*    margin-right: 10px;*/
-/*}*/
 
 /* Error message styles */
 .error {
