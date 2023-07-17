@@ -1,7 +1,7 @@
 import BaseClass from "../util/baseClass";
 import HomeClient from "../api/HomeClient"; // Import the client class for making API requests
-import DataStore from "../util/DataStore";
-import RecipeListPage from "src/pages/RecipeListPage";
+// import DataStore from "../util/DataStore";
+// import RecipeListPage from "src/pages/RecipeListPage";
 
 class HomePage extends BaseClass {
     constructor() {
