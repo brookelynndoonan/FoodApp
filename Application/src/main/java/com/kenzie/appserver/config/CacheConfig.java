@@ -1,5 +1,4 @@
 package com.kenzie.appserver.config;
-//for merge
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
